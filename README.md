@@ -9,7 +9,7 @@
 ### Current Features
 
 #### Pages Implemented
-- Public Home Page
+- Home Page
 - Gallery Page
 - Contact Page
 - About Page
