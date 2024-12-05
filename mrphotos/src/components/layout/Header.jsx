@@ -13,34 +13,37 @@ export default function Header() {
 
   return (
     <header className="absolute w-full left-0 top-0 z-50 px-4 sm:px-8 md:px-12 lg:px-20 py-7">
-        <div className="container mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="min-w-[130px]">
-            <img src="/images/logo.png" alt="MR Photography" className="w-auto h-12" /> {/* Increased height */}
-        </Link>
+        <div className="flex items-center justify-between">
+            {/* Logo - Left aligned */}
+            <Link href="/" className="min-w-[130px]">
+                <img src="/images/logo.png" alt="MR Photography" className="w-auto h-12" />
+            </Link>
 
-        {/* Navigation */}
-        <div className="hidden md:block">
-          <Navigation />
-        </div>
+            {/* Navigation + Search - Right aligned */}
+            <div className="flex items-center space-x-8">
+                {/* Navigation */}
+                <div className="hidden md:block">
+                <Navigation />
+                </div>
 
-        {/* Right Side Icons */}
-        <div className="flex items-center space-x-6">
-        <button 
-            onClick={() => setIsSearchOpen(true)} 
-            className="text-gray-700 hover:text-[#1e3a8a] transition-colors"
-            >
-            <Search size={20} className="text-[#1e3a8a]" />
-        </button>
-          
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-gray-700 hover:text-[#c19b76] transition-colors md:hidden"
-          >
-            <Menu size={24} />
-          </button>
+                {/* Right Side Icons */}
+                <div className="flex items-center">
+                <button 
+                    onClick={() => setIsSearchOpen(true)} 
+                    className="text-gray-700 hover:text-[#1e3a8a] transition-colors"
+                >
+                    <Search size={20} className="text-[#1e3a8a]" />
+                </button>
+                
+                <button 
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="ml-6 text-gray-700 hover:text-[#1e3a8a] transition-colors md:hidden"
+                >
+                    <Menu size={24} />
+                </button>
+                </div>
+            </div>
         </div>
-      </div>
 
       {/* Search Overlay */}
       <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

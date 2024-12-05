@@ -77,7 +77,7 @@ export default function Navigation({ isMobile = false, onItemClick }) {
                         className={`
                           ${isMobile 
                             ? 'my-2' 
-                            : ''
+                            : 'px-6 py-2'
                           }
                           ${isMobile && openSubmenu !== idx && 'hidden'}
                         `}
