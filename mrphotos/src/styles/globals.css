@@ -88,9 +88,28 @@ h1, h2, h3, h4, h5, h6 {
     padding: 80px 80px;
 }
 
-/* For light/dark mode if needed */
-.light_mode .wrapper {
-    background: #ffffff;
+.light_mode{
+    background: #d1edfe; /* Lightest grey for the middle section */
+}
+
+.light_mode::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 500px;
+    height: 100%;
+    background: #ecf8ff; /* Slightly darker grey for left panel */
+}
+
+.light_mode::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #acdfff; /* Darkest grey for right panel */
 }
 
 .dark_mode .wrapper {
@@ -102,4 +121,82 @@ h1, h2, h3, h4, h5, h6 {
     .wrapper {
         padding: 120px 50px 50px 50px;
     }
+}
+
+@font-face {
+    font-family: 'bombes-webfont';
+    src: url('/fonts/bombes-webfont.eot');
+    src: url('/fonts/bombes-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/bombes-webfont.woff') format('woff'),
+         url('/fonts/bombes-webfont.ttf') format('truetype'),
+         url('/fonts/bombes-webfont.svg#webfont') format('svg');
+  }
+  
+  @layer base {
+    .font-bombes {
+      font-family: 'bombes-webfont', sans-serif;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-out;
+  }
+
+  /* Custom Swiper Styles */
+.swiper-pagination-bullet {
+    width: 20px !important;
+    height: 20px !important;
+    background: transparent !important;
+    border: 1px solid var(--primary) !important;
+    opacity: 1 !important;
+    transition: all 0.5s ease;
+    display: none;
+  }
+  
+  .swiper-pagination-bullet::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .swiper-pagination-bullet-active {
+    transform: scale(1) !important;
+  }
+  
+  .swiper-pagination-bullet-active::before {
+    opacity: 1;
+  }
+  
+  /* Override Swiper's default button styles */
+.swiper-button-next,
+.swiper-button-prev {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none !important;
 }
