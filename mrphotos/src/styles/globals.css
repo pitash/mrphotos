@@ -1,0 +1,105 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300,300italic,400,600,700|Mukta:400,500,600,700,800|Playfair+Display');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:active,
+:focus {
+    outline: none !important;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    position: relative;
+    font-family: 'Mukta', sans-serif;
+    font-weight: 400;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    color: #222222;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+a:hover, 
+a:focus {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Typography Base Styles */
+h1, .h1 { font-size: 32px; }
+h2, .h2 { font-size: 24px; }
+h3, .h3 { font-size: 20px; }
+h4, .h4 { font-size: 18px; }
+h5, .h5 { font-size: 16px; }
+h6, .h6 { font-size: 14px; }
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1;
+    word-break: break-word;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222;
+}
+
+/* Basic Layout */
+.wrapper {
+    position: relative;
+    padding: 80px 80px;
+}
+
+/* For light/dark mode if needed */
+.light_mode .wrapper {
+    background: #ffffff;
+}
+
+.dark_mode .wrapper {
+    background: #121212;
+}
+
+/* Responsive Base Styles */
+@media screen and (max-width: 600px) {
+    .wrapper {
+        padding: 120px 50px 50px 50px;
+    }
+}

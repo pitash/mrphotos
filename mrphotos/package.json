@@ -1,0 +1,29 @@
+{
+  "name": "mrphotos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^5.0.36",
+    "@headlessui/react": "^2.2.0",
+    "@next/font": "^14.2.15",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.462.0",
+    "next": "15.0.3",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "swiper": "^11.1.15",
+    "tailwind-merge": "^2.5.5"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "15.0.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}

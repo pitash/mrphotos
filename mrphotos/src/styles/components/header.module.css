@@ -1,0 +1,262 @@
+.header {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 12;
+    padding: 0px 80px;
+  }
+  
+  .headerTwo {
+    padding: 25px 80px;
+  }
+  
+  .headerPara {
+    margin-bottom: 0px;
+  }
+  
+  .navigation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    min-width: 130px;
+  }
+  
+  .logoImg {
+    max-width: 100%;
+  }
+  
+  .navInner {
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  .mainMenu {
+    margin-bottom: 0px;
+    padding: 0px;
+  }
+  
+  .menuItem {
+    margin: 0px 18px;
+    position: relative;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    display: inline-block;
+    list-style: none;
+    border: 0;
+  }
+  
+  .menuLink {
+    padding: 28px 0px;
+    text-decoration: none;
+    color: #222222;
+    text-align: center;
+    position: relative;
+  }
+  
+  .menuLink:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0px;
+    height: 2px;
+    background: #c19b76;    
+    transition: all 0.5s ease;
+  }
+  
+  .menuLink:hover:after,
+  .active:after {
+    width: 100%;
+  }
+  
+  .hasChildren > a {
+    padding-right: 20px;
+  }
+  
+  .subMenu {
+    position: absolute;
+    left: -20px;
+    opacity: 0;
+    visibility: hidden;
+    min-width: 250px;
+    padding: 30px 0px;
+    z-index: 5;
+    background: #282828;
+    transition: all 0.5s ease;
+  }
+  
+  .hasChildren:hover > .subMenu {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+
+  /* Add these to header.module.css */
+
+.menuItemHasChildren {
+    position: relative;
+  }
+  
+  .menuItemHasChildren > a > i {
+    padding-left: 6px;
+    font-size: 14px;
+  }
+  
+  /* Submenu indicators */
+  .menuItemHasChildren > a:before {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    display: block;
+    width: 2px;
+    height: 8px;
+    background: #fff;
+    transform: translateY(-50%);
+  }
+  
+  .menuItemHasChildren:hover > a:before {
+    top: 50%;
+    height: 0;
+    transform: translateY(-50%);
+  }
+  
+  /* Submenu styles */
+  .menuItemHasChildren > .subMenu {
+    padding-top: 40px;
+  }
+  
+  .menuItemHasChildren:hover > .subMenu {
+    padding-top: 30px;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+
+  .subMenuItem {
+    width: 100%;
+  }
+  
+  .subMenuLink {
+    font-size: 12px;
+    background: #282828;
+    border-left: 2px solid transparent;
+    border-bottom: 1px solid rgba(85, 85, 85, 0.1);
+    font-weight: 400;
+    padding: 12px 20px;
+    width: 100%;
+    text-align: left;
+    color: #fff;
+    transition: all 0.5s ease;
+  }
+  
+  .subMenuLink:hover {
+    color: #c19b76;
+    border-left: 2px solid #c19b76;
+  }
+  
+  .mobileBtn {
+    width: 16px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    margin-top: 0px;
+    display: none;
+  }
+  
+  .toggleLine {
+    height: 2px;
+    width: 100%;
+    background: #595959;
+    margin: 3px 0px;
+    display: block;
+    float: right;
+    transition: all 0.5s ease;
+  }
+  
+  .navMoreInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .searchIcon {
+    font-size: 20px;
+    line-height: 30px;
+    color: #595959;
+    z-index: 1;
+    padding-left: 25px;
+    margin-left: 25px;
+    border-left: 1px solid #f7f7f7;
+    transition: all 0.5s ease;
+  }
+  
+  .searchOverlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(38, 38, 38, 0.95);
+    transform: scale(0);
+    transition: all 0.5s ease;
+  }
+  
+  .searchOverlay.active {
+    z-index: 12;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  
+  .closeBtn {
+    font-size: 40px;
+    margin: 15px;
+    color: #fff;
+    width: 70px;
+    height: 70px;
+    line-height: 65px;
+    display: block;
+    text-align: center;
+    float: right;
+    background: #c19b76;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 785px) {
+    .header {
+      padding: 25px 80px;
+    }
+    
+    .mainMenu {
+      display: none;
+    }
+    
+    .mobileBtn {
+      display: block;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .header {
+      padding: 20px 50px;
+    }
+    
+    .navigation {
+      display: block;
+      text-align: center;
+    }
+    
+    .logo {
+      margin-bottom: 15px;
+    }
+  }
