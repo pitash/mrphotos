@@ -10,7 +10,7 @@ export default function Navigation({ isMobile = false, onItemClick }) {
     { label: 'Home', href: '/' },
     { label: 'Gallery', href: '/portfolio' },
     { label: 'About', href: '/about' },
-    { label: 'Contacts', href: '/contact' },
+    { label: 'Contact', href: '/contact' },
     { 
       label: 'Blog', 
       href: '/blog',

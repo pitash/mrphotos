@@ -114,11 +114,6 @@ h1, h2, h3, h4, h5, h6 {
   }
   
   /* Modified Light Mode Styles */
-  .light_mode {
-    background: #d1edfe;
-    position: relative;
-    animation: fadeInCenter 1s ease-out;
-  }
   
   .light_mode::before {
     content: "";
@@ -127,11 +122,18 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     width: 500px;
     height: 100%;
-    background: #ecf8ff;
+    background: #eaf9ff;
     animation: slideInLeft 1s ease-out;
     transform-origin: left center;
     will-change: transform;
   }
+
+  .light_mode {
+    background: #c9e3f1;
+    position: relative;
+    animation: fadeInCenter 1s ease-out;
+  }
+  
   
   .light_mode::after {
     content: "";
@@ -140,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     width: 250px;
     height: 100%;
-    background: #acdfff;
+    background: #a9c1ce;
     animation: slideInRight 1s ease-out;
     transform-origin: right center;
     will-change: transform;
