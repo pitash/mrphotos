@@ -9,7 +9,7 @@ export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState('ALL WORKS')
   
   return (
-    <div className="relative min-h-screen px-5 md:px-20 pt-32 pb-24 md:pb-32">
+    <div className="relative min-h-screen px-5 md:px-20 pt-32 pb-24 md:pb-32 bg-gray-100 ">
       {/* Side text - similar to "Last Works" */}
       <div className="fixed left-0 top-1/2 -translate-y-1/2 z-10 hidden md:block">
         <span className="block -rotate-90 text-sm font-semibold uppercase tracking-wider text-primary">
@@ -18,7 +18,7 @@ export default function Portfolio() {
       </div>
 
       {/* Main Content */}
-      <div className="space-y-12">
+      <div className="space-y-12 bg-white p-5">
         <CategoryFilter 
           activeCategory={activeCategory} 
           onCategoryChange={setActiveCategory}
