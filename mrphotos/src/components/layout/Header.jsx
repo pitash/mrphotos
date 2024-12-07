@@ -12,7 +12,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className="absolute left-0 top-0 z-50 w-full px-20">
+    <header className="absolute left-0 top-0 z-50 w-full px-5 md:px-20">
       <div className="flex items-center justify-between">
         {/* Logo - Left aligned */}
         <Link href="/" className="min-w-[130px]">
