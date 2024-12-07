@@ -27,6 +27,20 @@ export default function PortfolioGrid({ category }) {
       category: "NATURE & LIFE",
       location: "GERMANY"
     },
+    {
+        id: 4,
+        image: "/images/portfolio/GERMANY/2.jpg",
+        title: "STATELY SYMMETRY",
+        category: "NATURE & LIFE",
+        location: "GERMANY"
+      },
+      {
+        id: 5,
+        image: "/images/portfolio/GERMANY/2.jpg",
+        title: "STATELY SYMMETRY",
+        category: "NATURE & LIFE",
+        location: "GERMANY"
+      },
     
   ]
 
@@ -65,7 +79,7 @@ export default function PortfolioGrid({ category }) {
             />
           </div>
           
-          <div className="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/60 transition-opacity duration-300 group-hover:opacity-100">
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
               <h3 className="text-xl font-semibold transition-transform duration-300">
                 {item.title}

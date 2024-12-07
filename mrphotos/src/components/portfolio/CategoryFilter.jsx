@@ -41,7 +41,7 @@ export default function CategoryFilter({ activeCategory, onCategoryChange }) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative bg-white">
       {/* Scroll Controls */}
       {showControls && (
         <>
