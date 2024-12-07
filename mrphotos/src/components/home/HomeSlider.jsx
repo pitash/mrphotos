@@ -38,7 +38,7 @@ export default function HomeSlider() {
   ];
 
   return (
-    <div className="relative mx-auto mt-20 h-[calc(100vh-200px)]">
+    <div className="relative mx-auto mt-20 h-[calc(100vh-200px)] pt-10">
       <Swiper
       effect={'fade'}
       slidesPerView={1}
