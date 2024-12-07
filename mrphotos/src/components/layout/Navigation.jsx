@@ -8,7 +8,7 @@ export default function Navigation({ isMobile = false, onItemClick }) {
 
   const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'Gallery', href: '/gallery' },
+    { label: 'Gallery', href: '/portfolio' },
     { label: 'About', href: '/about' },
     { label: 'Contacts', href: '/contact' },
     { 
