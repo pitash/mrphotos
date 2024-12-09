@@ -180,7 +180,7 @@ export default function Navigation({ isMobile = false, onItemClick }) {
                   }
                 `}
                 style={{
-                  color: pathname === item.href ? '#1e3a8a' : '#1e3a8a', // Always keep the same color
+                  color: pathname === item.href ? '#1e3a8a' : '#1e3a8a', 
                 }}
               >
                 {item.label}
