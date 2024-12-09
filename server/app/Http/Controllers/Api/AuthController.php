@@ -85,4 +85,46 @@ class AuthController extends Controller
             ], 422);
         }
     }
+
+    public function profile(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        if ($user) {
+            return response()->json([
+                "success" => true,
+                "message" => "Profile fetched successfully.",
+                "data" => [
+                    "user" => $user
+                ]
+            ], 200);
+        }
+
+        return response()->json([
+            "success" => false,
+            "message" => "Not authenticated."
+        ], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = User::where("id", $request->user()->id)->first();
+        if ($user) {
+            $user->tokens()->delete();
+
+            return response()->json([
+                "success" => true,
+                "message" => "Logout successfully.",
+                "data" => [
+                    "user" => $user
+                ]
+            ], 200);
+        }
+
+        return response()->json([
+            "success" => false,
+            "message" => "User Not Found."
+        ], 404);
+    }
+
 }
