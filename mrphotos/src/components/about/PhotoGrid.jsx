@@ -48,7 +48,7 @@
 //   return (
 //     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-0">
 //       {photos.map((photo, index) => (
-//         <div 
+//         <div
 //           key={index}
 //           className="group relative aspect-square overflow-hidden bg-black"
 //         >
@@ -64,12 +64,10 @@
 //   );
 // }
 
-
 // components/about/PhotoGrid.jsx
+import { Facebook, ExternalLink, Instagram, Twitter } from "lucide-react"; 
 import Image from "next/image";
-import Link from "next/link"; // Import Link from next/link
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"; // Social icons from react-icons
-import { IoLogoFlickr } from "react-icons/io"; // Flickr icon from react-icons/io
+import Link from "next/link"; 
 
 export default function PhotoGrid() {
   const photos = [
@@ -213,16 +211,16 @@ export default function PhotoGrid() {
             <p className="text-sm mt-2 mb-4">{photo.subtitle}</p>
             <div className="flex gap-3 mt-4">
               <Link href={photo.socialLinks.facebook} passHref>
-                <FaFacebook className="w-4 h-4 text-white hover:text-blue-600 transition-colors duration-300" />
+                <Facebook className="w-4 h-4 text-white hover:text-blue-600 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.instagram} passHref>
-                <FaInstagram className="w-4 h-4 text-white hover:text-pink-500 transition-colors duration-300" />
+                <Instagram className="w-4 h-4 text-white hover:text-pink-500 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.twitter} passHref>
-                <FaTwitter className="w-4 h-4 text-white hover:text-sky-500 transition-colors duration-300" />
+                <Twitter className="w-4 h-4 text-white hover:text-sky-500 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.flickr} passHref>
-                <IoLogoFlickr className="w-4 h-4 text-white hover:text-blue-400 transition-colors duration-300" />
+                <ExternalLink className="w-4 h-4 text-white hover:text-blue-400 transition-colors duration-300" />
               </Link>
             </div>
           </div>
