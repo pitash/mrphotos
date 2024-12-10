@@ -211,7 +211,7 @@ export default function PortfolioGrid({ category }) {
               alt={filteredItems[currentIndex].title}
               width={800}
               height={600}
-              className="object-cover"
+              className="object-cover rounded-sm"
             />
             <button
               className="absolute top-1/2 right-[-250px] transform -translate-y-1/2 text-white text-2xl p-2"
