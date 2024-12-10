@@ -24,7 +24,7 @@
 //       alt: "Deer at night"
 //     },
 //     {
-//       src: "/images/portfolio/details/6.jpg",
+//       src: "/images/portfolio/details/4.jpg",
 //       alt: "Mountain sunset"
 //     },
 //     {
@@ -67,9 +67,9 @@
 
 // components/about/PhotoGrid.jsx
 import Image from "next/image";
-import Link from "next/link"; 
-import { Facebook, Instagram, Twitter } from "lucide-react";
-import { FaFlickr } from "react-icons/fa"; 
+import Link from "next/link"; // Import Link from next/link
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"; // Social icons from react-icons
+import { IoLogoFlickr } from "react-icons/io"; // Flickr icon from react-icons/io
 
 export default function PhotoGrid() {
   const photos = [
@@ -82,8 +82,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/2.jpg",
@@ -94,8 +94,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/3.jpg",
@@ -106,8 +106,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/4.jpg",
@@ -118,8 +118,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/5.jpg",
@@ -130,8 +130,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/6.jpg",
@@ -142,8 +142,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/details/7.jpg",
@@ -154,8 +154,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/BANGLADESH/1.jpg",
@@ -166,8 +166,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/BANGLADESH/2.jpg",
@@ -178,8 +178,8 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
+        flickr: "https://flickr.com", // Flickr URL
+      },
     },
     {
       src: "/images/portfolio/BANGLADESH/3.jpg",
@@ -190,39 +190,39 @@ export default function PhotoGrid() {
         facebook: "https://facebook.com",
         instagram: "https://instagram.com",
         twitter: "https://twitter.com",
-        flickr: "https://flickr.com"
-      }
-    }
+        flickr: "https://flickr.com", // Flickr URL
+      },
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-0">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
       {photos.map((photo, index) => (
         <div
           key={index}
-          className="group relative aspect-square overflow-hidden bg-black"
+          className="group relative aspect-square overflow-hidden bg-black rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"
         >
           <Image
             src={photo.src}
             alt={photo.alt}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-opacity duration-500 group-hover:opacity-80"
           />
-          <div className="absolute inset-x-0 bottom-0 h-full flex flex-col justify-end items-center bg-black bg-opacity-80 translate-y-full group-hover:translate-y-0 transition-transform duration-500 p-4 text-white">
-            <h3 className="text-lg font-semibold">{photo.title}</h3>
-            <p className="text-sm">{photo.subtitle}</p>
-            <div className="flex gap-2 mt-2">
+          <div className="absolute inset-x-0 bottom-0 h-full flex flex-col justify-center items-center bg-black bg-opacity-60 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 p-6 text-white">
+            <h3 className="text-xl font-bold">{photo.title}</h3>
+            <p className="text-sm mt-2 mb-4">{photo.subtitle}</p>
+            <div className="flex gap-3 mt-4">
               <Link href={photo.socialLinks.facebook} passHref>
-                <Facebook className="w-4 h-4 text-white hover:text-blue-500 transition-colors duration-300" />
+                <FaFacebook className="w-4 h-4 text-white hover:text-blue-600 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.instagram} passHref>
-                <Instagram className="w-4 h-4 text-white hover:text-pink-500 transition-colors duration-300" />
+                <FaInstagram className="w-4 h-4 text-white hover:text-pink-500 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.twitter} passHref>
-                <Twitter className="w-4 h-4 text-white hover:text-sky-500 transition-colors duration-300" />
+                <FaTwitter className="w-4 h-4 text-white hover:text-sky-500 transition-colors duration-300" />
               </Link>
               <Link href={photo.socialLinks.flickr} passHref>
-                <FaFlickr className="w-4 h-4 text-white hover:text-blue-400 transition-colors duration-300" />
+                <IoLogoFlickr className="w-4 h-4 text-white hover:text-blue-400 transition-colors duration-300" />
               </Link>
             </div>
           </div>
