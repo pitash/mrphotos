@@ -7,12 +7,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-
         $this->call([
             HomePageSeeder::class,
             CountrySeeder::class,
             GallerySeeder::class,
             AboutSeeder::class,
         ]);
+
     }
 }
