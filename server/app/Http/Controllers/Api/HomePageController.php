@@ -14,11 +14,19 @@ class HomePageController extends Controller
     {
         $sliders = HomePage::where('is_active', true)->get();
 
+        if ($sliders) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Sliders fetched successfully.',
+                'data' => $sliders
+            ], 200);
+        }
+
         return response()->json([
-            'success' => true,
-            'message' => 'Sliders fetched successfully.',
-            'data' => $sliders
-        ], 200);
+            'success' => false,
+            'message' => 'No About data found.',
+        ], 404);
+
     }
 
     public function store(Request $request): JsonResponse

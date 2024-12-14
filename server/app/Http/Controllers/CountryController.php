@@ -20,7 +20,9 @@ class CountryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:countries,name',
+        ], [
+            'name.unique' => 'The country name already exists.'
         ]);
 
         $data = Country::create([
@@ -28,7 +30,7 @@ class CountryController extends Controller
             'is_active' => true,
         ]);
 
-        return redirect()->route('country.index')->with('success', 'Slider created successfully.');
+        return redirect()->route('country.index')->with('success', 'Country created successfully.');
     }
 
     public function edit($id)
@@ -40,15 +42,15 @@ class CountryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:countries,name,' . $id,
         ]);
 
         $data = Country::findOrFail($id);
 
-        $data->tag = $request->name;
+        $data->name  = $request->name;
         $data->save();
 
-        return redirect()->route('country.index')->with('success', 'Slider updated successfully.');
+        return redirect()->route('country.index')->with('success', 'Country updated successfully.');
     }
 
     public function toggleStatus($id)
