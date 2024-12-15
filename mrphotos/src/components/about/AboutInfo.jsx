@@ -23,7 +23,7 @@ export default function AboutIntro() {
 
 
   return (
-    <div className='bg-white '>
+    <div className='bg-white'>
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 mx-auto  p-8 md:p-16">
         {/* Left Column - Title */}
         <div className="flex flex-col justify-between gap-5">
@@ -48,7 +48,7 @@ export default function AboutIntro() {
             Moshiur Rahman
             </h3>
             
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-gray-600 text-lg leading-relaxed text-justify">
             Photography is more than my passion - it's my way of breathing in the world around me. 
             Each time I raise the camera to my eye, time seems to slow, and I find myself in perfect 
             harmony with the moment. The gentle click of the shutter becomes a meditation, a pause in 
@@ -81,7 +81,7 @@ export default function AboutIntro() {
                         {box.title}
                     </h3>
                     
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 leading-relaxed text-justify">
                         {box.description}
                     </p>
                     </div>
