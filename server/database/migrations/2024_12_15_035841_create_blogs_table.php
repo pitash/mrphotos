@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('slider_image');
+            $table->string('image');
             $table->json('galleries');
             $table->integer('comments_count')->default(0);
             $table->date('published_date')->nullable();

@@ -18,12 +18,12 @@ class BlogSeeder extends Seeder
         $countries = Country::all();
 
         foreach ($countries as $country) {
-            // Define country-specific image folders for slider and galleries
+            // Define country-specific image folders
             $baseFolder = 'images/blogs/' . strtolower(str_replace(' ', '_', $country->name));
             $sliderFolder = $baseFolder . '/slider';
             $galleriesFolder = $baseFolder . '/galleries';
 
-            // Create the folders if they don't exist
+            // Create the folders
             if (!File::exists(public_path($sliderFolder))) {
                 File::makeDirectory(public_path($sliderFolder), 0777, true);
             }
@@ -35,7 +35,7 @@ class BlogSeeder extends Seeder
             Blog::create([
                 'title' => 'Blog of Nature in ' . $country->name,
                 'description' => 'Explore the beauty of nature in ' . $country->name,
-                'slider_image' => $sliderFolder . '/slider_image.jpg',
+                'image' => $sliderFolder . '/slider_image.jpg',
                 'galleries' => json_encode([
                     $galleriesFolder . '/gallery_image1.jpg',
                     $galleriesFolder . '/gallery_image2.jpg',
