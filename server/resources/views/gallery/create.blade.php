@@ -9,11 +9,17 @@
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>
+            @error('title')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <input type="text" class="form-control" id="description" name="description" required>
+            @error('description')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">
@@ -24,11 +30,21 @@
                     <option value="{{ $country->id }}">{{ $country->name }}</option>
                 @endforeach
             </select>
+            @error('country_id')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
+            {{-- <input type="file" class="form-control" id="image" name="image[]" multiple required accept="image/*"> --}}
             <input type="file" class="form-control" id="image" name="image" required accept="image/*">
+            @error('image')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            {{-- @error('image.*')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror --}}
         </div>
 
         <button type="submit" class="btn btn-success">Create Gallery</button>

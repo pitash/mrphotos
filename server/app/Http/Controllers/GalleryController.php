@@ -12,7 +12,7 @@ class GalleryController extends Controller
 {
     public function index()
     {
-        $datas = Gallery::all();
+        $datas = Gallery::orderBy('id', 'desc')->get();
         return view('gallery.index', compact('datas'));
     }
     public function create()
@@ -49,6 +49,38 @@ class GalleryController extends Controller
         ]);
 
         return redirect()->route('gallery.index')->with('success', 'Slider created successfully.');
+
+        // $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'description' => 'required|string|max:255',
+        //     'image' => 'required|array',
+        //     'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        //     'country_id' => 'required|exists:countries,id',
+        // ]);
+
+        // $country = Country::findOrFail($request->country_id);
+        // $countryFolder = 'images/galleries/' . Str::snake(Str::lower($country->name));
+
+        // if (!Storage::disk('public')->exists($countryFolder)) {
+        //     Storage::disk('public')->makeDirectory($countryFolder);
+        // }
+
+        // $images = $request->file('image');
+
+        // foreach ($images as $image) {
+        //     $imagePath = $image->store($countryFolder, 'public');
+        //     Gallery::create([
+        //         'title' => $request->title,
+        //         'description' => $request->description,
+        //         'image_path' => $imagePath,
+        //         'country_id' => $request->country_id,
+        //         'is_active' => true,
+        //     ]);
+        // }
+
+
+        // return redirect()->route('gallery.index')->with('success', 'Gallery created successfully.');
+
     }
 
     public function edit($id)

@@ -8,7 +8,13 @@
 
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }}">
+
+            @if ($errors->has('name'))
+                <div class="alert alert-danger mt-2">
+                    {{ $errors->first('name') }}
+                </div>
+            @endif
         </div>
 
         <button type="submit" class="btn btn-success">Create Country</button>

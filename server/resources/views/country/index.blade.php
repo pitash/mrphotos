@@ -43,7 +43,8 @@
                         </form>
                     </td>
                     <td>
-                        <a href="{{ route('country.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="#" class="btn btn-warning btn-sm">Edit</a>
+                        {{-- <a href="{{ route('country.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a> --}}
 
                     </td>
                 </tr>
