@@ -323,4 +323,22 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-  
+ /* Fade-In Animation */
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.translate-y-10 {
+  transform: translateY(10px);
+}
+
+/* Smooth Transition for Images */
+.transition-all {
+  transition: all 1s ease-out;
+}
+ 
