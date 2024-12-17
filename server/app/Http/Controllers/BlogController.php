@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Country;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
     public function index()
     {
-
+        $datas = Blog::orderBy('id', 'desc')->get();
+        $countries = Country::where('is_active', true)->get();
+        return view('blog.index', compact('datas','countries'));
     }
 
     public function create()
@@ -35,17 +37,12 @@ class BlogController extends Controller
         ]);
 
         $country = Country::findOrFail($request->country_id);
-        $countryFolder = 'images/blogs/' . Str::snake(Str::lower($country->name));
-
-        $imagePath = $request->file('image')->store($countryFolder . '/slider', 'public');
+        $imagePath = Blog::uploadImage($request->file('image'), $country->name);
 
         // Handle multiple gallery images
-        $galleryPaths = [];
-        if ($request->hasFile('galleries')) {
-            foreach ($request->file('galleries') as $file) {
-                $galleryPaths[] = $file->store($countryFolder . '/galleries', 'public');
-            }
-        }
+        $galleryPaths = $request->hasFile('galleries')
+            ? Blog::uploadGalleries($request->file('galleries'), $country->name)
+            : [];
 
         $data = Blog::create([
             'title' => $request->title,
@@ -60,6 +57,80 @@ class BlogController extends Controller
         ]);
 
         return redirect()->route('blog.index')->with('success', 'Blog created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $blog = Blog::findOrFail($id);
+
+        // Return the necessary data, including the main image and gallery images
+        return response()->json([
+            'title' => $blog->title,
+            'description' => $blog->description,
+            'country_id' => $blog->country_id,
+            'main_image' => $blog->image, // Main image path
+            'galleries' => json_decode($blog->galleries), // Decode the JSON gallery images
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'country_id' => 'required|exists:countries,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'galleries' => 'nullable|array',
+            'galleries.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Ensure each gallery image is valid
+        ]);
+
+        $blog = Blog::findOrFail($id);
+        $blog->title = $request->title;
+        $blog->description = $request->description;
+        $blog->country_id = $request->country_id;
+
+        // Handle the main image
+        if ($request->hasFile('image')) {
+            // Delete the old image from storage if it exists
+            if ($blog->image) {
+                $oldImagePath = $blog->image;
+                $oldImageFullPath = storage_path('app/public/' . $oldImagePath);
+                if (file_exists($oldImageFullPath)) {
+                    unlink($oldImageFullPath);
+                }
+            }
+
+            $country = Country::findOrFail($request->country_id);
+            $blog->image = Blog::uploadImage($request->file('image'), $country->name);
+        }
+
+        if ($request->hasFile('galleries')) {
+            $existingGalleries = json_decode($blog->galleries, true);
+            foreach ($existingGalleries as $existingGallery) {
+                $oldGalleryPath = $existingGallery;
+                $oldGalleryFullPath = storage_path('app/public/' . $oldGalleryPath);
+                if (file_exists($oldGalleryFullPath)) {
+                    unlink($oldGalleryFullPath);
+                }
+            }
+
+            $country = Country::findOrFail($request->country_id);
+            $galleryPaths = Blog::uploadGalleries($request->file('galleries'), $country->name);
+            $blog->galleries = json_encode($galleryPaths);
+        }
+
+        $blog->save();
+
+        return redirect()->route('blog.index')->with('success', 'Blog updated successfully');
+    }
+
+
+    public function toggleStatus($id)
+    {
+        $data = Blog::findOrFail($id);
+        $data->toggleStatus();
+
+        return redirect()->route('blog.index')->with('success', 'Blog status updated successfully.');
     }
 
 }

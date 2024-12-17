@@ -36,7 +36,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Slider Image</label>
+            <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" id="image" name="image" required accept="image/*">
             @error('image')
                 <div class="text-danger">{{ $message }}</div>
