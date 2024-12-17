@@ -258,15 +258,15 @@
                 document.getElementById('edit_title').value = data.title;
                 document.getElementById('edit_description').value = data.description;
                 document.getElementById('edit_country_id').value = data.country_id;
-                document.getElementById('edit_image').value = ''; // Clear file input (as new image may be selected)
-                document.getElementById('edit_galleries').value = ''; // Clear galleries file input
+                document.getElementById('edit_image').value = '';
+                document.getElementById('edit_galleries').value = '';
 
                 // Display the main image
                 const mainImageContainer = document.getElementById('main-image-preview');
-                mainImageContainer.innerHTML = ""; // Clear any previous preview
+                mainImageContainer.innerHTML = "";
                 if (data.main_image) {
                     const mainImg = document.createElement("img");
-                    mainImg.src = `/storage/${data.main_image}`; // Corrected path for main image
+                    mainImg.src = `/storage/${data.main_image}`;
                     mainImg.classList.add("img-thumbnail");
                     mainImg.style.maxWidth = "100px";
                     mainImg.style.maxHeight = "100px";
@@ -275,12 +275,12 @@
 
                 // Display gallery images
                 const galleriesContainer = document.getElementById('edit-gallery-preview');
-                galleriesContainer.innerHTML = ""; // Clear previous gallery images
+                galleriesContainer.innerHTML = "";
                 if (data.galleries && Array.isArray(data.galleries)) {
                     data.galleries.forEach(imagePath => {
                         const img = document.createElement("img");
                         // Correcting the gallery image path by prepending '/storage/'
-                        const imageUrl = `/storage/${imagePath.replace(/\\/g, '/')}`; // Fix any backslashes (escaped slashes)
+                        const imageUrl = `/storage/${imagePath.replace(/\\/g, '/')}`;
                         img.src = imageUrl;
                         img.classList.add("img-thumbnail", "me-2");
                         img.style.maxWidth = "100px";
@@ -291,23 +291,21 @@
                     galleriesContainer.innerHTML = "No gallery images available.";
                 }
 
-                // Update the form action for editing
                 document.getElementById('editBlogForm').action = `/blog/${blogId}`;
             })
             .catch(error => console.error('Error:', error));
     }
 
-    // Handle new main image selection
     document.getElementById('edit_image').addEventListener('change', function(event) {
         const mainImageContainer = document.getElementById('main-image-preview');
-        mainImageContainer.innerHTML = ""; // Clear previous preview
+        mainImageContainer.innerHTML = "";
 
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const mainImg = document.createElement("img");
-                mainImg.src = e.target.result; // Use the FileReader result as the image source
+                mainImg.src = e.target.result;
                 mainImg.classList.add("img-thumbnail");
                 mainImg.style.maxWidth = "100px";
                 mainImg.style.maxHeight = "100px";
@@ -320,7 +318,7 @@
     // Handle new gallery images selection
     document.getElementById('edit_galleries').addEventListener('change', function(event) {
         const galleriesContainer = document.getElementById('edit-gallery-preview');
-        galleriesContainer.innerHTML = ""; // Clear previous gallery images
+        galleriesContainer.innerHTML = "";
 
         const files = event.target.files;
         if (files) {

@@ -63,13 +63,12 @@ class BlogController extends Controller
     {
         $blog = Blog::findOrFail($id);
 
-        // Return the necessary data, including the main image and gallery images
         return response()->json([
             'title' => $blog->title,
             'description' => $blog->description,
             'country_id' => $blog->country_id,
-            'main_image' => $blog->image, // Main image path
-            'galleries' => json_decode($blog->galleries), // Decode the JSON gallery images
+            'main_image' => $blog->image,
+            'galleries' => json_decode($blog->galleries),
         ]);
     }
 
@@ -81,7 +80,7 @@ class BlogController extends Controller
             'country_id' => 'required|exists:countries,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'galleries' => 'nullable|array',
-            'galleries.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Ensure each gallery image is valid
+            'galleries.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $blog = Blog::findOrFail($id);
@@ -89,7 +88,6 @@ class BlogController extends Controller
         $blog->description = $request->description;
         $blog->country_id = $request->country_id;
 
-        // Handle the main image
         if ($request->hasFile('image')) {
             // Delete the old image from storage if it exists
             if ($blog->image) {
