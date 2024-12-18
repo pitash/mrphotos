@@ -35,10 +35,10 @@ class BlogSeeder extends Seeder
             Blog::create([
                 'title' => 'Blog of Nature in ' . $country->name,
                 'description' => 'Explore the beauty of nature in ' . $country->name,
-                'image' => $sliderFolder . '/slider_image.jpg',
+                'image' => $sliderFolder . '/slider_image1.jpg',
                 'galleries' => json_encode([
-                    $galleriesFolder . '/gallery_image1.jpg',
-                    $galleriesFolder . '/gallery_image2.jpg',
+                    $galleriesFolder . '/gallery_image11.jpg',
+                    $galleriesFolder . '/gallery_image22.jpg',
                 ]),
                 'comments_count' => 0,
                 'published_date' => now(),

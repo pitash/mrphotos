@@ -169,16 +169,26 @@
                 <!-- Edit Form -->
                 <form id="editForm" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
+                    {{-- @method('PATCH') --}}
+                    @method('PUT')
 
                     <div class="mb-3">
-                        <label for="edit_tag" class="form-label">Tag</label>
-                        <input type="text" class="form-control" id="edit_tag" name="tag" required>
+                        <label for="edit_title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="edit_title" name="title" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_heading" class="form-label">Heading</label>
-                        <input type="text" class="form-control" id="edit_heading" name="heading" required>
+                        <label for="edit_description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="edit_description" name="description" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_country_id" class="form-label">Country</label>
+                        <select class="form-select" id="edit_country_id" name="country_id" required>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -196,7 +206,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     document.getElementById("image").addEventListener("change", function(event) {
@@ -218,31 +227,34 @@
         });
     });
 
+    // load gallery data into the modal
     function editData(dataId) {
         fetch(`/gallery/${dataId}/edit`)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('edit_tag').value = data.tag;
-                document.getElementById('edit_heading').value = data.heading;
+                document.getElementById('edit_title').value = data.title;
+                document.getElementById('edit_description').value = data.description;
+                document.getElementById('edit_country_id').value = data.country_id;
                 document.getElementById('edit_image').value = '';
 
                 const mainImageContainer = document.getElementById('main-image-preview');
                 mainImageContainer.innerHTML = "";
                 if (data.main_image) {
                     const mainImg = document.createElement("img");
-                    mainImg.src = data.main_image; // Use the full URL returned by the controller
+                    mainImg.src = data.main_image;
                     mainImg.classList.add("img-thumbnail");
                     mainImg.style.maxWidth = "100px";
                     mainImg.style.maxHeight = "100px";
                     mainImageContainer.appendChild(mainImg);
                 }
 
-                document.getElementById('editForm').action = `/sliders/${dataId}`;
+                // Set the form action dynamically
+                document.getElementById('editForm').action = `/gallery/${dataId}`;
             })
             .catch(error => console.error('Error:', error));
     }
 
-
+    // Image preview on file input change
     document.getElementById('edit_image').addEventListener('change', function(event) {
         const mainImageContainer = document.getElementById('main-image-preview');
         mainImageContainer.innerHTML = "";
@@ -258,9 +270,10 @@
                 mainImg.style.maxHeight = "100px";
                 mainImageContainer.appendChild(mainImg);
             };
-            reader.readAsDataURL(file); // Read the file as a data URL
+            reader.readAsDataURL(file);
         }
     });
+
 
 
 </script>
