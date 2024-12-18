@@ -7,29 +7,15 @@
                 Dashboard
             </a>
             <div class="sb-sidenav-menu-heading">Interface</div>
-            <a class="nav-link collapsed" href="{{ url('admin/slider') }}" data-bs-toggle="collapse" data-bs-target="#collapseHome" aria-expanded="false" aria-controls="collapseHome">
+
+            <a class="nav-link" href="{{ route('sliders.index') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                 Home Page
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseHome" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="{{ route('sliders.index') }}">List Slider</a>
-                    <a class="nav-link" href="{{ route('sliders.create') }}">Create Slider</a>
-                </nav>
-            </div>
-
-            <a class="nav-link collapsed" href="{{ url('admin/gallery') }}" data-bs-toggle="collapse" data-bs-target="#collapseGallery" aria-expanded="false" aria-controls="collapseGallery">
+            <a class="nav-link" href="{{ route('gallery.index') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-images"></i></div>
                 Gallery
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseGallery" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="{{ route('gallery.index') }}">List Gallery</a>
-                    <a class="nav-link" href="{{ route('gallery.create') }}">Create Gallery</a>
-                </nav>
-            </div>
             <a class="nav-link" href="{{ route('about.edit') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-info-circle"></i></div>
                 About
@@ -38,19 +24,11 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                 Contact
             </a>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
+            <a class="nav-link" href="{{ route('blog.index') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
                 Blog
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseBlog" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="{{ route('blog.index') }}">List Blog</a>
-                    <a class="nav-link" href="{{ route('blog.create') }}">Create Blog</a>
-                    <a class="nav-link" href="{{ route('blog.create') }}">Pending Blog</a>
-                </nav>
-            </div>
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+            {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                 hh
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -80,7 +58,7 @@
                         </nav>
                     </div>
                 </nav>
-            </div>
+            </div> --}}
             <div class="sb-sidenav-menu-heading"><i class="fas fa-cog"></i> Settings</div>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCountry" aria-expanded="false" aria-controls="collapseGallery">
                 <div class="sb-nav-link-icon"><i class="fas fa-flag"></i></div>
