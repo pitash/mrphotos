@@ -39,8 +39,13 @@ class HomePageController extends Controller
 
     public function edit($id)
     {
-        $slider = HomePage::findOrFail($id);
-        return view('sliders.edit', compact('slider'));
+        $data = HomePage::findOrFail($id);
+
+        return response()->json([
+            'tag' => $data->tag,
+            'heading' => $data->heading,
+            'main_image' => $data->image_path ? asset('storage/' . $data->image_path) : null,
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -56,7 +61,6 @@ class HomePageController extends Controller
         $slider->tag = $request->tag;
         $slider->heading = $request->heading;
 
-        // Handle image upload if a new image is provided
         if ($request->hasFile('image')) {
             // Delete the old image if it exists
             if ($slider->image_path && file_exists(public_path('storage/' . $slider->image_path))) {
@@ -71,6 +75,14 @@ class HomePageController extends Controller
         $slider->save();
 
         return redirect()->route('sliders.index')->with('success', 'Slider updated successfully.');
+    }
+
+    public function toggleStatus($id)
+    {
+        $data = HomePage::findOrFail($id);
+        $data->toggleStatus();
+
+        return redirect()->route('sliders.index')->with('success', 'Slider status updated successfully.');
     }
 
 }

@@ -12,4 +12,11 @@ class HomePage extends Model
         'image_path',
         'is_active',
     ];
+
+
+    public function toggleStatus()
+    {
+        $this->is_active = !$this->is_active;
+        $this->save();
+    }
 }

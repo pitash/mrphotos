@@ -20,7 +20,8 @@ Route::get('/sliders', [HomePageController::class, 'index'])->name('sliders.inde
 Route::get('/sliders/create', [HomePageController::class, 'create'])->name('sliders.create');
 Route::post('/sliders', [HomePageController::class, 'store'])->name('sliders.store');
 Route::get('/sliders/{id}/edit', [HomePageController::class, 'edit'])->name('sliders.edit');
-Route::put('/sliders/{id}', [HomePageController::class, 'update'])->name('sliders.update');
+Route::patch('/sliders/{id}', [HomePageController::class, 'update'])->name('sliders.update');
+Route::patch('/sliders/{id}/toggle-status', [HomePageController::class, 'toggleStatus'])->name('sliders.toggleStatus');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
