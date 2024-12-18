@@ -38,7 +38,18 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                 Contact
             </a>
-
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBlog" aria-expanded="false" aria-controls="collapseBlog">
+                <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
+                Blog
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseBlog" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="{{ route('blog.index') }}">List Blog</a>
+                    <a class="nav-link" href="{{ route('blog.create') }}">Create Blog</a>
+                    <a class="nav-link" href="{{ route('blog.create') }}">Pending Blog</a>
+                </nav>
+            </div>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                 hh
