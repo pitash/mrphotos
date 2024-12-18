@@ -228,6 +228,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import TopicFilter from "./TopicFilter";
 import { MessageCircle, Clock } from "lucide-react"; // Import icons
+import Newsletter from "./Newsletter";
 
 export default function BlogPage({ countryId }) {
   const [blogs, setBlogs] = useState([]);
@@ -381,6 +382,7 @@ export default function BlogPage({ countryId }) {
           &gt;
         </button>
       </div>
+      <Newsletter/>
     </div>
   );
 }
