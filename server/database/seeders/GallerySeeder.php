@@ -25,18 +25,11 @@ class GallerySeeder extends Seeder
             Gallery::create([
                 'title' => 'Gallery of Nature in ' . $country->name,
                 'description' => 'Explore the beauty of nature in ' . $country->name,
-                'image_path' => $countryFolder . '/nature1.jpg',
+                'image_path' => $countryFolder . '/nature11.jpg',
                 'country_id' => $country->id,
                 'is_active' => true,
             ]);
 
-            // Gallery::create([
-            //     'title' => 'Gallery of Culture in ' . $country->name,
-            //     'description' => 'Discover the culture of ' . $country->name,
-            //     'image_path' => $countryFolder . '/culture1.jpg',
-            //     'country_id' => $country->id,
-            //     'is_active' => true,
-            // ]);
         }
     }
 }

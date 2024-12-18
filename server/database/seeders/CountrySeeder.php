@@ -16,7 +16,7 @@ class CountrySeeder extends Seeder
         $countries = [
             ['name' => 'United States', 'is_active' => true],
             ['name' => 'Norway', 'is_active' => true],
-            ['name' => 'Germany', 'is_active' => true],
+            // ['name' => 'Germany', 'is_active' => true],
         ];
 
         foreach ($countries as $country) {

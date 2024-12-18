@@ -12,8 +12,9 @@ class GalleryController extends Controller
 {
     public function index()
     {
+        $countries = Country::where('is_active', true)->get();
         $datas = Gallery::orderBy('id', 'desc')->get();
-        return view('gallery.index', compact('datas'));
+        return view('gallery.index', compact('datas','countries'));
     }
     public function create()
     {
@@ -26,29 +27,46 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'image' => 'required|array',
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'country_id' => 'required',
         ]);
 
         $country = Country::findOrFail($request->country_id);
-        $countryFolder = 'images/galleries/' . Str::snake(Str::lower($country->name));
 
+        $countryFolder = 'images/galleries/' . Str::snake(Str::lower($country->name));
         if (!Storage::disk('public')->exists($countryFolder)) {
             Storage::disk('public')->makeDirectory($countryFolder);
         }
 
+        // $imagePaths = [];
 
-        $imagePath = $request->file('image')->store($countryFolder, 'public');
+        // foreach ($request->file('image') as $image) {
+        //     $imagePath = $image->store($countryFolder, 'public');
+        //     $imagePaths[] = $imagePath;  // Add the path to the array
+        // }
 
-        $data = Gallery::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image_path' => $imagePath,
-            'country_id' => $request->country_id,
-            'is_active' => true,
-        ]);
+        // $data = Gallery::create([
+        //     'title' => $request->title,
+        //     'description' => $request->description,
+        //     'image_path' => json_encode($imagePaths),
+        //     'country_id' => $request->country_id,
+        //     'is_active' => true,
+        // ]);
 
-        return redirect()->route('gallery.index')->with('success', 'Slider created successfully.');
+        foreach ($request->file('image') as $image) {
+            $imagePath = $image->store($countryFolder, 'public');
+
+            Gallery::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'image_path' => $imagePath,
+                'country_id' => $request->country_id,
+                'is_active' => true,
+            ]);
+        }
+
+        return redirect()->route('gallery.index')->with('success', 'Gallery created successfully.');
 
         // $request->validate([
         //     'title' => 'required|string|max:255',
