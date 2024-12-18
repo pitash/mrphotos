@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\ContactFormController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\HomePageController;
 use Illuminate\Http\Request;
@@ -37,6 +38,8 @@ Route::get('/all-galleries', [GalleryController::class, 'getGalleries'])->name('
 Route::get('/blogs', [BlogController::class, 'index']);
 Route::get('/blogs/{id}', [BlogController::class, 'show']);
 // http://127.0.0.1:8000/api/blogs?country_id=10
+
+Route::post('/contact-form', [ContactFormController::class, 'store']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

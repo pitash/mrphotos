@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomePageController;
@@ -49,3 +50,5 @@ Route::post('/blog', [BlogController::class, 'store'])->name('blog.store');
 Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('blog.edit');
 Route::patch('/blog/{id}', [BlogController::class, 'update'])->name('blog.update');
 Route::patch('/blog/{id}/toggle-status', [BlogController::class, 'toggleStatus'])->name('blog.toggleStatus');
+
+Route::get('contact-forms', [ContactFormController::class, 'index'])->name('contactForms.index');

@@ -28,6 +28,10 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
                 Blog
             </a>
+            <a class="nav-link" href="{{ route('contactForms.index') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
+                Contact Form
+            </a>
             {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                 hh
