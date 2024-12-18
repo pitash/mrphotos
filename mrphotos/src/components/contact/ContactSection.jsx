@@ -1,21 +1,49 @@
-// components/contact/ContactSection.jsx
-"use client"
 
-import { useState } from 'react'
+
+// components/contact/ContactSection.jsx
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 export default function ContactSection() {
+  const [contactInfo, setContactInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    phone: '',
-    message: ''
-  })
+    name: "",
+    email: "",
+    subject: "",
+    phone: "",
+    message: "",
+  });
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle form submission
-  }
+  };
+
+  useEffect(() => {
+    const fetchContactInfo = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/contact");
+        if (!response.ok) {
+          throw new Error("Failed to fetch contact information.");
+        }
+        const data = await response.json();
+        console.log("the data is", data);
+        setContactInfo(data.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchContactInfo();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="bg-gray-50 py-32">
@@ -27,34 +55,27 @@ export default function ContactSection() {
               <h3 className="text-2xl font-bold relative pb-4 mb-8 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-black">
                 Contact Info
               </h3>
-              
-              <p className="text-gray-600 mb-8">
-                Praesent commodo quam non lacus interdum semper et ut enim. 
-                Donec vel suscipit nulla. Nullam imperdiet nisl in lectus porta 
-                sodales. nteger mattis finibus nisl.
-              </p>
+
+              <p className="text-gray-600 mb-8">{contactInfo.description}</p>
 
               <div className="space-y-6">
                 <div>
                   <h4 className="font-bold text-lg mb-2">Address:</h4>
-                  <p className="text-gray-600">
-                    Paragon House, 5 Mohakhali C/A Dhaka 1212, Bangladesh
-                  </p>
+                  <p className="text-gray-600">{contactInfo.address}</p>
                 </div>
 
                 <div>
                   <h4 className="font-bold text-lg mb-2">Phone:</h4>
-                  <p className="text-gray-600">+88 02 9882107-8</p>
+                  <p className="text-gray-600">{contactInfo.phone}</p>
                 </div>
 
                 <div>
                   <h4 className="font-bold text-lg mb-2">Email:</h4>
-                  <p className="text-gray-600">info@paragongroup-bd.com</p>
+                  <p className="text-gray-600">{contactInfo.email}</p>
                 </div>
               </div>
             </div>
           </div>
-
           {/* Contact Form */}
           <div>
             <h3 className="text-2xl font-bold uppercase relative pb-4 mb-8 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-black">
@@ -62,102 +83,112 @@ export default function ContactSection() {
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Contact Form Grid */}
-                <div className="grid md:grid-cols-2 gap-6">
-                {/* Name Input */}  
+              {/* Contact Form Grid */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Name Input */}
                 <div className="relative">
-                    <input 
+                  <input
                     type="text"
                     id="name"
                     className="w-full border-b border-gray-300 py-2 bg-transparent focus:border-black transition-colors peer"
                     placeholder=" "
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    />
-                    <label 
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                  <label
                     htmlFor="name"
                     className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all 
                     peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
                     peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
-                    >
+                  >
                     Name
-                    </label>
+                  </label>
                 </div>
 
                 {/* Subject Input */}
                 <div className="relative">
-                    <input 
+                  <input
                     type="text"
                     id="subject"
                     className="w-full border-b border-gray-300 py-2 bg-transparent focus:border-black transition-colors peer"
                     placeholder=" "
                     value={formData.subject}
-                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                    />
-                    <label 
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
+                  />
+                  <label
                     htmlFor="subject"
                     className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all 
                     peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
                     peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
-                    >
+                  >
                     Subject
-                    </label>
+                  </label>
                 </div>
-                </div>
+              </div>
 
-                {/* Second row of inputs */}
-                <div className="grid md:grid-cols-2 gap-6">
+              {/* Second row of inputs */}
+              <div className="grid md:grid-cols-2 gap-6">
                 {/* Email Input */}
                 <div className="relative">
-                    <input 
+                  <input
                     type="email"
                     id="email"
                     className="w-full border-b border-gray-300 py-2 bg-transparent focus:border-black transition-colors peer"
                     placeholder=" "
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    />
-                    <label 
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                  <label
                     htmlFor="email"
                     className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all 
                     peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
                     peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
-                    >
+                  >
                     Email
-                    </label>
+                  </label>
                 </div>
 
                 {/* Phone Input */}
                 <div className="relative">
-                    <input 
+                  <input
                     type="tel"
                     id="phone"
                     className="w-full border-b border-gray-300 py-2 bg-transparent focus:border-black transition-colors peer"
                     placeholder=" "
                     value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    />
-                    <label 
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                  />
+                  <label
                     htmlFor="phone"
                     className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all 
                     peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
                     peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
-                    >
+                  >
                     Phone
-                    </label>
+                  </label>
                 </div>
-            </div>
+              </div>
 
               <div className="relative">
-                <textarea 
+                <textarea
                   id="message"
                   rows={4}
                   className="w-full border-b border-gray-300 py-2 bg-transparent focus:border-black transition-colors peer resize-none"
                   placeholder=" "
                   value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                 />
-                <label 
+                <label
                   htmlFor="message"
                   className="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all
                   peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
@@ -167,7 +198,7 @@ export default function ContactSection() {
                 </label>
               </div>
 
-              <button 
+              <button
                 type="submit"
                 className="bg-black text-white px-8 py-3 uppercase text-sm tracking-wider hover:bg-gray-800 transition-colors"
               >
@@ -180,7 +211,7 @@ export default function ContactSection() {
 
       {/* Google Map */}
       <div className="w-full h-[600px] mt-32">
-        <iframe 
+        <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29208.321461145748!2d90.3626239743164!3d23.7815834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c76c37aa2ca9%3A0x2f9ff94e01d6d2bf!2sParagon%20Group!5e0!3m2!1sen!2sbd!4v1733045327138!5m2!1sen!2sbd"
           className="w-full h-full border-0"
           allowFullScreen
@@ -189,5 +220,5 @@ export default function ContactSection() {
         />
       </div>
     </div>
-  )
+  );
 }
