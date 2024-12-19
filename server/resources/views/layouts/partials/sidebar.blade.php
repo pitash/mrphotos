@@ -29,7 +29,7 @@
                 Blog
             </a>
             <a class="nav-link" href="{{ route('contactForms.index') }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa fa-check-square"></i></div>
                 Contact Form
             </a>
             {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -64,6 +64,10 @@
                 </nav>
             </div> --}}
             <div class="sb-sidenav-menu-heading"><i class="fas fa-cog"></i> Settings</div>
+            <a class="nav-link" href="{{ route('category.index') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-blog"></i></div>
+                Category
+            </a>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCountry" aria-expanded="false" aria-controls="collapseGallery">
                 <div class="sb-nav-link-icon"><i class="fas fa-flag"></i></div>
                 Country

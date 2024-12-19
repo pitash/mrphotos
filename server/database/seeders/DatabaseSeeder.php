@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             GallerySeeder::class,
             AboutSeeder::class,
             ContactSeeder::class,
+            CategorySeeder::class,
             BlogSeeder::class,
         ]);
 

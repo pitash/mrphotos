@@ -15,7 +15,7 @@ class GalleryController extends Controller
         $galleries = Gallery::where('is_active', true)
                         ->orderBy('id', 'desc')
                         // ->get();
-                        ->paginate(1);
+                        ->paginate(3);
 
         if ($galleries) {
             return response()->json([
