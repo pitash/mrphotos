@@ -53,7 +53,8 @@ class CategoryController extends Controller
     public function toggleStatus($id)
     {
         $data = Category::findOrFail($id);
-        $data->toggleStatus();
+        $data->is_active = !$data->is_active;
+        $data->save();
 
         return redirect()->route('category.index')->with('success', 'Category status updated successfully.');
     }
