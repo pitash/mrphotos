@@ -38,6 +38,7 @@
                     <th>Description</th>
                     <th>Image</th>
                     <th>Country</th>
+                    <th>Category</th>
                     <th>Published Date</th>
                     <th>Actions</th>
                 </tr>
@@ -48,6 +49,7 @@
                     <th>Description</th>
                     <th>Image</th>
                     <th>Country</th>
+                    <th>Category</th>
                     <th>Published Date</th>
                     <th>Actions</th>
                 </tr>
@@ -65,6 +67,7 @@
                         @endif
                     </td>
                     <td>{{ $data->country->name }}</td>
+                    <td>{{ $data->category->name }}</td>
                     <td>{{ $data->published_date ? $data->published_date->format('Y-m-d') : 'N/A' }}</td>
                     <td>
                         <form action="{{ route('blog.toggleStatus', $data->id) }}" method="POST" style="display: inline;">
@@ -138,6 +141,19 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-select" id="category_id" name="category_id" required>
+                            <option value="">Select a Category</option>
+                            @foreach ($categories as $data)
+                                <option value="{{ $data->id }}">{{ $data->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('country_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
                         <input type="file" class="form-control" id="image" name="image" required accept="image/*">
                         @error('image')
@@ -193,11 +209,24 @@
                     <div class="mb-3">
                         <label for="edit_country_id" class="form-label">Country</label>
                         <select class="form-select" id="edit_country_id" name="country_id" required>
-                            <option value="">Select a Country</option>
+                            {{-- <option value="">Select a Country</option> --}}
                             @foreach ($countries as $country)
                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_category_id" class="form-label">Category</label>
+                        <select class="form-select" id="edit_category_id" name="category_id" required>
+                            {{-- <option value="">Select a Category</option> --}}
+                            @foreach ($categories as $data)
+                                <option value="{{ $data->id }}">{{ $data->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('country_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -258,6 +287,7 @@
                 document.getElementById('edit_title').value = data.title;
                 document.getElementById('edit_description').value = data.description;
                 document.getElementById('edit_country_id').value = data.country_id;
+                document.getElementById('edit_category_id').value = data.category_id;
                 document.getElementById('edit_image').value = '';
                 document.getElementById('edit_galleries').value = '';
 

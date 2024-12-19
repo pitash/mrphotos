@@ -16,6 +16,7 @@ class Blog extends Model
         'comments_count',
         'published_date',
         'country_id',
+        'category_id',
         'is_active',
         'is_published',
     ];
@@ -27,6 +28,11 @@ class Blog extends Model
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public static function uploadImage($file, $countryName)

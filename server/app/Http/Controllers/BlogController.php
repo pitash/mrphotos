@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,8 @@ class BlogController extends Controller
     {
         $datas = Blog::orderBy('id', 'desc')->get();
         $countries = Country::where('is_active', true)->get();
-        return view('blog.index', compact('datas','countries'));
+        $categories = Category::where('is_active', true)->get();
+        return view('blog.index', compact('datas','countries','categories'));
     }
 
     public function create()
@@ -52,6 +54,7 @@ class BlogController extends Controller
             'comments_count' => 0,
             'published_date' => now(),
             'country_id' => $request->country_id,
+            'category_id' => $request->category_id,
             'is_active' => true,
             'is_published' => true,
         ]);
@@ -67,6 +70,7 @@ class BlogController extends Controller
             'title' => $blog->title,
             'description' => $blog->description,
             'country_id' => $blog->country_id,
+            'category_id' => $blog->category_id,
             'main_image' => $blog->image,
             'galleries' => json_decode($blog->galleries),
         ]);
@@ -87,6 +91,7 @@ class BlogController extends Controller
         $blog->title = $request->title;
         $blog->description = $request->description;
         $blog->country_id = $request->country_id;
+        $blog->category_id = $request->category_id;
 
         if ($request->hasFile('image')) {
             // Delete the old image from storage if it exists
