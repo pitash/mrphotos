@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomePageController;
@@ -20,13 +22,14 @@ Route::get('/sliders', [HomePageController::class, 'index'])->name('sliders.inde
 Route::get('/sliders/create', [HomePageController::class, 'create'])->name('sliders.create');
 Route::post('/sliders', [HomePageController::class, 'store'])->name('sliders.store');
 Route::get('/sliders/{id}/edit', [HomePageController::class, 'edit'])->name('sliders.edit');
-Route::put('/sliders/{id}', [HomePageController::class, 'update'])->name('sliders.update');
+Route::patch('/sliders/{id}', [HomePageController::class, 'update'])->name('sliders.update');
+Route::patch('/sliders/{id}/toggle-status', [HomePageController::class, 'toggleStatus'])->name('sliders.toggleStatus');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
 Route::get('/gallery/{id}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
-Route::put('/gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
+Route::match(['put', 'patch'], '/gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
 Route::patch('/gallery/{id}/toggle-status', [GalleryController::class, 'toggleStatus'])->name('gallery.toggleStatus');
 
 Route::get('/country', [CountryController::class, 'index'])->name('country.index');
@@ -48,3 +51,12 @@ Route::post('/blog', [BlogController::class, 'store'])->name('blog.store');
 Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('blog.edit');
 Route::patch('/blog/{id}', [BlogController::class, 'update'])->name('blog.update');
 Route::patch('/blog/{id}/toggle-status', [BlogController::class, 'toggleStatus'])->name('blog.toggleStatus');
+
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+Route::patch('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::patch('/category/{id}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('category.toggleStatus');
+
+Route::get('contact-forms', [ContactFormController::class, 'index'])->name('contactForms.index');

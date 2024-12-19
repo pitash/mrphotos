@@ -16,21 +16,21 @@ class HomePageSeeder extends Seeder
         HomePage::create([
             'tag' => 'Travelling',
             'heading' => 'Incredible Iceland',
-            'image_path' => 'images/slider/1.jpg',
+            'image_path' => 'images/slider/11.jpg',
             'is_active' => true,
         ]);
 
         HomePage::create([
             'tag' => 'Adventure',
             'heading' => 'Discover the Amazon Rainforest',
-            'image_path' => 'images/slider/2.jpg',
+            'image_path' => 'images/slider/12.jpg',
             'is_active' => true,
         ]);
 
         HomePage::create([
             'tag' => 'Culture',
             'heading' => 'Ancient Wonders of Egypt',
-            'image_path' => 'images/slider/3.jpg',
+            'image_path' => 'images/slider/13.jpg',
             'is_active' => true,
         ]);
 
