@@ -12,6 +12,7 @@ export default function Navigation({ isMobile = false, onItemClick }) {
     { label: 'Home', href: '/' },
     { label: 'Gallery', href: '/portfolio' },
     { label: 'About', href: '/about' },
+    { label: 'Book', href: '/book' },
     { label: 'Contact', href: '/contact' },
     {
       label: 'Blog',

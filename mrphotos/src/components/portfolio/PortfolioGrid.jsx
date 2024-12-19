@@ -1,136 +1,67 @@
 
+// PortfolioGrid.js
 // "use client";
 
 // import { useEffect, useState, useRef } from "react";
 // import Image from "next/image";
-// import {
-//   ChevronLeft,
-//   ChevronRight,
-//   X,
-//   Pause,
-//   Play,
-//   Search,
-//   ExternalLink,
-//   Loader, // Import the Loader icon from lucide-react
-// } from "lucide-react";
+// import { Loader } from "lucide-react";
+// import ImageModal from "./ImageModal"; // Import the modal component
 
-// export default function PortfolioGrid() {
-//   const [items, setItems] = useState([]); // Gallery items
-//   const [filteredItems, setFilteredItems] = useState([]); // Filtered items
-//   const [currentIndex, setCurrentIndex] = useState(null); // Modal state
-//   const [isPaused, setIsPaused] = useState(true);
-//   const [slideshowInterval, setSlideshowInterval] = useState(null);
-//   const [showSearch, setShowSearch] = useState(false); // Search toggle
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [loading, setLoading] = useState(true); // Loading state
-//   const imageRefs = useRef([]); // Intersection Observer Ref
+// export default function PortfolioGrid({ countryId }) {
+//   const [items, setItems] = useState([]);
+//   const [filteredItems, setFilteredItems] = useState([]);
+//   const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
+//   const [loading, setLoading] = useState(true);
+//   const imageRefs = useRef([]);
 
-//   // Fetch data from API
 //   useEffect(() => {
-//     const fetchGalleries = async () => {
+//     const fetchItems = async () => {
+//       setLoading(true);
 //       try {
-//         const response = await fetch("http://127.0.0.1:8000/api/galleries");
-//         if (!response.ok) throw new Error("Failed to fetch galleries");
+//         const endpoint = countryId
+//           ? `http://127.0.0.1:8000/api/galleries/${countryId}`
+//           : "http://127.0.0.1:8000/api/galleries";
+
+//         const response = await fetch(endpoint);
 //         const data = await response.json();
-//         setItems(data.data);
-//         setFilteredItems(data.data);
-//         setLoading(false); // Set loading to false once data is fetched
+//         console.log("Fetched data:", data);
+//         if (Array.isArray(data.data)) {
+//           setItems(data.data);
+//           setFilteredItems(data.data);
+//         }
 //       } catch (error) {
 //         console.error("Error fetching gallery data:", error);
-//         setLoading(false); // Set loading to false if there's an error
+//       } finally {
+//         setLoading(false);
 //       }
 //     };
-//     fetchGalleries();
-//   }, []);
 
-//   // Intersection Observer for fade-in animation
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       (entries) => {
-//         entries.forEach((entry) => {
-//           if (entry.isIntersecting) entry.target.classList.add("fade-in");
-//         });
-//       },
-//       { threshold: 0.2 }
-//     );
-
-//     imageRefs.current.forEach((el) => el && observer.observe(el));
-
-//     return () => {
-//       imageRefs.current.forEach((el) => el && observer.unobserve(el));
-//     };
-//   }, [filteredItems]);
-
-//   // Slideshow controls
-//   const startSlideshow = () => {
-//     const interval = setInterval(() => {
-//       setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
-//     }, 2000);
-//     setSlideshowInterval(interval);
-//     setIsPaused(false);
-//   };
-
-//   const stopSlideshow = () => {
-//     if (slideshowInterval) clearInterval(slideshowInterval);
-//     setIsPaused(true);
-//   };
-
-//   const toggleSlideshow = () => {
-//     if (isPaused) startSlideshow();
-//     else stopSlideshow();
-//   };
-
-//   const openModal = (index) => {
-//     setCurrentIndex(index);
-//     stopSlideshow();
-//   };
-
-//   const closeModal = () => {
-//     setCurrentIndex(null);
-//     stopSlideshow();
-//   };
-
-//   const nextImage = () =>
-//     setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
-//   const prevImage = () =>
-//     setCurrentIndex(
-//       (prev) => (prev - 1 + filteredItems.length) % filteredItems.length
-//     );
+//     fetchItems();
+//   }, [countryId]);
 
 //   const handleSearch = (e) => {
-//     setSearchQuery(e.target.value);
+//     const query = e.target.value.toLowerCase();
 //     const filtered = items.filter((item) =>
-//       item.title.toLowerCase().includes(e.target.value.toLowerCase())
+//       item.title.toLowerCase().includes(query)
 //     );
 //     setFilteredItems(filtered);
 //   };
 
-//   // Pagination (load more items)
-//   const loadMoreItems = () => {
-//     const nextIndex = displayedItems.length;
-//     const newItems = items.slice(nextIndex, nextIndex + 3);
-//     setDisplayedItems([...displayedItems, ...newItems]);
-//   };
-
 //   return (
 //     <div>
-//       {/* Loading Spinner */}
 //       {loading && (
 //         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-//           <Loader
-//             className="animate-spin w-10 h-10 text-gray-300" // Add spinning animation
-//           />
+//           <Loader className="animate-spin w-10 h-10 text-gray-300" />
 //         </div>
 //       )}
 
-//       {/* Gallery Grid */}
 //       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 //         {filteredItems.map((item, index) => (
 //           <div
-//             key={item.id} // Ensure you are using a unique identifier (e.g., item.id) as the key
-//             ref={(el) => (imageRefs.current[index] = el)} // Intersection Observer Ref
-//             className="opacity-0 transform translate-y-10 transition-all duration-1000 group cursor-pointer"
-//             onClick={() => openModal(index)}
+//             key={item.id}
+//             ref={(el) => (imageRefs.current[index] = el)}
+//             className="cursor-pointer"
+//             onClick={() => setCurrentIndex(index)} // Open modal on click
 //           >
 //             {/* Image */}
 //             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
@@ -138,10 +69,10 @@
 //                 src={`http://127.0.0.1:8000/${item?.image_path}`}
 //                 alt={item.title || "Gallery Image"}
 //                 layout="fill"
-//                 className="object-cover transition-transform duration-500 group-hover:scale-105"
+//                 className="object-cover transition-transform duration-500 hover:scale-105"
 //               />
 //             </div>
-//             {/* Title and Description */}
+//             {/* Title */}
 //             <div className="mt-4 text-center">
 //               <h3 className="text-lg font-semibold text-gray-800">
 //                 {item.title || "Untitled"}
@@ -154,75 +85,15 @@
 //         ))}
 //       </div>
 
-//       {/* Modal with Slideshow */}
-//       {currentIndex !== null && filteredItems[currentIndex]?.image_path && (
-//         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-//           {/* Modal Content */}
-//           <div className="relative">
-//             <button
-//               className="absolute top-1/2 left-[-30px] sm:left-[-50px] transform -translate-y-1/2 text-white p-2 text-lg sm:text-xl lg:text-sm"
-//               onClick={prevImage}
-//             >
-//               <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 lg:w-6 lg:h-6" />
-//             </button>
-
-//             <Image
-//               src={`http://127.0.0.1:8000/${filteredItems[currentIndex]?.image_path}`}
-//               alt={filteredItems[currentIndex]?.title || "Image"}
-//               width={600}
-//               height={100}
-//               className="object-contain rounded-sm sm:w-[80vw] sm:h-[60vh] lg:w-[70vw] lg:h-[60vh] w-[90vw] h-[50vh]"
-//             />
-
-//             <button
-//               className="absolute top-1/2 right-[-30px] sm:right-[-50px] transform -translate-y-1/2 text-white p-2 text-lg sm:text-xl lg:text-sm"
-//               onClick={nextImage}
-//             >
-//               <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 lg:w-6 lg:h-6" />
-//             </button>
-//           </div>
-
-//           {/* Controls */}
-//           <div className="absolute top-4 right-4 flex space-x-4 text-white">
-//             <button onClick={() => setShowSearch(!showSearch)}>
-//               <Search className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-//             </button>
-//             <button onClick={toggleSlideshow}>
-//               {isPaused ? (
-//                 <Play className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-//               ) : (
-//                 <Pause className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-//               )}
-//             </button>
-//             <button onClick={() => window.open("https://flickr.com", "_blank")}>
-//               <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-//             </button>
-//             <button onClick={closeModal}>
-//               <X className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-//             </button>
-//           </div>
-//         </div>
-//       )}
-
-//       {/* Search Modal */}
-//       {showSearch && (
-//         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-//           <div className="relative bg-white p-4 rounded-lg">
-//             <input
-//               type="text"
-//               value={searchQuery}
-//               onChange={handleSearch}
-//               placeholder="Search for photos..."
-//               className="w-60 p-2 border border-gray-300 rounded-md"
-//             />
-//             <button
-//               className="absolute top-1 right-2 text-gray-600"
-//               onClick={() => setShowSearch(false)}
-//             >
-//               <X />
-//             </button>
-//           </div>
-//         </div>
+//       {/* Show modal if currentIndex is not null */}
+//       {currentIndex !== null && (
+//         <ImageModal
+//           items={filteredItems}
+//           currentIndex={currentIndex}
+//           onClose={() => setCurrentIndex(null)}
+//           onNavigate={(index) => setCurrentIndex(index)}
+//           onSearch={handleSearch}
+//         />
 //       )}
 //     </div>
 //   );
@@ -230,21 +101,24 @@
 
 
 
+//////// Pagination code/////
 
-
-
-// components/portfolio/PortfolioGrid.jsx
 // "use client";
 
-// import { useEffect, useState } from "react";
+// import { useEffect, useState, useRef } from "react";
 // import Image from "next/image";
 // import { Loader } from "lucide-react";
+// import ImageModal from "./ImageModal"; // Import the modal component
 
 // export default function PortfolioGrid({ countryId }) {
 //   const [items, setItems] = useState([]);
+//   const [filteredItems, setFilteredItems] = useState([]);
+//   const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
 //   const [loading, setLoading] = useState(true);
+//   const [currentPage, setCurrentPage] = useState(1); // Track the current page
+//   const itemsPerPage = 3; // Number of items per page
+//   const imageRefs = useRef([]);
 
-//   // Fetch data based on selected country
 //   useEffect(() => {
 //     const fetchItems = async () => {
 //       setLoading(true);
@@ -255,9 +129,10 @@
 
 //         const response = await fetch(endpoint);
 //         const data = await response.json();
-
+//         console.log("Fetched data:", data);
 //         if (Array.isArray(data.data)) {
 //           setItems(data.data);
+//           setFilteredItems(data.data); // In this case, filteredItems = items
 //         }
 //       } catch (error) {
 //         console.error("Error fetching gallery data:", error);
@@ -269,171 +144,89 @@
 //     fetchItems();
 //   }, [countryId]);
 
-//   return (
-//     <div>
-//       {loading ? (
-//         <div className="flex items-center justify-center h-64">
-//           <Loader className="animate-spin w-10 h-10 text-gray-300" />
-//         </div>
-//       ) : (
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-//           {items.map((item) => (
-//             <div key={item.id} className="group">
-//               {/* Image */}
-//               <div className="relative h-[300px] w-full overflow-hidden rounded-md">
-//                 <Image
-//                   src={`http://127.0.0.1:8000/${item.image_path}`}
-//                   alt={item.title || "Gallery Image"}
-//                   layout="fill"
-//                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-//                 />
-//               </div>
-//               {/* Title */}
-//               <div className="mt-4 text-center">
-//                 <h3 className="text-lg font-semibold">{item.title || "Untitled"}</h3>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
+//   // Calculate the paginated items
+//   const startIndex = (currentPage - 1) * itemsPerPage;
+//   const paginatedItems = filteredItems.slice(
+//     startIndex,
+//     startIndex + itemsPerPage
 //   );
-// }
 
+//   // Total pages
+//   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
-
-
-
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import Image from "next/image";
-// import { Loader, ChevronLeft, ChevronRight, X } from "lucide-react";
-
-// export default function PortfolioGrid({ countryId }) {
-//   const [items, setItems] = useState([]); // Holds fetched gallery items
-//   const [loading, setLoading] = useState(true); // Loading state
-//   const [currentIndex, setCurrentIndex] = useState(null); // Tracks modal index
-
-//   // Fetch gallery data based on countryId
-//   useEffect(() => {
-//     const fetchItems = async () => {
-//       setLoading(true);
-//       try {
-//         const endpoint = countryId
-//           ? `http://127.0.0.1:8000/api/galleries/${countryId}`
-//           : "http://127.0.0.1:8000/api/galleries";
-
-//         const response = await fetch(endpoint);
-//         const data = await response.json();
-
-//         if (Array.isArray(data.data)) {
-//           setItems(data.data);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching gallery data:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchItems();
-//   }, [countryId]);
-
-//   // Modal functions
-//   const openModal = (index) => {
-//     setCurrentIndex(index);
-//   };
-
-//   const closeModal = () => {
-//     setCurrentIndex(null);
-//   };
-
-//   const nextImage = () => {
-//     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-//   };
-
-//   const prevImage = () => {
-//     setCurrentIndex((prevIndex) =>
-//       prevIndex === 0 ? items.length - 1 : prevIndex - 1
-//     );
+//   const handlePageChange = (page) => {
+//     setCurrentPage(page);
 //   };
 
 //   return (
 //     <div>
-//       {/* Loading Spinner */}
-//       {loading ? (
-//         <div className="flex items-center justify-center h-64">
+//       {loading && (
+//         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 //           <Loader className="animate-spin w-10 h-10 text-gray-300" />
-//         </div>
-//       ) : (
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-//           {items.map((item, index) => (
-//             <div
-//               key={item.id}
-//               className="group cursor-pointer"
-//               onClick={() => openModal(index)}
-//             >
-//               {/* Image */}
-//               <div className="relative h-[300px] w-full overflow-hidden rounded-md">
-//                 <Image
-//                   src={`http://127.0.0.1:8000/${item.image_path}`}
-//                   alt={item.title || "Gallery Image"}
-//                   layout="fill"
-//                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-//                 />
-//               </div>
-//               {/* Title */}
-//               <div className="mt-4 text-center">
-//                 <h3 className="text-lg font-semibold">{item.title || "Untitled"}</h3>
-//               </div>
-//             </div>
-//           ))}
 //         </div>
 //       )}
 
-//       {/* Modal */}
-//       {currentIndex !== null && (
-//         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-//           {/* Close Button */}
-//           <button
-//             onClick={closeModal}
-//             className="absolute top-5 right-5 text-white text-3xl"
+//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+//         {paginatedItems.map((item, index) => (
+//           <div
+//             key={item.id}
+//             ref={(el) => (imageRefs.current[index] = el)}
+//             className="cursor-pointer"
+//             onClick={() => setCurrentIndex(index + startIndex)} // Adjust index for modal
 //           >
-//             <X className="w-8 h-8" />
-//           </button>
-
-//           {/* Previous Button */}
-//           <button
-//             onClick={prevImage}
-//             className="absolute left-10 text-white text-3xl"
-//           >
-//             <ChevronLeft className="w-10 h-10" />
-//           </button>
-
-//           {/* Image Display */}
-//           <div className="relative w-[80vw] h-[70vh]">
-//             <Image
-//               src={`http://127.0.0.1:8000/${items[currentIndex]?.image_path}`}
-//               alt={items[currentIndex]?.title || "Image"}
-//               layout="fill"
-//               className="object-contain rounded-md"
-//             />
+//             {/* Image */}
+//             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
+//               <Image
+//                 src={`http://127.0.0.1:8000/${item?.image_path}`}
+//                 alt={item.title || "Gallery Image"}
+//                 layout="fill"
+//                 className="object-cover transition-transform duration-500 hover:scale-105"
+//               />
+//             </div>
+//             {/* Title */}
+//             <div className="mt-4 text-center">
+//               <h3 className="text-lg font-semibold text-gray-800">
+//                 {item.title || "Untitled"}
+//               </h3>
+//               <p className="text-sm text-gray-500">
+//                 {item.description || "No description available"}
+//               </p>
+//             </div>
 //           </div>
+//         ))}
+//       </div>
 
-//           {/* Next Button */}
+//       {/* Pagination */}
+//       <div className="mt-6 flex justify-center items-center space-x-2">
+//         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
 //           <button
-//             onClick={nextImage}
-//             className="absolute right-10 text-white text-3xl"
+//             key={page}
+//             onClick={() => handlePageChange(page)}
+//             className={`px-3 py-1 border rounded-md ${
+//               page === currentPage
+//                 ? "bg-gray-800 text-white"
+//                 : "bg-white text-gray-800"
+//             }`}
 //           >
-//             <ChevronRight className="w-10 h-10" />
+//             {page}
 //           </button>
-//         </div>
+//         ))}
+//       </div>
+
+//       {/* Show modal if currentIndex is not null */}
+//       {currentIndex !== null && (
+//         <ImageModal
+//           items={filteredItems}
+//           currentIndex={currentIndex}
+//           onClose={() => setCurrentIndex(null)}
+//           onNavigate={(index) => setCurrentIndex(index)}
+//         />
 //       )}
 //     </div>
 //   );
 // }
+
+
 
 
 
@@ -442,29 +235,18 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  X,
-  Pause,
-  Play,
-  Search,
-  ExternalLink,
-  Loader, // Import the Loader icon from lucide-react
-} from "lucide-react";
+import { Loader } from "lucide-react";
+import ImageModal from "./ImageModal"; // Import the modal component
 
 export default function PortfolioGrid({ countryId }) {
-  const [items, setItems] = useState([]); // Gallery items
-  const [filteredItems, setFilteredItems] = useState([]); // Filtered items
-  const [currentIndex, setCurrentIndex] = useState(null); // Modal state
-  const [isPaused, setIsPaused] = useState(true);
-  const [slideshowInterval, setSlideshowInterval] = useState(null);
-  const [showSearch, setShowSearch] = useState(false); // Search toggle
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true); // Loading state
-  const imageRefs = useRef([]); // Intersection Observer Ref
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const itemsPerPage = 3; // Number of items per page
+  const imageRefs = useRef([]);
 
-  // Fetch data from API
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
@@ -475,10 +257,10 @@ export default function PortfolioGrid({ countryId }) {
 
         const response = await fetch(endpoint);
         const data = await response.json();
-
+        console.log("Fetched data:", data);
         if (Array.isArray(data.data)) {
           setItems(data.data);
-          setFilteredItems(data.data);
+          setFilteredItems(data.data); // In this case, filteredItems = items
         }
       } catch (error) {
         console.error("Error fetching gallery data:", error);
@@ -490,87 +272,38 @@ export default function PortfolioGrid({ countryId }) {
     fetchItems();
   }, [countryId]);
 
-  // Intersection Observer for fade-in animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("fade-in");
-        });
-      },
-      { threshold: 0.2 }
-    );
+  // Calculate the paginated items
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedItems = filteredItems.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
-    imageRefs.current.forEach((el) => el && observer.observe(el));
+  // Total pages
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
-    return () => {
-      imageRefs.current.forEach((el) => el && observer.unobserve(el));
-    };
-  }, [filteredItems]);
-
-  // Slideshow controls
-  const startSlideshow = () => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
-    }, 2000);
-    setSlideshowInterval(interval);
-    setIsPaused(false);
-  };
-
-  const stopSlideshow = () => {
-    if (slideshowInterval) clearInterval(slideshowInterval);
-    setIsPaused(true);
-  };
-
-  const toggleSlideshow = () => {
-    if (isPaused) startSlideshow();
-    else stopSlideshow();
-  };
-
-  const openModal = (index) => {
-    setCurrentIndex(index);
-    stopSlideshow();
-  };
-
-  const closeModal = () => {
-    setCurrentIndex(null);
-    stopSlideshow();
-  };
-
-  const nextImage = () =>
-    setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
-  const prevImage = () =>
-    setCurrentIndex(
-      (prev) => (prev - 1 + filteredItems.length) % filteredItems.length
-    );
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-    const filtered = items.filter((item) =>
-      item.title.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFilteredItems(filtered);
+  // Handle page change logic (previous/next)
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
     <div>
-      {/* Loading Spinner */}
       {loading && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <Loader
-            className="animate-spin w-10 h-10 text-gray-300" // Add spinning animation
-          />
+          <Loader className="animate-spin w-10 h-10 text-gray-300" />
         </div>
       )}
 
-      {/* Gallery Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredItems.map((item, index) => (
+        {paginatedItems.map((item, index) => (
           <div
             key={item.id}
-            ref={(el) => (imageRefs.current[index] = el)} // Intersection Observer Ref
-            className="opacity-0 transform translate-y-10 transition-all duration-1000 group cursor-pointer"
-            onClick={() => openModal(index)}
+            ref={(el) => (imageRefs.current[index] = el)}
+            className="cursor-pointer"
+            onClick={() => setCurrentIndex(index + startIndex)} // Adjust index for modal
           >
             {/* Image */}
             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
@@ -578,10 +311,10 @@ export default function PortfolioGrid({ countryId }) {
                 src={`http://127.0.0.1:8000/${item?.image_path}`}
                 alt={item.title || "Gallery Image"}
                 layout="fill"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
-            {/* Title and Description */}
+            {/* Title */}
             <div className="mt-4 text-center">
               <h3 className="text-lg font-semibold text-gray-800">
                 {item.title || "Untitled"}
@@ -594,77 +327,57 @@ export default function PortfolioGrid({ countryId }) {
         ))}
       </div>
 
-      {/* Modal with Slideshow */}
-      {currentIndex !== null && filteredItems[currentIndex]?.image_path && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          {/* Modal Content */}
-          <div className="relative">
-            <button
-              className="absolute top-1/2 left-[-30px] sm:left-[-50px] transform -translate-y-1/2 text-white p-2 text-lg sm:text-xl lg:text-sm"
-              onClick={prevImage}
-            >
-              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 lg:w-6 lg:h-6" />
-            </button>
+      {/* Pagination */}
+      <div className="mt-6 flex justify-center items-center space-x-2">
+        {/* Left Arrow */}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-3 py-1 border rounded-md ${
+            currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-white"
+          }`}
+        >
+          &lt;
+        </button>
 
-            <Image
-              src={`http://127.0.0.1:8000/${filteredItems[currentIndex]?.image_path}`}
-              alt={filteredItems[currentIndex]?.title || "Image"}
-              width={600}
-              height={100}
-              className="object-contain rounded-sm sm:w-[80vw] sm:h-[60vh] lg:w-[70vw] lg:h-[60vh] w-[90vw] h-[50vh]"
-            />
+        {/* Page Numbers */}
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`px-3 py-1 border rounded-md ${
+              page === currentPage
+                ? "bg-gray-800 text-white"
+                : "bg-white text-gray-800"
+            }`}
+          >
+            {page}
+          </button>
+        ))}
 
-            <button
-              className="absolute top-1/2 right-[-30px] sm:right-[-50px] transform -translate-y-1/2 text-white p-2 text-lg sm:text-xl lg:text-sm"
-              onClick={nextImage}
-            >
-              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 lg:w-6 lg:h-6" />
-            </button>
-          </div>
+        {/* Right Arrow */}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`px-3 py-1 border rounded-md ${
+            currentPage === totalPages
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-white"
+          }`}
+        >
+          &gt;
+        </button>
+      </div>
 
-          {/* Controls */}
-          <div className="absolute top-4 right-4 flex space-x-4 text-white">
-            <button onClick={() => setShowSearch(!showSearch)}>
-              <Search className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-            </button>
-            <button onClick={toggleSlideshow}>
-              {isPaused ? (
-                <Play className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-              ) : (
-                <Pause className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-              )}
-            </button>
-            <button onClick={() => window.open("https://flickr.com", "_blank")}>
-              <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-            </button>
-            <button onClick={closeModal}>
-              <X className="w-5 h-5 sm:w-6 sm:h-6 lg:w-5 lg:h-5" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Search Modal */}
-      {showSearch && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="relative bg-white p-4 rounded-lg">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Search for photos..."
-              className="w-60 p-2 border border-gray-300 rounded-md"
-            />
-            <button
-              className="absolute top-1 right-2 text-gray-600"
-              onClick={() => setShowSearch(false)}
-            >
-              <X />
-            </button>
-          </div>
-        </div>
+      {/* Show modal if currentIndex is not null */}
+      {currentIndex !== null && (
+        <ImageModal
+          items={filteredItems}
+          currentIndex={currentIndex}
+          onClose={() => setCurrentIndex(null)}
+          onNavigate={(index) => setCurrentIndex(index)}
+        />
       )}
     </div>
   );
 }
-
