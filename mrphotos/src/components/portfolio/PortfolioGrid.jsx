@@ -1,5 +1,3 @@
-
-// PortfolioGrid.js
 // "use client";
 
 // import { useEffect, useState, useRef } from "react";
@@ -8,8 +6,7 @@
 // import ImageModal from "./ImageModal"; // Import the modal component
 
 // export default function PortfolioGrid({ countryId }) {
-//   const [items, setItems] = useState([]);
-//   const [filteredItems, setFilteredItems] = useState([]);
+//   const [items, setItems] = useState([]); // All items from the API
 //   const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
 //   const [loading, setLoading] = useState(true);
 //   const imageRefs = useRef([]);
@@ -23,11 +20,15 @@
 //           : "http://127.0.0.1:8000/api/galleries";
 
 //         const response = await fetch(endpoint);
-//         const data = await response.json();
-//         console.log("Fetched data:", data);
-//         if (Array.isArray(data.data)) {
-//           setItems(data.data);
-//           setFilteredItems(data.data);
+//         const rawData = await response.json();
+//         console.log("Raw API response:", rawData.data);
+
+//         // Use the appropriate key based on the API response structure
+//         const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
+//         if (galleryItems.length) {
+//           setItems(galleryItems);
+//         } else {
+//           console.error("Unexpected data format or no items found.");
 //         }
 //       } catch (error) {
 //         console.error("Error fetching gallery data:", error);
@@ -39,24 +40,22 @@
 //     fetchItems();
 //   }, [countryId]);
 
-//   const handleSearch = (e) => {
-//     const query = e.target.value.toLowerCase();
-//     const filtered = items.filter((item) =>
-//       item.title.toLowerCase().includes(query)
-//     );
-//     setFilteredItems(filtered);
-//   };
-
 //   return (
 //     <div>
+//       {/* Loading Spinner */}
 //       {loading && (
 //         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 //           <Loader className="animate-spin w-10 h-10 text-gray-300" />
 //         </div>
 //       )}
 
+//       {/* Gallery Grid */}
+//       {!loading && items.length === 0 && (
+//         <div className="text-center text-gray-500">No images found.</div>
+//       )}
+
 //       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-//         {filteredItems.map((item, index) => (
+//         {items.map((item, index) => (
 //           <div
 //             key={item.id}
 //             ref={(el) => (imageRefs.current[index] = el)}
@@ -85,138 +84,10 @@
 //         ))}
 //       </div>
 
-//       {/* Show modal if currentIndex is not null */}
+//       {/* Image Modal */}
 //       {currentIndex !== null && (
 //         <ImageModal
-//           items={filteredItems}
-//           currentIndex={currentIndex}
-//           onClose={() => setCurrentIndex(null)}
-//           onNavigate={(index) => setCurrentIndex(index)}
-//           onSearch={handleSearch}
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
-
-
-//////// Pagination code/////
-
-// "use client";
-
-// import { useEffect, useState, useRef } from "react";
-// import Image from "next/image";
-// import { Loader } from "lucide-react";
-// import ImageModal from "./ImageModal"; // Import the modal component
-
-// export default function PortfolioGrid({ countryId }) {
-//   const [items, setItems] = useState([]);
-//   const [filteredItems, setFilteredItems] = useState([]);
-//   const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
-//   const [loading, setLoading] = useState(true);
-//   const [currentPage, setCurrentPage] = useState(1); // Track the current page
-//   const itemsPerPage = 3; // Number of items per page
-//   const imageRefs = useRef([]);
-
-//   useEffect(() => {
-//     const fetchItems = async () => {
-//       setLoading(true);
-//       try {
-//         const endpoint = countryId
-//           ? `http://127.0.0.1:8000/api/galleries/${countryId}`
-//           : "http://127.0.0.1:8000/api/galleries";
-
-//         const response = await fetch(endpoint);
-//         const data = await response.json();
-//         console.log("Fetched data:", data);
-//         if (Array.isArray(data.data)) {
-//           setItems(data.data);
-//           setFilteredItems(data.data); // In this case, filteredItems = items
-//         }
-//       } catch (error) {
-//         console.error("Error fetching gallery data:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchItems();
-//   }, [countryId]);
-
-//   // Calculate the paginated items
-//   const startIndex = (currentPage - 1) * itemsPerPage;
-//   const paginatedItems = filteredItems.slice(
-//     startIndex,
-//     startIndex + itemsPerPage
-//   );
-
-//   // Total pages
-//   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-
-//   const handlePageChange = (page) => {
-//     setCurrentPage(page);
-//   };
-
-//   return (
-//     <div>
-//       {loading && (
-//         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-//           <Loader className="animate-spin w-10 h-10 text-gray-300" />
-//         </div>
-//       )}
-
-//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-//         {paginatedItems.map((item, index) => (
-//           <div
-//             key={item.id}
-//             ref={(el) => (imageRefs.current[index] = el)}
-//             className="cursor-pointer"
-//             onClick={() => setCurrentIndex(index + startIndex)} // Adjust index for modal
-//           >
-//             {/* Image */}
-//             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
-//               <Image
-//                 src={`http://127.0.0.1:8000/${item?.image_path}`}
-//                 alt={item.title || "Gallery Image"}
-//                 layout="fill"
-//                 className="object-cover transition-transform duration-500 hover:scale-105"
-//               />
-//             </div>
-//             {/* Title */}
-//             <div className="mt-4 text-center">
-//               <h3 className="text-lg font-semibold text-gray-800">
-//                 {item.title || "Untitled"}
-//               </h3>
-//               <p className="text-sm text-gray-500">
-//                 {item.description || "No description available"}
-//               </p>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Pagination */}
-//       <div className="mt-6 flex justify-center items-center space-x-2">
-//         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-//           <button
-//             key={page}
-//             onClick={() => handlePageChange(page)}
-//             className={`px-3 py-1 border rounded-md ${
-//               page === currentPage
-//                 ? "bg-gray-800 text-white"
-//                 : "bg-white text-gray-800"
-//             }`}
-//           >
-//             {page}
-//           </button>
-//         ))}
-//       </div>
-
-//       {/* Show modal if currentIndex is not null */}
-//       {currentIndex !== null && (
-//         <ImageModal
-//           items={filteredItems}
+//           items={items}
 //           currentIndex={currentIndex}
 //           onClose={() => setCurrentIndex(null)}
 //           onNavigate={(index) => setCurrentIndex(index)}
@@ -225,8 +96,6 @@
 //     </div>
 //   );
 // }
-
-
 
 
 
@@ -238,29 +107,42 @@ import Image from "next/image";
 import { Loader } from "lucide-react";
 import ImageModal from "./ImageModal"; // Import the modal component
 
-export default function PortfolioGrid({ countryId }) {
-  const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
+export default function PortfolioGrid({ countryId, countryButtons }) {
+  const [items, setItems] = useState([]); // All items from the API
+  const [allItems, setAllItems] = useState([]); // All items for "All Images" view
   const [currentIndex, setCurrentIndex] = useState(null); // Manages modal visibility and current image
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
-  const itemsPerPage = 3; // Number of items per page
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    lastPage: 1,
+    totalItems: 0,
+  });
+  const [viewAll, setViewAll] = useState(false); // State to manage view mode
   const imageRefs = useRef([]);
 
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchItems = async (page = 1) => {
       setLoading(true);
       try {
         const endpoint = countryId
-          ? `http://127.0.0.1:8000/api/galleries/${countryId}`
-          : "http://127.0.0.1:8000/api/galleries";
+          ? `http://127.0.0.1:8000/api/galleries/${countryId}?page=${page}`
+          : `http://127.0.0.1:8000/api/galleries?page=${page}`;
 
         const response = await fetch(endpoint);
-        const data = await response.json();
-        console.log("Fetched data:", data);
-        if (Array.isArray(data.data)) {
-          setItems(data.data);
-          setFilteredItems(data.data); // In this case, filteredItems = items
+        const rawData = await response.json();
+        console.log("Raw API response:", rawData.data);
+
+        // Use the appropriate key based on the API response structure
+        const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
+        if (galleryItems.length) {
+          setItems(galleryItems);
+          setPagination({
+            currentPage: rawData.data.current_page,
+            lastPage: rawData.data.last_page,
+            totalItems: rawData.data.total,
+          });
+        } else {
+          console.error("Unexpected data format or no items found.");
         }
       } catch (error) {
         console.error("Error fetching gallery data:", error);
@@ -269,41 +151,88 @@ export default function PortfolioGrid({ countryId }) {
       }
     };
 
-    fetchItems();
-  }, [countryId]);
+    const fetchAllItems = async () => {
+      setLoading(true);
+      try {
+        const endpoint = `http://127.0.0.1:8000/api/galleries`;
 
-  // Calculate the paginated items
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedItems = filteredItems.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+        const response = await fetch(endpoint);
+        const rawData = await response.json();
+        console.log("Raw API response:", rawData.data);
 
-  // Total pages
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+        // Use the appropriate key based on the API response structure
+        const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
+        if (galleryItems.length) {
+          setAllItems(galleryItems);
+        } else {
+          console.error("Unexpected data format or no items found.");
+        }
+      } catch (error) {
+        console.error("Error fetching gallery data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Handle page change logic (previous/next)
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+    if (viewAll) {
+      fetchAllItems();
+    } else {
+      fetchItems(pagination.currentPage);
     }
+  }, [countryId, pagination.currentPage, viewAll]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= pagination.lastPage) {
+      setPagination((prev) => ({ ...prev, currentPage: newPage }));
+    }
+  };
+
+  const handleViewAllToggle = () => {
+    setViewAll((prevViewAll) => {
+      if (!prevViewAll) {
+        // Reset pagination when switching to "All Images" view
+        setPagination({
+          currentPage: 1,
+          lastPage: 1,
+          totalItems: 0,
+        });
+      }
+      return !prevViewAll;
+    });
   };
 
   return (
     <div>
+      {/* Buttons Container */}
+      <div className="flex justify-start mb-4 space-x-2">
+        {countryButtons}
+        <button
+          className="px-4 py-2 text-sm bg-green-500 text-white rounded-md hover:bg-green-600"
+          onClick={handleViewAllToggle}
+        >
+          {viewAll ? "Paginated View" : "All Images"}
+        </button>
+      </div>
+
+      {/* Loading Spinner */}
       {loading && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <Loader className="animate-spin w-10 h-10 text-gray-300" />
         </div>
       )}
 
+      {/* Gallery Grid */}
+      {!loading && (viewAll ? allItems : items).length === 0 && (
+        <div className="text-center text-gray-500">No images found.</div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {paginatedItems.map((item, index) => (
+        {(viewAll ? allItems : items).map((item, index) => (
           <div
             key={item.id}
             ref={(el) => (imageRefs.current[index] = el)}
             className="cursor-pointer"
-            onClick={() => setCurrentIndex(index + startIndex)} // Adjust index for modal
+            onClick={() => setCurrentIndex(index)} // Open modal on click
           >
             {/* Image */}
             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
@@ -327,52 +256,43 @@ export default function PortfolioGrid({ countryId }) {
         ))}
       </div>
 
-      {/* Pagination */}
-      <div className="mt-6 flex justify-center items-center space-x-2">
-        {/* Left Arrow */}
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`px-3 py-1 border rounded-md ${
-            currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-white"
-          }`}
-        >
-          &lt;
-        </button>
-
-        {/* Page Numbers */}
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+      {/* Pagination Controls */}
+      {!viewAll && (
+        <div className="flex justify-center items-center space-x-2 mt-6">
           <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`px-3 py-1 border rounded-md ${
-              page === currentPage
-                ? "bg-gray-800 text-white"
-                : "bg-white text-gray-800"
-            }`}
+            className="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+            disabled={pagination.currentPage === 1}
+            onClick={() => handlePageChange(pagination.currentPage - 1)}
           >
-            {page}
+            Previous
           </button>
-        ))}
+          {[...Array(pagination.lastPage)].map((_, index) => (
+            <button
+              key={index}
+              className={`px-4 py-2 text-sm rounded-md ${
+                pagination.currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+            disabled={pagination.currentPage === pagination.lastPage}
+            onClick={() => handlePageChange(pagination.currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
-        {/* Right Arrow */}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`px-3 py-1 border rounded-md ${
-            currentPage === totalPages
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-white"
-          }`}
-        >
-          &gt;
-        </button>
-      </div>
-
-      {/* Show modal if currentIndex is not null */}
+      {/* Image Modal */}
       {currentIndex !== null && (
         <ImageModal
-          items={filteredItems}
+          items={viewAll ? allItems : items}
           currentIndex={currentIndex}
           onClose={() => setCurrentIndex(null)}
           onNavigate={(index) => setCurrentIndex(index)}
@@ -381,3 +301,49 @@ export default function PortfolioGrid({ countryId }) {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
