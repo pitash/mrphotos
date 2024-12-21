@@ -1,226 +1,5 @@
-// "use client";
 
-// import { useState } from 'react';
-// import TopicFilter from '@/components/blog/TopicFilter';
-// import BlogGrid from '@/components/blog/BlogGrid';
-// import Newsletter from '@/components/blog/Newsletter';
-
-// const MOCK_POSTS = [
-//   {
-//     id: 1,
-//     title: "Adventures for hill track",
-//     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed biben dum leo maur massa eleife purus rutrum nulla.",
-//     image: "/api/placeholder/400/320",
-//     comments: 5,
-//     date: "25 Jan 2019",
-//     category: "fashion"
-//   },
-//   {
-//     id: 2,
-//     title: "Adventures for northern lights",
-//     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed biben dum leo maur massa eleife purus rutrum nulla.",
-//     image: "/api/placeholder/400/320",
-//     comments: 5,
-//     date: "25 Jan 2019",
-//     category: "lifestyle"
-//   },
-//   // Add more posts as needed
-// ];
-
-// export default function BlogPage() {
-//   const [activeFilter, setActiveFilter] = useState('all');
-
-//   const filteredPosts = activeFilter === 'all'
-//     ? MOCK_POSTS
-//     : MOCK_POSTS.filter(post => post.category === activeFilter);
-
-//   return (
-//     <div className="min-h-screen bg-neutral-50">
-
-//       <div className="">
-//         <TopicFilter
-//           activeFilter={activeFilter}
-//           onFilterChange={setActiveFilter}
-//         />
-//         <BlogGrid posts={filteredPosts} />
-//         <Newsletter />
-//       </div>
-//     </div>
-//   );
-// }
-
-// "use client";
-
-// import { useState, useEffect } from 'react';
-// import TopicFilter from '@/components/blog/TopicFilter';
-// import Newsletter from '@/components/blog/Newsletter';
-
-// export default function BlogPage() {
-//   const [posts, setPosts] = useState([]);
-//   const [activeFilter, setActiveFilter] = useState('all');
-//   const [loading, setLoading] = useState(true);
-
-//   // Fetch posts data from the API
-//   useEffect(() => {
-//     const fetchPosts = async () => {
-//       try {
-//         const response = await fetch('http://127.0.0.1:8000/api/blogs');
-//         const data = await response.json();
-//         setPosts(data.data); // Assuming the API returns the posts directly
-//         setLoading(false);
-//       } catch (error) {
-//         console.error('Error fetching blog posts:', error);
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchPosts();
-//   }, []);
-
-//   // Filter posts based on category (You can add this logic if you need it)
-//   // const filteredPosts = activeFilter === 'all'
-//   //   ? posts
-//   //   : posts.filter(post => post.category === activeFilter);
-
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-neutral-50">
-//       <div>
-//         <TopicFilter
-//           activeFilter={activeFilter}
-//           onFilterChange={setActiveFilter}
-//         />
-
-//         {/* Blog Grid Section */}
-//         <div className="container mx-auto px-4 py-12">
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//             {posts.map(post => (
-//               <article
-//                 key={post.id}
-//                 className="bg-white transform transition-all duration-700 ease-out shadow-md rounded-lg overflow-hidden opacity-100 translate-y-0"
-//               >
-//                 {/* Post Image */}
-//                 <div className="relative">
-//                   <img
-//                     src={post.image}
-//                     alt={post.title}
-//                     className="w-full h-64 object-cover transition-opacity duration-700 ease-in-out opacity-100"
-//                   />
-//                 </div>
-
-//                 {/* Post Content */}
-//                 <div className="p-6">
-//                   <span className="text-sm uppercase text-neutral-500">
-//                     {post.category}
-//                   </span>
-//                   <h2 className="text-xl font-bold mt-2 mb-4">{post.title}</h2>
-//                   <p className="text-neutral-600 mb-6">{post.excerpt}</p>
-
-//                   {/* Post Footer */}
-//                   <div className="flex justify-between text-sm text-neutral-500">
-//                     <div className="flex gap-2 items-center">
-//                       <span>Comments: {post.comments}</span>
-//                     </div>
-//                     <div className="flex gap-2 items-center">
-//                       <span>Date: {post.date}</span>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </article>
-//             ))}
-//           </div>
-//         </div>
-
-//         <Newsletter />
-//       </div>
-//     </div>
-//   );
-// }
-
-// "use client";
-// import { useState, useEffect } from "react";
-// import Image from "next/image"; // Import Image component from Next.js
-// import TopicFilter from "./TopicFilter";
-
-// export default function BlogPage() {
-//   const [activeFilter, setActiveFilter] = useState(null);
-//   const [blogData, setBlogData] = useState([]); // Ensuring it's an array
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   // Handle filter change
-// const handleFilterChange = (filterId) => {
-//   setActiveFilter(filterId);
-// };
-
-//   // Fetch blog data from the API
-//   useEffect(() => {
-//     const fetchBlogData = async () => {
-//       try {
-//         const response = await fetch("http://127.0.0.1:8000/api/blogs"); // Replace with your API endpoint
-//         if (!response.ok) throw new Error("Failed to fetch blog data");
-//         const data = await response.json();
-
-//         console.log(data.data); // Log the entire response to check its structure
-
-//         // Adjust based on the actual structure of your API response
-//         if (data && Array.isArray(data.data.data)) {
-//           setBlogData(data.data.data); // Use the correct field name, e.g., 'result'
-//         } else {
-//           throw new Error("Invalid data format");
-//         }
-//       } catch (err) {
-//         setError(err.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchBlogData();
-//   }, [activeFilter]); // Re-fetch data when active filter changes
-
-//   if (loading) return <div className="text-white py-8">Loading blogs...</div>;
-//   if (error) return <div className="text-red-500 py-8">{error}</div>;
-
-//   return (
-//     <div>
-//       {/* Topic Filter */}
-//       <TopicFilter activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-
-//       {/* Blog Data Display */}
-//       <div className="py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-//         {blogData.map((blog, index) => (
-//           <div key={index} className="bg-neutral-800  rounded-lg shadow-lg">
-//             <div className="relative w-full h-48 mb-4">
-//               {/* Image using Next.js Image component */}
-//               <Image
-//                 src={`http://127.0.0.1:8000/${blog?.image}`} // Ensure blog.image is a valid image URL
-//                 alt={blog.title}
-//                 layout="fill"
-//                 objectFit="cover"
-//                 className="rounded-md"
-//               />
-//             </div>
-//             <h3 className="text-xl font-semibold text-white mb-2">{blog.title}</h3>
-//             <p className="text-neutral-400">{blog.description}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
+////Get method///
 
 // "use client";
 
@@ -302,8 +81,11 @@
 //           </p>
 //         ) : (
 //           paginatedBlogs.map((blog) => (
-//             <div key={blog.id} className="cursor-pointer">
-//               <div className="relative h-[400px] w-full overflow-hidden rounded-md">
+//             <div
+//               key={blog.id}
+//               className="cursor-pointer transform transition-transform duration-500 hover:scale-105"
+//             >
+//               <div className="relative h-[400px] w-full overflow-hidden rounded-md animate-fadeIn">
 //                 <Image
 //                   src={`http://127.0.0.1:8000/${blog?.image}`}
 //                   alt={blog.title || "Blog Image"}
@@ -326,7 +108,7 @@
 //                     <div className="flex items-center space-x-1">
 //                       <MessageCircle size={16} />
 //                       <h4 className="text-sm font-semibold">
-//                       Comments{blog.comments_count || 0} 
+//                         Comments {blog.comments_count || 0}
 //                       </h4>
 //                     </div>
 
@@ -349,8 +131,10 @@
 //         <button
 //           onClick={() => handlePageChange(currentPage - 1)}
 //           disabled={currentPage === 1}
-//           className={`px-3 py-1 border rounded-md ${
-//             currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-white"
+//           className={`px-3 py-1 border rounded-md transition-colors duration-300 ${
+//             currentPage === 1
+//               ? "bg-gray-300 cursor-not-allowed"
+//               : "bg-white hover:bg-gray-200"
 //           }`}
 //         >
 //           &lt;
@@ -360,10 +144,10 @@
 //           <button
 //             key={page}
 //             onClick={() => handlePageChange(page)}
-//             className={`px-3 py-1 border rounded-md ${
+//             className={`px-3 py-1 border rounded-md transition-colors duration-300 ${
 //               page === currentPage
 //                 ? "bg-gray-800 text-white"
-//                 : "bg-white text-gray-800"
+//                 : "bg-white text-gray-800 hover:bg-gray-200"
 //             }`}
 //           >
 //             {page}
@@ -373,21 +157,23 @@
 //         <button
 //           onClick={() => handlePageChange(currentPage + 1)}
 //           disabled={currentPage === totalPages}
-//           className={`px-3 py-1 border rounded-md ${
+//           className={`px-3 py-1 border rounded-md transition-colors duration-300 ${
 //             currentPage === totalPages
 //               ? "bg-gray-300 cursor-not-allowed"
-//               : "bg-white"
+//               : "bg-white hover:bg-gray-200"
 //           }`}
 //         >
 //           &gt;
 //         </button>
 //       </div>
-//       <Newsletter/>
+//       <Newsletter />
 //     </div>
 //   );
 // }
 
 
+
+///post method///
 
 
 "use client";
@@ -416,7 +202,13 @@ export default function BlogPage({ countryId }) {
           ? `http://127.0.0.1:8000/api/blogs/${countryId}`
           : "http://127.0.0.1:8000/api/blogs";
 
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+        });
         const data = await response.json();
         console.log("Fetched data:", data);
         if (Array.isArray(data?.data?.data)) {
