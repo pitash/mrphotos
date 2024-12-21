@@ -12,16 +12,10 @@ class GalleryController extends Controller
 {
     public function index()
     {
-        $countries = Country::where('is_active', true)->get();
+        $countries = Country::where('is_active', true)->orderBy('name', 'asc')->get();
         $datas = Gallery::orderBy('id', 'desc')->get();
         return view('gallery.index', compact('datas','countries'));
     }
-    public function create()
-    {
-        $countries = Country::where('is_active', true)->get();
-        return view('gallery.create', compact('countries'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
