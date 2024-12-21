@@ -1,12 +1,12 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, X, Pause, Play, Search, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Pause, Play, ExternalLink } from "lucide-react";
 
-export default function ImageModal({ items, currentIndex, onClose, onNavigate, onSearch }) {
+export default function ImageModal({ items, currentIndex, onClose, onNavigate }) {
   const [isPaused, setIsPaused] = useState(true);
-  const [showSearch, setShowSearch] = useState(false);
   const intervalRef = useRef(null); // Use a ref to store the interval ID
   const currentIndexRef = useRef(currentIndex); // Keep track of current index for autoplay
 
@@ -81,11 +81,6 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate, o
 
       {/* Controls */}
       <div className="absolute top-4 right-4 flex space-x-4 text-white">
-        {/* Search Button */}
-        <button onClick={() => setShowSearch(!showSearch)}>
-          <Search className="w-5 h-5" />
-        </button>
-
         {/* Play/Pause Button */}
         <button onClick={toggleSlideshow}>
           {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
@@ -101,29 +96,6 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate, o
           <X className="w-5 h-5" />
         </button>
       </div>
-
-      {/* Search Modal */}
-      {showSearch && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="relative bg-white p-4 rounded-lg">
-            <input
-              type="text"
-              placeholder="Search for photos..."
-              className="w-60 p-2 border border-gray-300 rounded-md"
-              onChange={onSearch}
-            />
-            <button
-              className="absolute top-1 right-2 text-gray-600"
-              onClick={() => setShowSearch(false)}
-            >
-              <X />
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
-
-
-

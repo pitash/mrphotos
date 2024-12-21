@@ -342,3 +342,19 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 1s ease-out;
 }
  
+
+
+@keyframes barLoader {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-barLoader {
+  animation: barLoader 2s ease-in-out infinite;
+}
+
+
