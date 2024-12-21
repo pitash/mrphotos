@@ -11,7 +11,12 @@
         </button>
     </div>
 </div>
-
+@if (session('success'))
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
     <li class="breadcrumb-item">
         <a href="#" class="text-decoration-none text-primary">
@@ -174,7 +179,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Create Blog</button>
+                        <button type="submit" class="btn btn-success" id="createBtn">Create Blog</button>
                     </div>
                 </form>
             </div>
@@ -248,7 +253,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success" id="editBtn">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -325,6 +330,19 @@
             })
             .catch(error => console.error('Error:', error));
     }
+
+    // Disable buttons on form submit
+    document.getElementById('createBlogForm').addEventListener('submit', function(event) {
+        const createBtn = document.getElementById('createBtn');
+        createBtn.disabled = true;
+        createBtn.textContent = "Saving...";
+    });
+
+    document.getElementById('editBlogForm').addEventListener('submit', function(event) {
+        const editBtn = document.getElementById('editBtn');
+        editBtn.disabled = true;
+        editBtn.textContent = "Updating...";
+    });
 
     document.getElementById('edit_image').addEventListener('change', function(event) {
         const mainImageContainer = document.getElementById('main-image-preview');

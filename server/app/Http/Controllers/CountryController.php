@@ -35,8 +35,11 @@ class CountryController extends Controller
 
     public function edit($id)
     {
-        $slider = Country::findOrFail($id);
-        return view('country.edit', compact('slider'));
+        $data = Country::findOrFail($id);
+
+        return response()->json([
+            'name' => $data->name,
+        ]);
     }
 
     public function update(Request $request, $id)

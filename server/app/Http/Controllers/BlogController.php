@@ -14,15 +14,9 @@ class BlogController extends Controller
     public function index()
     {
         $datas = Blog::orderBy('id', 'desc')->get();
-        $countries = Country::where('is_active', true)->get();
+        $countries = Country::where('is_active', true)->orderBy('name', 'asc')->get();
         $categories = Category::where('is_active', true)->get();
         return view('blog.index', compact('datas','countries','categories'));
-    }
-
-    public function create()
-    {
-        $countries = Country::where('is_active', true)->get();
-        return view('blog.create', compact('countries'));
     }
 
     public function store(Request $request)

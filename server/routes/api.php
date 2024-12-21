@@ -25,18 +25,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 
-Route::get('/sliders', [HomePageController::class, 'index']);
-Route::get('/about', [AboutController::class, 'index']);
-Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/sliders', [HomePageController::class, 'index']);
+Route::post('/about', [AboutController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'index']);
 
-Route::get('/galleries', [GalleryController::class, 'index']);
-Route::get('/countries', [GalleryController::class, 'getAllCountries']);
-Route::get('/galleries1/{countryId}', [GalleryController::class, 'getGalleriesByCountry']);
-Route::get('/galleries/{countryId}', [GalleryController::class, 'getGalleriesByCountry2']);
-Route::get('/all-galleries', [GalleryController::class, 'getGalleries'])->name('galleries');
+Route::post('/countries', [GalleryController::class, 'getAllCountries']);
+Route::post('/galleries', [GalleryController::class, 'index']);
+Route::post('/galleries/{countryId}', [GalleryController::class, 'getGalleriesByCountry2']);
+Route::post('/galleries1/{countryId}', [GalleryController::class, 'getGalleriesByCountry']);
+Route::post('/all-galleries', [GalleryController::class, 'getGalleries'])->name('galleries');
 
-Route::get('/blogs', [BlogController::class, 'index']);
-Route::get('/blogs/{id}', [BlogController::class, 'show']);
+Route::post('/blogs', [BlogController::class, 'index']);
+Route::post('/blogs/{id}', [BlogController::class, 'show']);
 // http://127.0.0.1:8000/api/blogs?country_id=10
 
 Route::post('/contact-form', [ContactFormController::class, 'store']);
