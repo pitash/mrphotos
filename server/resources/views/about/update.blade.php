@@ -1,49 +1,3 @@
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container my-2">
-    <h2 class="mb-4">About</h2>
-
-    <form action="{{ route('about.update') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PATCH')
-
-        <div class="mb-3">
-            <label for="name" class="form-label fw-bold">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ $data->name }}" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="description" class="form-label fw-bold">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="7" required>{{ $data->description }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="image" class="form-label fw-bold">Image</label>
-            <input type="file" class="form-control" id="image" name="image" accept="image/*">
-            @if ($data->image_path)
-                <img src="{{ asset('storage/' . $data->image_path) }}" alt="Current Image" class="mt-2" width="200">
-            @endif
-        </div>
-
-        <div class="row">
-            @for ($i = 1; $i <= 3; $i++)
-                <div class="col-md-4 mb-4">
-                    <h5 class="fw-bold">Quotation {{ $i }} Title</h5>
-                    <input type="text" class="form-control mb-2" id="quot{{ $i }}_title" name="quot{{ $i }}_title" value="{{ $data->{'quot'.$i.'_title'} }}" required>
-
-                    <h6 class="fw-bold">Quotation {{ $i }} Description</h6>
-                    <textarea class="form-control" id="quot{{ $i }}_desc" name="quot{{ $i }}_desc" rows="6" required>{{ $data->{'quot'.$i.'_desc'} }}</textarea>
-                </div>
-            @endfor
-        </div>
-
-        <button type="submit" class="btn btn-success">Update About</button>
-    </form>
-</div>
-@endsection --}}
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -57,7 +11,7 @@
         </div>
     @endif
 
-    <form action="{{ route('about.update') }}" method="POST" enctype="multipart/form-data">
+    <form id="editForm" action="{{ route('about.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -91,8 +45,16 @@
             @endfor
         </div>
 
-        <button type="submit" class="btn btn-success mt-4">Update About</button>
+        <button type="submit" class="btn btn-success mt-4" id="editBtn">Update About</button>
     </form>
 </div>
+
+<script>
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        const editBtn = document.getElementById('editBtn');
+        editBtn.disabled = true;
+        editBtn.textContent = "Updating...";
+    });
+</script>
 @endsection
 

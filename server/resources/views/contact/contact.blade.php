@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <form action="{{ route('contact.update') }}" method="POST">
+    <form action="{{ route('contact.update') }}" id="editForm" method="POST">
         @csrf
         @method('PATCH')
 
@@ -33,8 +33,16 @@
             <textarea class="form-control" id="map_address" name="map_address" rows="4" placeholder="Enter map address or iframe embed code" required>{{ $data->map_address }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-success">Update Contact</button>
+        <button type="submit" class="btn btn-success" id="editBtn">Update Contact</button>
     </form>
 </div>
+
+<script>
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        const editBtn = document.getElementById('editBtn');
+        editBtn.disabled = true;
+        editBtn.textContent = "Updating...";
+    });
+</script>
 @endsection
 

@@ -17,7 +17,12 @@
         </button>
     </div>
 </div>
-
+@if (session('success'))
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
     <li class="breadcrumb-item">
         <a href="#" class="text-decoration-none text-primary">
@@ -100,7 +105,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="createForm" action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
@@ -149,7 +154,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Create</button>
+                        <button type="submit" class="btn btn-success" id="createBtn">Create</button>
                     </div>
                 </form>
             </div>
@@ -199,7 +204,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success" id="editBtn">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -253,6 +258,18 @@
             })
             .catch(error => console.error('Error:', error));
     }
+    // Disable buttons on form submit
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        const createBtn = document.getElementById('createBtn');
+        createBtn.disabled = true;
+        createBtn.textContent = "Saving...";
+    });
+
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        const editBtn = document.getElementById('editBtn');
+        editBtn.disabled = true;
+        editBtn.textContent = "Updating...";
+    });
 
     // Image preview on file input change
     document.getElementById('edit_image').addEventListener('change', function(event) {

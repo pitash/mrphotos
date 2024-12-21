@@ -12,11 +12,6 @@ class HomePageController extends Controller
         $sliders = HomePage::all();
         return view('sliders.index', compact('sliders'));
     }
-    public function create()
-    {
-        return view('sliders.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([

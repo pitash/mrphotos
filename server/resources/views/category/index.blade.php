@@ -5,13 +5,29 @@
     <h2 class="fw-bold text-primary mb-0">
         <i class="fas fas fa-clone me-2"></i> Category List
     </h2>
+
     <div>
         <button type="button" class="btn btn-gradient-primary shadow-sm d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#createModal" style="background: linear-gradient(135deg, #4e73df, #224abe); border: none;">
             <i class="fas fa-plus-circle me-2"></i> Create Category
         </button>
     </div>
 </div>
-
+@if (session('success'))
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+@if ($errors->any())
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
     <li class="breadcrumb-item">
         <a href="#" class="text-decoration-none text-primary">
@@ -77,17 +93,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="createForm" action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }}">
+
+                        @if ($errors->has('name'))
+                            <div class="alert alert-danger mt-2">
+                                {{ $errors->first('name') }}
+                            </div>
+                        @endif
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Create</button>
+                        <button type="submit" class="btn btn-success" id="createBtn">Create</button>
                     </div>
                 </form>
             </div>
@@ -116,7 +138,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success" id="editBtn">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -135,6 +157,19 @@
             })
             .catch(error => console.error('Error:', error));
     }
+
+    // Disable buttons on form submit
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        const createBtn = document.getElementById('createBtn');
+        createBtn.disabled = true;
+        createBtn.textContent = "Saving...";
+    });
+
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        const editBtn = document.getElementById('editBtn');
+        editBtn.disabled = true;
+        editBtn.textContent = "Updating...";
+    });
 
 
 
