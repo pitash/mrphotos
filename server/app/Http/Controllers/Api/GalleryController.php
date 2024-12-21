@@ -12,23 +12,16 @@ class GalleryController extends Controller
 {
     public function index(): JsonResponse
     {
-        $galleries = Gallery::where('is_active', true)
-                        ->orderBy('id', 'desc')
-                        // ->get();
-                        ->paginate(3);
-
-        if ($galleries) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Galleries fetched successfully.',
-                'data' => $galleries
-            ], 200);
-        }
+        $galleries = Gallery::select('id', 'title', 'description', 'image_path', 'country_id')
+                    ->where('is_active', true)
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
 
         return response()->json([
-            'success' => false,
-            'message' => 'No Gallery data found.',
-        ], 404);
+            'success' => true,
+            'message' => $galleries->isEmpty() ? 'No Gallery data found.' : 'Galleries fetched successfully.',
+            'data' => $galleries
+        ], 200);
 
     }
 
@@ -74,16 +67,18 @@ class GalleryController extends Controller
 
     public function getGalleriesByCountry2($countryId = null)
     {
-        // If no countryId is provided, return all galleries
-        if (is_null($countryId)) {
-            return $this->getAllGalleries();
-        }
+        // // If no countryId is provided, return all galleries
+        // if (is_null($countryId)) {
+        //     return $this->index();
+        // }
 
-        // Otherwise, return galleries for the given country
-        $galleries = Gallery::where('country_id', $countryId)
+
+        // return galleries for the given country
+        $galleries = Gallery::select('id', 'title', 'description', 'image_path')
+            ->where('country_id', $countryId)
             ->where('is_active', true)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(3);
 
         if ($galleries->isEmpty()) {
             return response()->json([
@@ -98,32 +93,18 @@ class GalleryController extends Controller
             'data' => $galleries
         ], 200);
 
-
-        // if (is_null($countryId)) {
-        //     $galleries = Gallery::where('is_active', true)
-        //         ->orderBy('id', 'desc')
-        //         ->paginate(10); // Adjust the number as needed
-        // } else {
-        //     // Fetch galleries for the given country with pagination
-        //     $galleries = Gallery::where('country_id', $countryId)
-        //         ->where('is_active', true)
-        //         ->orderBy('id', 'desc')
-        //         ->paginate(10); // Adjust the number as needed
-        // }
-
-        // // Check if the paginated data is empty
-        // if ($galleries->isEmpty()) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'No galleries found.',
-        //     ], 404);
-        // }
-
-        // // Return the paginated galleries data
         // return response()->json([
         //     'success' => true,
-        //     'message' => 'Galleries fetched successfully.',
-        //     'data' => $galleries
+        //     'message' => 'Galleries for the country fetched successfully.',
+        //     'data' => $galleries,
+        //     'pagination' => [
+        //         'total' => $galleries->total(),
+        //         'per_page' => $galleries->perPage(),
+        //         'current_page' => $galleries->currentPage(),
+        //         'last_page' => $galleries->lastPage(),
+        //         'next_page_url' => $galleries->nextPageUrl(),
+        //         'prev_page_url' => $galleries->previousPageUrl(),
+        //     ]
         // ], 200);
     }
 
