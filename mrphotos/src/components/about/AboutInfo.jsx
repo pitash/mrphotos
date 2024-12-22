@@ -8,6 +8,7 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Loader } from "lucide-react"; // Import the Loader icon
+import Loading from "@/app/loading";
 
 export default function AboutInfo() {
   const [aboutData, setAboutData] = useState(null);
@@ -40,16 +41,12 @@ export default function AboutInfo() {
     fetchAboutData();
   }, []);
 
-  if (loading) return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <Loader className="animate-spin w-10 h-10 text-gray-300" />
-    </div>
-  );
+  if (loading) return <Loading/>
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="bg-white">
-      <div className="grid md:grid-cols-2 gap-12 md:gap-20 mx-auto p-8 md:p-16">
+      <div className="grid md:grid-cols-2 gap-12 md:gap-20 mx-auto p-8 md:p-16 animate-fade-in">
         {/* Left Column - Image */}
         <div className="flex flex-col justify-between gap-5">
           <div className="relative h-full mx-auto md:mx-0 animate-fadeInLeft">

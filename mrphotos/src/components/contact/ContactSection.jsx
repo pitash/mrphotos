@@ -8,6 +8,7 @@
 
 import React, { useState, useEffect } from "react";
 import ContactForm from "./ContactForm";
+import Loading from "@/app/loading";
 
 export default function ContactSection() {
   const [contactInfo, setContactInfo] = useState(null);
@@ -40,7 +41,7 @@ export default function ContactSection() {
     fetchContactInfo();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading/>
   if (error) return <p>Error: {error}</p>;
 
   return (

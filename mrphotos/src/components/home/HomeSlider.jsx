@@ -9,10 +9,12 @@ import { EffectFade, Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
+import Loading from "@/app/loading"; // Import the Loading component
 
 export default function HomeSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null);
   const swiperRef = useRef(null); // Reference to the Swiper instance
 
@@ -38,11 +40,17 @@ export default function HomeSlider() {
         }
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
       }
     };
 
     fetchSlides();
   }, []);
+
+  if (loading) {
+    return <Loading />; // Display the Loading component while loading
+  }
 
   if (error) {
     return <div>Error: {error}</div>;
