@@ -31,6 +31,10 @@ class GalleryController extends Controller
         $countries = Country::where('is_active', true)->get();
 
         if ($countries) {
+            $countries->prepend([
+                'id' => 0,
+                'name' => 'All Images'
+            ]);
             return response()->json([
                 'success' => true,
                 'message' => 'Countries fetched successfully.',
