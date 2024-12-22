@@ -36,8 +36,8 @@ class SearchController extends Controller
 
         return response()->json([
             'galleries' => $galleries,
-            'categories' => $categories,
-            'countries' => $countries,
+            // 'categories' => $categories,
+            // 'countries' => $countries,
         ]);
 
     }
