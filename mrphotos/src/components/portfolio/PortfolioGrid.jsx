@@ -469,7 +469,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
             {/* Image */}
             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
               <Image
-                src={`http://127.0.0.1:8000/storage/${item?.image_path}`}
+                src={`http://127.0.0.1:8000/${item?.image_path}`}
                 alt={item.title || "Gallery Image"}
                 layout="fill"
                 className="object-cover transition-transform duration-500 hover:scale-105"
@@ -492,7 +492,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
       {items.length > 0 && (
         <div className="flex justify-center items-center space-x-2 mt-6">
           <button
-            className="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
             disabled={pagination.currentPage === 1}
             onClick={() => handlePageChange(pagination.currentPage - 1)}
           >
@@ -503,7 +503,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
               key={index}
               className={`px-4 py-2 text-sm rounded-md ${
                 pagination.currentPage === index + 1
-                  ? "bg-blue-500 text-white"
+                  ? "bg-gray-800 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
               onClick={() => handlePageChange(index + 1)}
@@ -512,7 +512,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
             </button>
           ))}
           <button
-            className="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+            className="px-4 py-2 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
             disabled={pagination.currentPage === pagination.lastPage}
             onClick={() => handlePageChange(pagination.currentPage + 1)}
           >
