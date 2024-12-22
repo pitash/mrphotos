@@ -12,6 +12,10 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
+        $request->validate([
+            'search' => 'required|string|min:3',
+        ]);
+
         $query = $request->input('search');
 
         $countries = Country::query()
@@ -21,8 +25,8 @@ class SearchController extends Controller
 
         $galleries = Gallery::query()
             ->where(function ($q) use ($query, $countries) {
-                $q->where('title', 'like', value:  $query . '%')
-                  ->orWhere('description', 'like', '%' . $query . '%');
+                $q->where('title', 'like', $query . '%')
+                  ->orWhere('description', 'like', $query . '%');
 
                 if ($countries->isNotEmpty()) {
                     $q->orWhereIn('country_id', $countries);
