@@ -105,7 +105,6 @@
 
 
 ////Post Method/////
-
 "use client";
 
 import { useRef, useEffect, useState } from "react";
@@ -192,7 +191,7 @@ export default function TopicFilter({ activeFilter, onFilterChange }) {
       >
         {filters.map((filter) => (
           <button
-            key={filter.id}
+            key={filter.id} // Ensure each child has a unique key
             onClick={() => onFilterChange(filter.id)} // Update active filter
             className={`whitespace-nowrap text-sm font-medium tracking-wider relative
               ${

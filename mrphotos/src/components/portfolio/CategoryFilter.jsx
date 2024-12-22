@@ -124,6 +124,7 @@ export default function CategoryFilter({ activeCategory, onCategoryChange }) {
           body: JSON.stringify({}),
         });
         const data = await response.json();
+        console.log("country data",data)
         if (Array.isArray(data.data)) {
           setCategories(data.data);
         }
