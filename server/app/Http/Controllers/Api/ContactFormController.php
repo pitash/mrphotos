@@ -13,7 +13,7 @@ class ContactFormController extends Controller
     {
         try {
             // Log the incoming request data
-            Log::info('Contact form submission received:', $request->all());
+            // Log::info('Contact form submission received:', $request->all());
 
             // Validate the incoming form data
             $validated = $request->validate([
@@ -25,7 +25,7 @@ class ContactFormController extends Controller
             ]);
 
             // Log the validation success
-            Log::info('Validation successful.', $validated);
+            // Log::info('Validation successful.', $validated);
 
             // Create a new ContactForm entry in the database
             $contactForm = ContactForm::create([
@@ -37,7 +37,7 @@ class ContactFormController extends Controller
             ]);
 
             // Log the successful record creation
-            Log::info('Contact form stored successfully:', ['contactForm' => $contactForm]);
+            // Log::info('Contact form stored successfully:', ['contactForm' => $contactForm]);
 
             return response()->json([
                 'message' => 'Form submitted successfully!',
@@ -46,7 +46,7 @@ class ContactFormController extends Controller
 
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error in storing contact form: ' . $e->getMessage());
+            // Log::error('Error in storing contact form: ' . $e->getMessage());
 
             return response()->json(['error' => 'An error occurred while storing the form data.'], 500);
         }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ContactFormController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\HomePageController;
+use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,9 @@ Route::post('/blogs/{id}', [BlogController::class, 'show']);
 // http://127.0.0.1:8000/api/blogs?country_id=10
 
 Route::post('/contact-form', [ContactFormController::class, 'store']);
+
+Route::post('/search', [SearchController::class, 'search']);
+// http://127.0.0.1:8000/api/search?query=Nature
 
 Route::get('/user', function (Request $request) {
     return $request->user();
