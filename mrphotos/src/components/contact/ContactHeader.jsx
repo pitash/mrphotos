@@ -13,9 +13,8 @@ export default function ContactHeader() {
               </span>
             </h1>
             
-            <p className="text-white max-w-2xl mx-auto">
-              Lorem ipsum dolor sit amet consectetur adipiscing elit sed bibendum leo. 
-              Mauris <br className="hidden md:block" /> massa eleifend et purus vel feugiat rutrum nulla cras vitae est.
+            <p className="text-white max-w-2xl mx-auto text-justify">
+            "Stay connected with Paragon Group! Whether you have inquiries, suggestions, or business opportunities, we’re here to help. <br className="hidden md:block" />Your input drives innovation. Let’s shape a better tomorrow—together."  massa eleifend et purus vel feugiat rutrum nulla cras vitae est.
             </p>
           </div>
         </div>
