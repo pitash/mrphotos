@@ -62,7 +62,7 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
         {/* Image */}
         <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center">
           <Image
-            src={`http://127.0.0.1:8000/${items[currentIndex]?.image_path}`}
+            src={`http://127.0.0.1:8000/storage/${items[currentIndex]?.image_path}`}
             alt={items[currentIndex]?.title || "Image"}
             layout="fill"
             objectFit="contain"

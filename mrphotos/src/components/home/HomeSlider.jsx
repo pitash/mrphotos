@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/components/loading/loading"; // Import the Loading component
+import Loading from "@/components/loading/loading"; 
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -13,9 +13,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function HomeSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
-  const swiperRef = useRef(null); // Reference to the Swiper instance
+  const swiperRef = useRef(null); 
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -40,7 +40,7 @@ export default function HomeSlider() {
       } catch (error) {
         setError(error.message);
       } finally {
-        setLoading(false); // Set loading to false after fetching data
+        setLoading(false); 
       }
     };
 
@@ -48,7 +48,7 @@ export default function HomeSlider() {
   }, []);
 
   if (loading) {
-    return <Loading />; // Display the Loading component while loading
+    return <Loading />; 
   }
 
   if (error) {
@@ -85,7 +85,7 @@ export default function HomeSlider() {
           <SwiperSlide key={slide.id}>
             <div className="relative h-full w-full">
               <Image
-                src={`http://127.0.0.1:8000/${slide.image_path}`}
+                src={`http://127.0.0.1:8000/storage/${slide.image_path}`}
                 alt={slide.heading || "Slide Image"}
                 fill
                 className="object-cover"

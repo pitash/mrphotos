@@ -1,8 +1,9 @@
+
 "use client";
-import Loading from "@/components/loading/loading"; // Import the Loading component
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import ImageModal from "./ImageModal"; // Import the modal component
+import Loading from "@/components/loading/loading"; // Import the Loading component
 
 export default function PortfolioGrid({ countryId, countryButtons }) {
   const [items, setItems] = useState([]); // All items from the API
@@ -24,9 +25,9 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
           : `http://127.0.0.1:8000/api/galleries`;
 
         const response = await fetch(endpoint, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ page }),
         });
@@ -34,11 +35,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
         console.log("Raw API response:", rawData.data);
 
         // Use the appropriate key based on the API response structure
-        const galleryItems = Array.isArray(rawData.data.data)
-          ? rawData.data.data
-          : Array.isArray(rawData.data)
-          ? rawData.data
-          : [];
+        const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
         if (galleryItems.length) {
           setItems(galleryItems);
           setPagination({
@@ -72,7 +69,9 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
   return (
     <div>
       {/* Buttons Container */}
-      <div className="flex justify-start mb-4 space-x-2">{countryButtons}</div>
+      <div className="flex justify-start mb-4 space-x-2">
+        {countryButtons}
+      </div>
 
       {/* Gallery Grid */}
       {!loading && items.length === 0 && (
@@ -90,7 +89,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
             {/* Image */}
             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
               <Image
-                src={`http://127.0.0.1:8000/${item?.image_path}`}
+                src={`http://127.0.0.1:8000/storage/${item?.image_path}`}
                 alt={item.title || "Gallery Image"}
                 layout="fill"
                 className="object-cover transition-transform duration-500 hover:scale-105"
@@ -154,3 +153,16 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
