@@ -1,15 +1,14 @@
-
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import Loading from "@/components/loading/loading"; // Import the Loading component
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Navigation, Autoplay } from "swiper/modules";
+import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
-import Loading from "@/app/loading"; // Import the Loading component
+import { Autoplay, EffectFade, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function HomeSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -101,9 +100,10 @@ export default function HomeSlider() {
                     className="mb-2 inline-block text-2xl font-normal tracking-widest text-white transform transition-all duration-1000 delay-300"
                     style={{
                       opacity: currentSlide === index ? 1 : 0,
-                      transform: currentSlide === index
-                        ? "translateY(0)"
-                        : "translateY(20px)",
+                      transform:
+                        currentSlide === index
+                          ? "translateY(0)"
+                          : "translateY(20px)",
                     }}
                   >
                     {slide.heading}
@@ -113,9 +113,10 @@ export default function HomeSlider() {
                     className="font-bombes mb-9 text-[92px] leading-none text-white transform transition-all duration-1000 delay-500"
                     style={{
                       opacity: currentSlide === index ? 1 : 0,
-                      transform: currentSlide === index
-                        ? "translateY(0)"
-                        : "translateY(20px)",
+                      transform:
+                        currentSlide === index
+                          ? "translateY(0)"
+                          : "translateY(20px)",
                     }}
                   >
                     {slide.tag}
@@ -126,9 +127,10 @@ export default function HomeSlider() {
                     className="button inline-block border border-[#dddddd] px-10 py-3 text-sm font-normal uppercase tracking-wider text-white transition-all hover:bg-white hover:text-gray-900 transform duration-500"
                     style={{
                       opacity: currentSlide === index ? 1 : 0,
-                      transform: currentSlide === index
-                        ? "translateY(0)"
-                        : "translateY(20px)",
+                      transform:
+                        currentSlide === index
+                          ? "translateY(0)"
+                          : "translateY(20px)",
                     }}
                   >
                     Explore Gallery

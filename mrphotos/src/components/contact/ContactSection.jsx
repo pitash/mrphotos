@@ -1,14 +1,10 @@
-
-
 ////Post method////
-
-
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import Loading from "@/components/loading/loading";
+import { useEffect, useState } from "react";
 import ContactForm from "./ContactForm";
-import Loading from "@/app/loading";
 
 export default function ContactSection() {
   const [contactInfo, setContactInfo] = useState(null);
@@ -19,9 +15,9 @@ export default function ContactSection() {
     const fetchContactInfo = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/contact", {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({}),
         });
@@ -41,7 +37,7 @@ export default function ContactSection() {
     fetchContactInfo();
   }, []);
 
-  if (loading) return <Loading/>
+  if (loading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
 
   return (

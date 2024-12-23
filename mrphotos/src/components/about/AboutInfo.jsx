@@ -1,14 +1,9 @@
-
-
 ///----POST METHOD----////
 
-
-
 "use client";
+import Loading from "@/components/loading/loading";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { Loader } from "lucide-react"; // Import the Loader icon
-import Loading from "@/app/loading";
+import { useEffect, useState } from "react";
 
 export default function AboutInfo() {
   const [aboutData, setAboutData] = useState(null);
@@ -19,9 +14,9 @@ export default function AboutInfo() {
     const fetchAboutData = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/about", {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({}),
         });
@@ -41,7 +36,7 @@ export default function AboutInfo() {
     fetchAboutData();
   }, []);
 
-  if (loading) return <Loading/>
+  if (loading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
 
   return (

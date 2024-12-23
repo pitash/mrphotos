@@ -1,6 +1,4 @@
-
 // ///post method///
-
 
 // "use client";
 
@@ -180,16 +178,14 @@
 //   );
 // }
 
-
-
 "use client";
 
-import { useState, useEffect } from "react";
+import Loading from "@/components/loading/loading";
+import { Clock, MessageCircle } from "lucide-react"; // Import icons
 import Image from "next/image";
-import TopicFilter from "./TopicFilter";
-import { MessageCircle, Clock } from "lucide-react"; // Import icons
+import { useEffect, useState } from "react";
 import Newsletter from "./Newsletter";
-import Loading from "@/app/loading";
+import TopicFilter from "./TopicFilter";
 
 export default function BlogPage({ countryId }) {
   const [blogs, setBlogs] = useState([]);
@@ -212,9 +208,9 @@ export default function BlogPage({ countryId }) {
           : "http://127.0.0.1:8000/api/blogs";
 
         const response = await fetch(endpoint, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({}),
         });
@@ -260,7 +256,7 @@ export default function BlogPage({ countryId }) {
   };
 
   if (loading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   return (
