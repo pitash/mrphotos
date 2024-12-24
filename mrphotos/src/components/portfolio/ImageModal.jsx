@@ -53,7 +53,7 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
       <div className="relative w-full max-w-3xl px-4">
         {/* Previous Button */}
         <button
-          className="absolute top-1/2 left-2 lg:left-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
+          className="absolute top-1/2 left-2 lg:-left-20 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
           onClick={prevImage}
         >
           <ChevronLeft className="w-6 h-6" />
@@ -74,7 +74,7 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
 
         {/* Next Button */}
         <button
-          className="absolute top-1/2 right-0 lg:right-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
+          className="absolute top-1/2 right-2 lg:-right-20 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
           onClick={nextImage}
         >
           <ChevronRight className="w-6 h-6" />
