@@ -19,38 +19,43 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
   });
   const [searchActive, setSearchActive] = useState(false); // State to manage search input visibility
   const imageRefs = useRef([]);
+  const searchRef = useRef(null); // Ref for the search input and icon container
 
   useEffect(() => {
-    const fetchItems = async (page = 1) => {
+    const fetchAllItems = async () => {
       setLoading(true);
       try {
         const endpoint = countryId
           ? `http://127.0.0.1:8000/api/galleries/${countryId}`
           : `http://127.0.0.1:8000/api/galleries`;
 
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ page }),
-        });
-        const rawData = await response.json();
-        console.log("Raw API response:", rawData.data);
+        let allItems = [];
+        let currentPage = 1;
+        let lastPage = 1;
 
-        // Use the appropriate key based on the API response structure
-        const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
-        if (galleryItems.length) {
-          setItems(galleryItems);
-          setFilteredItems(galleryItems); // Initialize filtered items
-          setPagination({
-            currentPage: rawData.data.current_page,
-            lastPage: rawData.data.last_page,
-            totalItems: rawData.data.total,
+        do {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ page: currentPage }),
           });
-        } else {
-          console.error("Unexpected data format or no items found.");
-        }
+          const rawData = await response.json();
+          const galleryItems = Array.isArray(rawData.data.data) ? rawData.data.data : Array.isArray(rawData.data) ? rawData.data : [];
+
+          allItems = [...allItems, ...galleryItems];
+          currentPage = rawData.data.current_page + 1;
+          lastPage = rawData.data.last_page;
+        } while (currentPage <= lastPage);
+
+        setItems(allItems);
+        setFilteredItems(allItems); // Initialize filtered items
+        setPagination({
+          currentPage: 1,
+          lastPage: Math.ceil(allItems.length / 3), // Calculate the number of pages based on 3 items per page
+          totalItems: allItems.length,
+        });
       } catch (error) {
         console.error("Error fetching gallery data:", error);
       } finally {
@@ -58,8 +63,8 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
       }
     };
 
-    fetchItems(pagination.currentPage);
-  }, [countryId, pagination.currentPage]);
+    fetchAllItems();
+  }, [countryId]);
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= pagination.lastPage) {
@@ -80,6 +85,31 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     setSearchActive(!searchActive);
   };
 
+  const handleClickOutside = (event) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setSearchActive(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchActive) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchActive]);
+
+  const handleImageClick = (index) => {
+    const itemsPerPage = 3; // Adjust this value based on your pagination settings
+    const page = Math.floor(index / itemsPerPage) + 1;
+    setPagination((prev) => ({ ...prev, currentPage: page }));
+    setCurrentIndex(index);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -91,7 +121,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
         <div className="flex space-x-2">
           {countryButtons}
         </div>
-        <div className="relative flex items-center">
+        <div ref={searchRef} className="relative flex items-center">
           <input
             type="text"
             value={query}
@@ -102,7 +132,9 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
             }`}
           />
           <Search
-            className="h-5 text-gray-500 cursor-pointer transition-all duration-300 ease-in-out"
+            className={`h-5 text-gray-500 cursor-pointer transition-all duration-300 ease-in-out ${
+              searchActive ? "absolute right-2" : ""
+            }`}
             onClick={toggleSearch}
           />
         </div>
@@ -114,12 +146,12 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredItems.map((item, index) => (
+        {filteredItems.slice((pagination.currentPage - 1) * 3, pagination.currentPage * 3).map((item, index) => (
           <div
             key={item.id}
             ref={(el) => (imageRefs.current[index] = el)}
             className="cursor-pointer transform transition-transform duration-500 hover:scale-105 animate-fadeIn"
-            onClick={() => setCurrentIndex(index)} // Open modal on click
+            onClick={() => handleImageClick(index)} // Open modal on click
           >
             {/* Image */}
             <div className="relative h-[300px] w-full overflow-hidden rounded-md">
