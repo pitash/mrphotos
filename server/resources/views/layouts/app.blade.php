@@ -99,11 +99,15 @@
 </head>
 <body class="sb-nav-fixed">
 
-    @include('layouts.partials.navbar')
+    @auth
+        @include('layouts.partials.navbar')
+    @endauth
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            @include('layouts.partials.sidebar')
+            @auth
+                @include('layouts.partials.sidebar')
+            @endauth
         </div>
 
         <div id="layoutSidenav_content">
@@ -112,7 +116,9 @@
                     @yield('content')
                 </div>
             </main>
-            @include('layouts.partials.footer')
+            @auth
+                @include('layouts.partials.footer')
+            @endauth
         </div>
     </div>
 

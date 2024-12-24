@@ -3,6 +3,14 @@
 @section('title', 'Home Page')
 
 @section('content')
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the content of the home page.</p>
+
+<ol class="breadcrumb bg-light p-3 rounded shadow-sm">
+    <li class="breadcrumb-item">
+        <a href="#" class="text-decoration-none text-primary">
+            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+        </a>
+    </li>
+</ol>
+
+    <h1>Welcome to the MR Photos</h1>
 @endsection

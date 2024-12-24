@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $countries = Country::where('is_active', true)->orderBy('name', 'asc')->get();
