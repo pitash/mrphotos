@@ -17,12 +17,16 @@ class GalleryController extends Controller
                     ->orderBy('id', 'desc')
                     ->paginate(3);
 
+        $galleries->transform(function($gallery) {
+            $gallery->image_url = url('storage/' . $gallery->image_path); // Add full image URL
+            return $gallery;
+        });
+
         return response()->json([
             'success' => true,
             'message' => $galleries->isEmpty() ? 'No Gallery data found.' : 'Galleries fetched successfully.',
             'data' => $galleries
         ], 200);
-
     }
 
 
@@ -34,6 +38,10 @@ class GalleryController extends Controller
             $countries->prepend([
                 'id' => 0,
                 'name' => 'All Images'
+            ]);
+            $countries->push([
+                'id' => -1,
+                'search_flag' => 'images/search/search.jpg'
             ]);
             return response()->json([
                 'success' => true,

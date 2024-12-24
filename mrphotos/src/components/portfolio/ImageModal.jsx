@@ -53,26 +53,28 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
       <div className="relative w-full max-w-3xl px-4">
         {/* Previous Button */}
         <button
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
+          className="absolute top-1/2 left-2 lg:left-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
           onClick={prevImage}
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
 
         {/* Image */}
-        <div className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center">
-          <Image
-            src={`http://127.0.0.1:8000/storage/${items[currentIndex]?.image_path}`}
-            alt={items[currentIndex]?.title || "Image"}
-            layout="fill"
-            objectFit="contain"
-            className="rounded-md"
-          />
+        <div className="relative w-full h-[70vh] flex items-center justify-center">
+          <div className="relative w-full h-full max-w-3xl max-h-[70vh]">
+            <Image
+              src={`http://127.0.0.1:8000/storage/${items[currentIndex]?.image_path}`}
+              alt={items[currentIndex]?.title || "Image"}
+              layout="fill"
+              objectFit="contain"
+              className="rounded-md"
+            />
+          </div>
         </div>
 
         {/* Next Button */}
         <button
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
+          className="absolute top-1/2 right-0 lg:right-0 transform -translate-y-1/2 text-white p-2 bg-black/50 rounded-full hover:bg-black/70"
           onClick={nextImage}
         >
           <ChevronRight className="w-6 h-6" />
