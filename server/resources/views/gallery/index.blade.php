@@ -143,7 +143,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success rounded-pill">Create</button>
+                        <button type="submit" class="btn btn-success rounded-pill" id="createBtn">Create</button>
                     </div>
                 </form>
             </div>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success rounded-pill">Save Changes</button>
+                        <button type="submit" class="btn btn-success rounded-pill" id="editBtn">Save Changes</button>
                     </div>
                 </form>
             </div>
