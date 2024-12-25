@@ -13,10 +13,10 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $request->validate([
-            'search' => 'required|string|min:3',
+            'query' => 'required|string|min:3',
         ]);
 
-        $query = $request->input('search');
+        $query = $request->input('query');
 
         $countries = Country::query()
             ->where('name', 'like',  $query . '%')
@@ -35,7 +35,11 @@ class SearchController extends Controller
             ->where('is_active', true)
             // ->with('country:id,name')
             ->select('id', 'title', 'description', 'image_path', 'country_id')
-            ->get();
+            ->get()
+            ->map(function ($gallery) {
+                $gallery->image_url = url('storage/' . $gallery->image_path);
+                return $gallery;
+            });
 
         return response()->json([
             'galleries' => $galleries,
