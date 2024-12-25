@@ -99,34 +99,31 @@
 <!-- Create Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="createModalLabel">Create New Gallery</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="createForm" action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <input type="text" class="form-control rounded-3" id="title" name="title" required>
                         @error('title')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" name="description" required>
+                        <textarea class="form-control rounded-3" id="description" name="description" rows="3" required></textarea>
                         @error('description')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-
                     <div class="mb-3">
                         <label for="country_id" class="form-label">Country</label>
-                        <select class="form-select" id="country_id" name="country_id" required>
+                        <select class="form-select rounded-3" id="country_id" name="country_id" required>
                             <option value="">Select a Country</option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -136,25 +133,17 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-
                     <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image[]" multiple required accept="image/*">
-                        {{-- <input type="file" class="form-control" id="image" name="image" required accept="image/*"> --}}
+                        <input type="file" class="form-control rounded-3" id="image" name="image[]" multiple required accept="image/*">
                         @error('image')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                        @error('image.*')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <div id="image-preview" class="mt-3"></div>
                     </div>
-
-                    <!-- Display selected images -->
-                    <div id="image-preview" class="mt-3"></div>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="createBtn">Create</button>
+                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success rounded-pill">Create</button>
                     </div>
                 </form>
             </div>
@@ -165,46 +154,39 @@
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header bg-warning text-white">
                 <h5 class="modal-title" id="editModalLabel">Edit Gallery</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Edit Form -->
                 <form id="editForm" method="POST" enctype="multipart/form-data">
                     @csrf
-                    {{-- @method('PATCH') --}}
                     @method('PUT')
-
                     <div class="mb-3">
                         <label for="edit_title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="edit_title" name="title" required>
+                        <input type="text" class="form-control rounded-3" id="edit_title" name="title" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="edit_description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="edit_description" name="description" required>
+                        <textarea class="form-control rounded-3" id="edit_description" name="description" rows="3" required></textarea>
                     </div>
-
                     <div class="mb-3">
                         <label for="edit_country_id" class="form-label">Country</label>
-                        <select class="form-select" id="edit_country_id" name="country_id" required>
+                        <select class="form-select rounded-3" id="edit_country_id" name="country_id" required>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="mb-3">
                         <label for="edit_image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="edit_image" name="image" accept="image/*">
-                        <div id="main-image-preview" class="mt-2"></div>
+                        <input type="file" class="form-control rounded-3" id="edit_image" name="image" accept="image/*">
+                        <div id="main-image-preview" class="mt-3"></div>
                     </div>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="editBtn">Save Changes</button>
+                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success rounded-pill">Save Changes</button>
                     </div>
                 </form>
             </div>
