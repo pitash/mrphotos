@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $countries = Country::where('is_active', true)->orderBy('name', 'asc')->get();
@@ -20,7 +25,7 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'image' => 'required|array',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'country_id' => 'required',
@@ -112,8 +117,8 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'country_id' => 'required|integer',
         ]);
 

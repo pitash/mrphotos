@@ -7,6 +7,11 @@ use App\Models\ContactForm;
 
 class ContactFormController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $contactForms = ContactForm::orderBy('created_at', 'desc')->get();

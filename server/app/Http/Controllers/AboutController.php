@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function edit()
     {
         $data = About::first();
