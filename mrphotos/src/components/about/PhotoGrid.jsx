@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function PhotoGrid() {
   const photos = [
     {
-      src: "/images/portfolio/details/1.jpg",
+      src: "/images/portfolio/BANGLADESH/1.jpg",
       alt: "Mountain lake reflection",
       title: "Mountain Lake",
       subtitle: "Reflection in Nature",
@@ -20,7 +20,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/2.jpg",
+      src: "/images/portfolio/BANGLADESH/2.jpg",
       alt: "Deer in forest",
       title: "Forest Deer",
       subtitle: "Calm in the Wild",
@@ -32,7 +32,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/3.jpg",
+      src: "/images/portfolio/BANGLADESH/3.jpg",
       alt: "Hiker on mountain",
       title: "Mountain Hiker",
       subtitle: "Adventure Awaits",
@@ -44,7 +44,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/4.jpg",
+      src: "/images/portfolio/GERMANY/1.jpg",
       alt: "Desert landscape",
       title: "Desert View",
       subtitle: "Golden Sands",
@@ -56,7 +56,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/5.jpg",
+      src: "/images/portfolio/GERMANY/2.jpg",
       alt: "Deer at night",
       title: "Night Deer",
       subtitle: "Serenity Under the Stars",
@@ -68,7 +68,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/6.jpg",
+      src: "/images/portfolio/ITALY/1.jpg",
       alt: "Mountain sunset",
       title: "Sunset Glow",
       subtitle: "Beauty of Dusk",
@@ -80,7 +80,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/details/7.jpg",
+      src: "/images/portfolio/ITALY/3.jpg",
       alt: "Deer in woods",
       title: "Woods Deer",
       subtitle: "Hidden in Nature",
@@ -92,7 +92,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/BANGLADESH/1.jpg",
+      src: "/images/portfolio/ITALY/4.jpg",
       alt: "Black church",
       title: "Black Church",
       subtitle: "Timeless Heritage",
@@ -104,7 +104,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/BANGLADESH/2.jpg",
+      src: "/images/portfolio/ITALY/5.jpg",
       alt: "River landscape",
       title: "River Calm",
       subtitle: "Flow of Serenity",
@@ -116,7 +116,7 @@ export default function PhotoGrid() {
       },
     },
     {
-      src: "/images/portfolio/BANGLADESH/3.jpg",
+      src: "/images/portfolio/ITALY/6.jpg",
       alt: "Waterfall",
       title: "Waterfall Bliss",
       subtitle: "Nature's Power",

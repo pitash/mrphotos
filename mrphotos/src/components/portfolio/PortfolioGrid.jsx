@@ -15,10 +15,9 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     currentPage: 1,
     lastPage: 1,
     totalItems: 0,
+    itemsPerPage: 3, // Default items per page
   });
   const imageRefs = useRef([]);
-
-  const itemsPerPage = 10; // Number of items per page
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -33,7 +32,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ page: pagination.currentPage, per_page: itemsPerPage }),
+          body: JSON.stringify({ page: pagination.currentPage, per_page: pagination.itemsPerPage }),
         });
 
         const data = await response.json();
@@ -42,11 +41,12 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
           : [];
 
         setItems(galleryItems);
-        setPagination({
+        setPagination((prev) => ({
+          ...prev,
           currentPage: data?.data?.current_page || 1,
           lastPage: data?.data?.last_page || 1,
           totalItems: data?.data?.total || 0,
-        });
+        }));
       } catch (error) {
         console.error("Error fetching gallery data:", error);
       } finally {
@@ -55,7 +55,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     };
 
     fetchItems();
-  }, [countryId, pagination.currentPage]);
+  }, [countryId, pagination.currentPage, pagination.itemsPerPage]);
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= pagination.lastPage) {
@@ -63,8 +63,86 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     }
   };
 
+  const handleItemsPerPageChange = (e) => {
+    const newItemsPerPage = parseInt(e.target.value, 10);
+    setPagination((prev) => ({
+      ...prev,
+      itemsPerPage: newItemsPerPage,
+      currentPage: 1, // Reset to the first page
+    }));
+  };
+
   const handleImageClick = (index) => {
     setCurrentIndex(index);
+  };
+
+  const renderPagination = () => {
+    const { currentPage, lastPage } = pagination;
+    const maxVisiblePages = 5; // Maximum number of visible page buttons
+    let pages = [];
+
+    if (lastPage <= maxVisiblePages) {
+      pages = Array.from({ length: lastPage }, (_, i) => i + 1);
+    } else {
+      const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      const endPage = Math.min(lastPage, startPage + maxVisiblePages - 1);
+
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push("start-ellipsis");
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (endPage < lastPage) {
+        if (endPage < lastPage - 1) {
+          pages.push("end-ellipsis");
+        }
+        pages.push(lastPage);
+      }
+    }
+
+    return (
+      <div className="flex justify-center items-center space-x-1 mt-6">
+        <button
+          className="px-2 py-1 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Previous
+        </button>
+        {pages.map((page, index) =>
+          typeof page === "string" ? (
+            <span key={page + index} className="px-2 py-1 text-sm">
+              ...
+            </span>
+          ) : (
+            <button
+              key={page}
+              className={`px-2 py-1 text-sm rounded-md ${
+                currentPage === page
+                  ? "bg-gray-800 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          )
+        )}
+        <button
+          className="px-2 py-1 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
+          disabled={currentPage === lastPage}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
+    );
   };
 
   if (loading) {
@@ -75,6 +153,20 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     <div className="relative">
       <div className="flex justify-between mb-4 space-x-2">
         <div className="flex space-x-2">{countryButtons}</div>
+        <div className="flex items-center space-x-2">
+          <label htmlFor="itemsPerPage" className="text-sm font-semibold text-gray-700">Items per page:</label>
+          <select
+            id="itemsPerPage"
+            value={pagination.itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            className="p-1 border border-gray-300 rounded-md transition-all duration-300 ease-in-out focus:border-gray-800 animate-fade-in"
+          >
+            <option value={3}>3</option>
+            <option value={6}>6</option>
+            <option value={9}>9</option>
+            <option value={12}>12</option>
+          </select>
+        </div>
       </div>
 
       {!loading && items.length === 0 && (
@@ -102,7 +194,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
               <h3 className="text-lg font-semibold text-gray-800">
                 {item.title || "Untitled"}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 text-justify">
                 {item.description || "No description available"}
               </p>
             </div>
@@ -110,37 +202,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
         ))}
       </div>
 
-      {items.length > 0 && (
-        <div className="flex justify-center items-center space-x-1 mt-6">
-          <button
-            className="px-2 py-1 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
-            disabled={pagination.currentPage === 1}
-            onClick={() => handlePageChange(pagination.currentPage - 1)}
-          >
-            Previous
-          </button>
-          {[...Array(pagination.lastPage)].map((_, index) => (
-            <button
-              key={index}
-              className={`px-2 py-1 text-sm rounded-md ${
-                pagination.currentPage === index + 1
-                  ? "bg-gray-800 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            className="px-2 py-1 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-600 disabled:opacity-50"
-            disabled={pagination.currentPage === pagination.lastPage}
-            onClick={() => handlePageChange(pagination.currentPage + 1)}
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {items.length > 0 && renderPagination()}
 
       {currentIndex !== null && (
         <ImageModal
@@ -153,4 +215,3 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
     </div>
   );
 }
-

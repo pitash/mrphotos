@@ -1,9 +1,8 @@
 
-/////api..../////
-
 "use client";
 import { useState } from "react";
-import Link from "next/link"; // Import Link from next/link
+import Link from "next/link";
+import { Search } from "lucide-react";
 
 export default function SearchOverlay({ isOpen, onClose }) {
   const [query, setQuery] = useState("");
@@ -21,6 +20,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
 
     setLoading(true);
     setError(null);
+    setQuery("")
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/search", {
@@ -28,7 +28,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query })  // Send 'query' here as expected by the backend
+        body: JSON.stringify({ query }),
       });
 
       if (!response.ok) {
@@ -39,7 +39,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
       console.log("search data", data);
 
       if (Array.isArray(data.galleries)) {
-        setResults(data.galleries);  // Ensure you are accessing 'galleries' from the response
+        setResults(data.galleries);
       } else {
         throw new Error("Invalid data format");
       }
@@ -51,9 +51,15 @@ export default function SearchOverlay({ isOpen, onClose }) {
     }
   };
 
+  const handleResultClick = () => {
+    onClose(); // Close the overlay without clearing the search query
+  };
+
   return (
     <div
-      className={`fixed inset-0 bg-black/95 z-50 transition-all duration-500 ${isOpen ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95'}`}
+      className={`fixed inset-0 bg-black/95 z-50 transition-all duration-500 ${
+        isOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"
+      }`}
     >
       <button
         onClick={onClose}
@@ -62,7 +68,10 @@ export default function SearchOverlay({ isOpen, onClose }) {
         ×
       </button>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] min-w-[50px]">
-        <form onSubmit={handleSearch} className="relative border-b border-[#1e3a8a]">
+        <form
+          onSubmit={handleSearch}
+          className="relative border-b border-[#1e3a8a]"
+        >
           <input
             type="text"
             value={query}
@@ -74,7 +83,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
             type="submit"
             className="absolute right-0 top-[30px] text-2xl text-white hover:text-[#1e3a8a] transition-colors"
           >
-            <i className="ion-ios-search"></i>
+            <Search size={24} />
           </button>
         </form>
         {loading && <p className="text-white mt-3">Loading...</p>}
@@ -84,9 +93,16 @@ export default function SearchOverlay({ isOpen, onClose }) {
             <ul className="text-white">
               {results.map((item, index) => (
                 <li key={index} className="mb-2">
-                  <Link href={{ pathname: '/portfolio', query: { imageId: item.id } }} legacyBehavior>
-                    <a onClick={onClose} className="flex items-center">
-                      {/* Display image if available */}
+                  <Link
+                    href={{
+                      pathname: "/portfolio",
+                      query: { imageId: item.id },
+                    }}
+                  >
+                    <div
+                      onClick={handleResultClick}
+                      className="flex items-center cursor-pointer"
+                    >
                       {item.image_url && (
                         <img
                           src={item.image_url}
@@ -95,9 +111,10 @@ export default function SearchOverlay({ isOpen, onClose }) {
                         />
                       )}
                       <div>
-                        <strong>{item.title || "Untitled"}</strong> - {item.country || item.country_name}
+                        <strong>{item.title || "Untitled"}</strong> -{" "}
+                        {item.country || item.country_name}
                       </div>
-                    </a>
+                    </div>
                   </Link>
                 </li>
               ))}
@@ -108,3 +125,9 @@ export default function SearchOverlay({ isOpen, onClose }) {
     </div>
   );
 }
+
+
+
+
+
+
