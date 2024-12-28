@@ -475,7 +475,7 @@ export default function PortfolioGrid({ countryId, countryButtons }) {
       </div>
 
       {!loading && items.length === 0 && (
-        <div className="text-center text-gray-500">No images found.</div>
+        <div className="text-center text-gray-500">Mr Photos......</div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

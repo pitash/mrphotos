@@ -10,6 +10,45 @@ use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
+    // public function search(Request $request)
+    // // {
+    // //     $request->validate([
+    // //         'query' => 'required|string|min:3',
+    // //     ]);
+
+    // //     $query = $request->input('query');
+
+    // //     $countries = Country::query()
+    // //         ->where('name', 'like',  $query . '%')
+    // //         ->where('is_active', true)
+    // //         ->pluck('id');
+
+    // //     $galleries = Gallery::query()
+    // //         ->where(function ($q) use ($query, $countries) {
+    // //             $q->where('title', 'like', $query . '%')
+    // //               ->orWhere('description', 'like', $query . '%');
+
+    // //             if ($countries->isNotEmpty()) {
+    // //                 $q->orWhereIn('country_id', $countries);
+    // //             }
+    // //         })
+    // //         ->where('is_active', true)
+    // //         // ->with('country:id,name')
+    // //         ->select('id', 'title', 'description', 'image_path', 'country_id')
+    // //         ->get()
+    // //         ->map(function ($gallery) {
+    // //             $gallery->image_url = url('storage/' . $gallery->image_path);
+    // //             $gallery->redirect_url = url('/api/search/' . $gallery->id);
+    // //             return $gallery;
+    // //         });
+
+    // //     return response()->json([
+    // //         'galleries' => $galleries,
+    // //     ]);
+
+    // // }
+
+
     public function search(Request $request)
     {
         $request->validate([
@@ -19,21 +58,20 @@ class SearchController extends Controller
         $query = $request->input('query');
 
         $countries = Country::query()
-            ->where('name', 'like',  $query . '%')
+            ->where('name', 'like', $query . '%')
             ->where('is_active', true)
             ->pluck('id');
 
         $galleries = Gallery::query()
             ->where(function ($q) use ($query, $countries) {
                 $q->where('title', 'like', $query . '%')
-                  ->orWhere('description', 'like', $query . '%');
+                ->orWhere('description', 'like', $query . '%');
 
                 if ($countries->isNotEmpty()) {
                     $q->orWhereIn('country_id', $countries);
                 }
             })
             ->where('is_active', true)
-            // ->with('country:id,name')
             ->select('id', 'title', 'description', 'image_path', 'country_id')
             ->get()
             ->map(function ($gallery) {
@@ -41,9 +79,6 @@ class SearchController extends Controller
                 return $gallery;
             });
 
-        return response()->json([
-            'galleries' => $galleries,
-        ]);
-
+        return response()->json(['galleries' => $galleries]);
     }
 }
