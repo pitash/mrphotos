@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
@@ -15,6 +16,12 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::post('logout', function () {
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

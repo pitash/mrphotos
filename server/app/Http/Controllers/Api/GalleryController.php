@@ -33,6 +33,8 @@ class GalleryController extends Controller
     }
 
 
+
+
     public function getAllCountries()
     {
         $countries = Country::where('is_active', true)->orderBy('name', 'asc')->get();
