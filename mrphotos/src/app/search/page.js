@@ -1,13 +1,13 @@
-
 // app/portfolio/page.jsx
 "use client";
 
+import SearchOverlay from "@/components/layout/SearchOverlay";
 import CategoryFilter from "@/components/portfolio/CategoryFilter";
 import PortfolioGrid from "@/components/portfolio/PortfolioGrid";
 import { useState } from "react";
 
 export default function Portfolio() {
-  const [activeCategory, setActiveCategory] = useState({ id: null, name: "ALL WORKS" });
+  const [activeCategory, setActiveCategory] = useState("ALL WORKS");
 
   return (
     <div className="relative min-h-screen px-5 pb-48 md:pb-32 md:px-20 pt-32 bg-gray-100">
@@ -20,11 +20,7 @@ export default function Portfolio() {
 
       {/* Main Content */}
       <div className="space-y-12 pb-24 bg-white p-5 sm:pb-16">
-        <CategoryFilter
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
-        <PortfolioGrid countryId={activeCategory.id} />
+        <SearchOverlay/>
       </div>
     </div>
   );

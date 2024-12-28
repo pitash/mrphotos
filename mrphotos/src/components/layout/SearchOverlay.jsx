@@ -1,64 +1,408 @@
 
+
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Link from "next/link";
+// import { Search } from "lucide-react";
+
+// // Utility to debounce the search input
+// const useDebounce = (value, delay) => {
+//   const [debouncedValue, setDebouncedValue] = useState(value);
+
+//   useEffect(() => {
+//     const handler = setTimeout(() => {
+//       setDebouncedValue(value);
+//     }, delay);
+
+//     return () => {
+//       clearTimeout(handler);
+//     };
+//   }, [value, delay]);
+
+//   return debouncedValue;
+// };
+
+// export default function SearchOverlay({ isOpen, onClose }) {
+//   const [query, setQuery] = useState("");
+//   const [results, setResults] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+
+//   // Debounce query for optimized search
+//   const debouncedQuery = useDebounce(query, 500);
+
+//   useEffect(() => {
+//     const fetchResults = async () => {
+//       if (!debouncedQuery.trim()) {
+//         setResults([]);
+//         return;
+//       }
+
+//       setLoading(true);
+//       setError(null);
+
+//       try {
+//         // Log the query before making the request
+//         console.log("Sending query:", debouncedQuery);
+
+//         const response = await fetch("http://127.0.0.1:8000/api/search", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ query: debouncedQuery }),
+//         });
+
+//         // Log the response status and headers for debugging
+//         console.log("Response status:", response.status);
+//         console.log("Response headers:", response.headers);
+
+//         if (!response.ok) {
+//           throw new Error(
+//             `Failed to fetch search results: ${response.statusText}`
+//           );
+//         }
+
+//         const data = await response.json();
+//         setResults(data.galleries || []);
+//       } catch (err) {
+//         console.error("Error fetching search results:", err);
+//         setError(`Error fetching search results: ${err.message}`);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchResults();
+//   }, [debouncedQuery]);
+
+//   return (
+//     <div
+//       className={`fixed inset-0 bg-black z-50 transition-all duration-500 ${
+//         isOpen
+//           ? "opacity-100 visible scale-100"
+//           : "opacity-0 invisible scale-95"
+//       }`}
+//     >
+//       <button
+//         onClick={onClose}
+//         className="absolute top-5 right-5 w-[70px] h-[70px] bg-[#1e3a8a] text-white text-4xl flex items-center justify-center cursor-pointer hover:bg-[#1e4599] transition-colors"
+//       >
+//         ×
+//       </button>
+//       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] min-w-[50px]">
+//         <form className="relative border-b border-[#1e3a8a]">
+//           <input
+//             type="text"
+//             value={query}
+//             onChange={(e) => setQuery(e.target.value)}
+//             placeholder="Start Typing..."
+//             className="w-full h-[60px] bg-transparent text-white text-4xl outline-none font-[Josefin Sans] placeholder:text-white/50"
+//           />
+//           <button
+//             type="button"
+//             className="absolute right-0 top-[30px] text-2xl text-white hover:text-[#1e3a8a] transition-colors"
+//           >
+//             <Search size={24} />
+//           </button>
+//         </form>
+//         {loading && <p className="text-white mt-3">Loading...</p>}
+//         {error && <p className="text-red-500 mt-3">{error}</p>}
+//         <div className="mt-5 max-h-[300px] space-y-5 overflow-y-auto scrollbar-thin scrollbar-thumb-[#1e3a8a] scrollbar-track-[#1e3a8a]/30">
+//           {results.length > 0 ? (
+//             <ul className="text-white">
+//               {results.map((item, index) => (
+//                 <li key={index} className="mb-2">
+//                   <Link href="/search">
+//                     <div
+//                       onClick={onClose}
+//                       className="flex gap-y-24 p-4 cursor-pointer"
+//                     >
+//                       {item.image_url && (
+//                         <img
+//                           src={item.image_url}
+//                           alt={item.title || "Gallery Image"}
+//                           className="w-16 h-16 object-cover rounded-md mr-3"
+//                         />
+//                       )}
+//                       <div className="flex flex-col">
+//                         <div>
+//                           <strong>{item.title || "Untitled"}</strong> {" "}
+//                         </div>
+//                         <div className="text-justify">
+//                           {item.description || "No description"}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           ) : (
+//             !loading && <p className="text-white">No results found.</p>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Link from "next/link";
+// import { Search } from "lucide-react";
+
+// // Utility to debounce the search input
+// const useDebounce = (value, delay) => {
+//   const [debouncedValue, setDebouncedValue] = useState(value);
+
+//   useEffect(() => {
+//     const handler = setTimeout(() => {
+//       setDebouncedValue(value);
+//     }, delay);
+
+//     return () => {
+//       clearTimeout(handler);
+//     };
+//   }, [value, delay]);
+
+//   return debouncedValue;
+// };
+
+// export default function SearchOverlay({ isOpen, onClose }) {
+//   const [query, setQuery] = useState("");
+//   const [results, setResults] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+
+//   // Debounce query for optimized search
+//   const debouncedQuery = useDebounce(query, 500);
+
+//   useEffect(() => {
+//     const fetchResults = async () => {
+//       if (!debouncedQuery.trim() || debouncedQuery.length < 3) {
+//         setResults([]);
+//         setError("Please enter at least 3 characters.");
+//         return;
+//       }
+
+//       setLoading(true);
+//       setError(null);
+
+//       try {
+//         const response = await fetch("http://127.0.0.1:8000/api/search", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ query: debouncedQuery }),
+//         });
+
+//         if (!response.ok) {
+//           throw new Error(
+//             `Failed to fetch search results: ${response.statusText}`
+//           );
+//         }
+
+//         const data = await response.json();
+//         setResults(data.galleries || []);
+//         setQuery("")
+//       } catch (err) {
+//         setError(`Error fetching search results: ${err.message}`);
+//       } finally {
+//         setLoading(false);
+        
+//       }
+//     };
+
+//     fetchResults();
+//   }, [debouncedQuery]);
+
+//   return (
+//     <div
+//       className={`fixed inset-0 bg-black z-50 transition-all duration-500 ${
+//         isOpen
+//           ? "opacity-100 visible scale-100"
+//           : "opacity-0 invisible scale-95"
+//       }`}
+//     >
+//       <button
+//         onClick={onClose}
+//         className="absolute top-5 right-5 w-[70px] h-[70px] bg-[#1e3a8a] text-white text-4xl flex items-center justify-center cursor-pointer hover:bg-[#1e4599] transition-colors"
+//       >
+//         ×
+//       </button>
+//       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] min-w-[50px]">
+//         <form className="relative border-b border-[#1e3a8a]">
+//           <input
+//             type="text"
+//             value={query}
+//             onChange={(e) => setQuery(e.target.value)}
+//             placeholder="Start Typing..."
+//             className="w-full h-[60px] bg-transparent text-white text-4xl outline-none font-[Josefin Sans] placeholder:text-white/50"
+//           />
+//           <button
+//             type="button"
+//             className="absolute right-0 top-[30px] text-2xl text-white hover:text-[#1e3a8a] transition-colors"
+//           >
+//             <Search size={24} />
+//           </button>
+//         </form>
+//         {loading && <p className="text-white mt-3">Loading...</p>}
+//         {error && <p className="text-red-500 mt-3">{error}</p>}
+//         <div className="mt-5 max-h-[300px] space-y-5 overflow-y-auto scrollbar-thin scrollbar-thumb-[#1e3a8a] scrollbar-track-[#1e3a8a]/30">
+//           {results.length > 0 ? (
+//             <ul className="text-white">
+//               {results.map((item, index) => (
+//                 <li key={index} className="mb-2">
+//                   <Link href="/search">
+//                     <div
+//                       onClick={onClose}
+//                       className="flex gap-y-24 p-4 cursor-pointer"
+//                     >
+//                       {item.image_url && (
+//                         <img
+//                           src={item.image_url}
+//                           alt={item.title || "Gallery Image"}
+//                           className="w-16 h-16 object-cover rounded-md mr-3"
+//                         />
+//                       )}
+//                       <div className="flex flex-col">
+//                         <div>
+//                           <strong>{item.title || "Untitled"}</strong> {" "}
+//                         </div>
+//                         <div className="text-justify">
+//                           {item.description || "No description"}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           ) : (
+//             !loading && <p className="text-white">No results found.</p>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
+
+// Utility to debounce the search input
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 export default function SearchOverlay({ isOpen, onClose }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showFullDescription, setShowFullDescription] = useState({});
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  // Debounce query for optimized search
+  const debouncedQuery = useDebounce(query, 500);
 
-    if (!query.trim()) {
-      setError("Please enter a search term.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setQuery("")
-
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch search results: ${response.statusText}`);
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (!debouncedQuery.trim() || debouncedQuery.length < 3) {
+        setResults([]);
+        setError("Please enter at least 3 characters.");
+        return;
       }
 
-      const data = await response.json();
-      console.log("search data", data);
+      setLoading(true);
+      setError(null);
 
-      if (Array.isArray(data.galleries)) {
-        setResults(data.galleries);
-      } else {
-        throw new Error("Invalid data format");
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query: debouncedQuery }),
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch search results: ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        setResults(data.galleries || []);
+        setError(null);
+      } catch (err) {
+        setError(`Error fetching search results: ${err.message}`);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Error fetching search results:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    fetchResults();
+  }, [debouncedQuery]);
+
+  const toggleDescription = (index) => {
+    setShowFullDescription((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
   };
 
-  const handleResultClick = () => {
-    onClose(); // Close the overlay without clearing the search query
+  const truncateDescription = (description, index) => {
+    const words = description.split(" ");
+    if (words.length > 100) {
+      return (
+        <>
+          {showFullDescription[index]
+            ? description
+            : words.slice(0, 100).join(" ") + "... "}
+          <button
+            onClick={() => toggleDescription(index)}
+            className="text-blue-500"
+          >
+            {showFullDescription[index] ? "Read less" : "Read more"}
+          </button>
+        </>
+      );
+    }
+    return description;
   };
 
   return (
     <div
-      className={`fixed inset-0 bg-black/95 z-50 transition-all duration-500 ${
-        isOpen ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-95"
+      className={`fixed inset-0 bg-black z-50 transition-all duration-500 ${
+        isOpen
+          ? "opacity-100 visible scale-100"
+          : "opacity-0 invisible scale-95"
       }`}
     >
       <button
@@ -68,10 +412,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
         ×
       </button>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] min-w-[50px]">
-        <form
-          onSubmit={handleSearch}
-          className="relative border-b border-[#1e3a8a]"
-        >
+        <form className="relative border-b border-[#1e3a8a]">
           <input
             type="text"
             value={query}
@@ -80,7 +421,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
             className="w-full h-[60px] bg-transparent text-white text-4xl outline-none font-[Josefin Sans] placeholder:text-white/50"
           />
           <button
-            type="submit"
+            type="button"
             className="absolute right-0 top-[30px] text-2xl text-white hover:text-[#1e3a8a] transition-colors"
           >
             <Search size={24} />
@@ -88,20 +429,15 @@ export default function SearchOverlay({ isOpen, onClose }) {
         </form>
         {loading && <p className="text-white mt-3">Loading...</p>}
         {error && <p className="text-red-500 mt-3">{error}</p>}
-        <div className="mt-5">
-          {results.length > 0 && (
+        <div className="mt-5 max-h-[300px] space-y-5 overflow-y-auto scrollbar-thin scrollbar-thumb-[#1e3a8a] scrollbar-track-[#1e3a8a]/30">
+          {results.length > 0 ? (
             <ul className="text-white">
               {results.map((item, index) => (
                 <li key={index} className="mb-2">
-                  <Link
-                    href={{
-                      pathname: "/portfolio",
-                      query: { imageId: item.id },
-                    }}
-                  >
+                  <Link href="/search">
                     <div
-                      onClick={handleResultClick}
-                      className="flex items-center cursor-pointer"
+                      onClick={onClose}
+                      className="flex gap-y-24 p-4 cursor-pointer"
                     >
                       {item.image_url && (
                         <img
@@ -110,24 +446,24 @@ export default function SearchOverlay({ isOpen, onClose }) {
                           className="w-16 h-16 object-cover rounded-md mr-3"
                         />
                       )}
-                      <div>
-                        <strong>{item.title || "Untitled"}</strong> -{" "}
-                        {item.country || item.country_name}
+                      <div className="flex flex-col">
+                        <div>
+                          <strong>{item.title || "Untitled"}</strong> {" "}
+                        </div>
+                        <div className="text-justify">
+                          {truncateDescription(item.description || "No description", index)}
+                        </div>
                       </div>
                     </div>
                   </Link>
                 </li>
               ))}
             </ul>
+          ) : (
+            !loading && <p className="text-white">No results found.</p>
           )}
         </div>
       </div>
     </div>
   );
 }
-
-
-
-
-
-
