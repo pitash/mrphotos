@@ -82,20 +82,16 @@ class GalleryController extends Controller
         ], 404);
     }
 
-    public function getGalleriesByCountry2($countryId = null)
+    public function getGalleriesByCountry2(Request $request, $countryId = null)
     {
-        // // If no countryId is provided, return all galleries
-        // if (is_null($countryId)) {
-        //     return $this->index();
-        // }
-
+        $perPage = $request->input('per_page', 3);
 
         // return galleries for the given country
         $galleries = Gallery::select('id', 'title', 'description', 'image_path')
             ->where('country_id', $countryId)
             ->where('is_active', true)
             ->orderBy('id', 'desc')
-            ->paginate(3);
+            ->paginate($perPage);
 
         if ($galleries->isEmpty()) {
             return response()->json([
@@ -139,7 +135,7 @@ class GalleryController extends Controller
             'countries' => $countries,
         ]);
     }
-    
+
 
     public function show($id)
     {
