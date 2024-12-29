@@ -154,5 +154,65 @@
         });
     </script>
 
+    {{-- <script>
+        // Check if the user is logged in and redirect appropriately
+        window.onload = function() {
+            @auth
+                // If the user is authenticated, redirect them to the home page if they're on the login page
+                if (window.location.pathname === '/login') {
+                    window.location.href = '/home';
+                }
+            @else
+                // If the user is not authenticated, redirect them to the login page if they're not on the login page
+                if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+                    window.location.href = '/login';
+                }
+            @endauth
+        };
+    </script> --}}
+
+    {{-- <script>
+        window.onload = function() {
+            @auth
+                // If the user is logged in, redirect them to /home if they are on /login page
+                if (window.location.pathname === '/login') {
+                    window.location.href = '/home';
+                }
+
+                // Prevent going back to the login page using browser back button
+                history.pushState(null, null, window.location.href);
+                window.onpopstate = function () {
+                    history.go(1); // Push a new state to prevent going back
+                };
+            @else
+                // If the user is not logged in, redirect them to /login if they're not on login/register page
+                if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+                    window.location.href = '/login';
+                }
+            @endauth
+        };
+    </script> --}}
+
+    <script>
+        window.onload = function() {
+            @auth
+                // If the user is authenticated, and on the home page, we need to prevent back navigation
+                if (window.location.pathname === '/home') {
+                    history.pushState(null, null, window.location.href);  // Push the current page into history state
+                    window.onpopstate = function () {
+                        history.go(1);  // Prevent the user from going back
+                    };
+                }
+            @else
+                // If the user is not authenticated, we make sure they cannot visit the home page
+                if (window.location.pathname !== '/login') {
+                    window.location.href = '/login';  // Redirect to login if not authenticated
+                }
+            @endauth
+        };
+    </script>
+
+
+
 </body>
 </html>
