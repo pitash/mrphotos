@@ -180,4 +180,41 @@ class GalleryController extends Controller
     }
 
 
+
+    //After selecting an ID from the search API, then redirect that galleries
+    public function show($id)
+    {
+        // $gallery = Gallery::select('id', 'title', 'description', 'image_path', 'country_id')
+        //     ->where('id', $id)
+        //     ->where('is_active', true)
+        //     ->first();
+
+        // if (!$gallery) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Gallery not found.',
+        //     ], 404);
+        // }
+
+        // $gallery->image_url = url('storage/' . $gallery->image_path);
+
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Gallery fetched successfully.',
+        //     'data' => $gallery,
+        // ], 200);
+
+        $galleryItem = Gallery::find($id);
+        
+        // Check if the gallery item was found
+        if (!$galleryItem) {
+            return response()->json(['message' => 'Gallery item not found'], 404);
+        }
+
+        // Return the found gallery item
+        return response()->json($galleryItem);
+        
+    }
+
+
 }

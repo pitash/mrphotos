@@ -43,6 +43,9 @@ Route::post('/blogs/{id}', [BlogController::class, 'show']);
 Route::post('/contact-form', [ContactFormController::class, 'store']);
 
 Route::post('/search', [SearchController::class, 'search']);
+
+// Route::get('/search/{id}', [GalleryController::class, 'show'])->name('gallery.show');
+Route::post('/search/{id}', [GalleryController::class, 'show']);
 // http://127.0.0.1:8000/api/search?query=Nature
 
 Route::get('/user', function (Request $request) {

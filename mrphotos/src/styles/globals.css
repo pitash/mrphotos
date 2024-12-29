@@ -374,3 +374,42 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+
+/* books animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 1.5s ease-in-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 1.5s ease-in-out;
+}
+
+.animate-slideInRight.delay-200 {
+  animation-delay: 0.2s;
+}
+
+
+
+

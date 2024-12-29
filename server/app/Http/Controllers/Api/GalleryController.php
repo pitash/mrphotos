@@ -10,25 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class GalleryController extends Controller
 {
-    // public function index(): JsonResponse
-    // {
-    //     $galleries = Gallery::select('id', 'title', 'description', 'image_path', 'country_id')
-    //                 ->where('is_active', true)
-    //                 ->orderBy('id', 'desc')
-    //                 ->paginate(3);
-
-    //     $galleries->transform(function($gallery) {
-    //         $gallery->image_url = url('storage/' . $gallery->image_path); // Add full image URL
-    //         return $gallery;
-    //     });
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => $galleries->isEmpty() ? 'No Gallery data found.' : 'Galleries fetched successfully.',
-    //         'data' => $galleries
-    //     ], 200);
-    // }
-
     public function index(Request $request): JsonResponse
     {
         // Get 'per_page' from request body, default to 3
@@ -157,6 +138,20 @@ class GalleryController extends Controller
             'galleries' => $galleries,
             'countries' => $countries,
         ]);
+    }
+    
+
+    public function show($id)
+    {
+        $galleryItem = Gallery::find($id);
+
+        if (!$galleryItem) {
+            return response()->json(['message' => 'Gallery item not found'], 404);
+        }
+
+        $galleryItem->image_url = url('storage/' . $galleryItem->image_path);
+
+        return response()->json($galleryItem);
     }
 
 }
