@@ -172,7 +172,7 @@ export default function AboutInfo() {
         <div className="relative h-full mx-auto md:mx-0">
           {get(aboutData, "image_path") ? (
             <Image
-              src={`http://127.0.0.1:8000/${aboutData.image_path}`}
+              src={`http://127.0.0.1:8000/storage/${aboutData.image_path}`}
               alt={get(aboutData, "name", "About Image")}
               fill
               className="object-cover rounded-xl"
