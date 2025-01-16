@@ -1,6 +1,4 @@
 
-/////---Post Method----//////
-
 "use client";
 
 import { useRef, useEffect, useState } from "react";
@@ -15,7 +13,7 @@ export default function CategoryFilter({ activeCategory, onCategoryChange }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/countries", {
+        const response = await fetch(`${process.env.baseUrl}/countries`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

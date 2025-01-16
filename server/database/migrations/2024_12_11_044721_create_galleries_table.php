@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('image_path');
+            $table->string('thumbnail_path');
+            $table->string('image_link')->nullable();
             $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

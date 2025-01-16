@@ -23,6 +23,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@if ($errors->any())
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="polite">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
     <li class="breadcrumb-item">
         <a href="#" class="text-decoration-none text-primary">
@@ -66,29 +76,70 @@
                     <td>{{ $data->title }}</td>
                     <td>{{ $data->description }}</td>
                     <td>
-                        @if ($data->image_path)
-                            <img src="{{ asset('storage/' . $data->image_path) }}" alt="Gallery Image" height="100" width="200">
+                        @if ($data->thumbnail_path)
+                            <img src="{{ asset($data->thumbnail_path) }}" alt="Gallery Image" height="70" width="150">
                         @else
                             No Image
                         @endif
                     </td>
                     <td>{{ $data->country->name }}</td>
-                    <td>
-                        <form action="{{ route('gallery.toggleStatus', $data->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PATCH')
+                    <td style="width: 15%; white-space: nowrap; text-align: center;">
+                        <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: nowrap; align-items: center;">
+                            <!-- Toggle Active/Inactive Status -->
+                            <form action="{{ route('gallery.toggleStatus', $data->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                    class="btn btn-sm {{ $data->is_active ? 'btn-primary' : 'btn-warning' }}"
+                                    title="{{ $data->is_active ? 'Deactivate' : 'Activate' }}">
+                                    <i class="{{ $data->is_active ? 'fas fa-eye' : 'fas fa-eye' }}"></i>
+                                    {{-- <i class="{{ $data->is_active ? 'fas fa-check-circle' : 'fas fa-times-circle' }}"></i> --}}
+                                </button>
+                            </form>
 
+                            <!-- Edit Button -->
                             @if ($data->is_active)
-                                <button type="submit" class="btn btn-danger btn-sm">Deactivate</button>
+                                <button type="button"
+                                    class="btn btn-success btn-sm"
+                                    title="Edit"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal"
+                                    onclick="editData({{ $data->id }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                             @else
-                                <button type="submit" class="btn btn-success btn-sm">Activate</button>
+                                <del>
+                                    <button type="button"
+                                        class="btn btn-success btn-sm"
+                                        title="Edit"
+                                        disabled>
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </del>
                             @endif
-                        </form>
 
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editData({{ $data->id }})">
-                            Edit
-                        </button>
+                            <!-- Delete Button -->
+                            @if ($data->is_active)
+                                <form action="{{ route('gallery.destroy', $data->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            @else
+                                <del>
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete" disabled>
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </del>
+                            @endif
+                        </div>
                     </td>
+
+
+
+
                 </tr>
             @endforeach
             </tbody>
@@ -139,7 +190,14 @@
                         @error('image')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                        <div id="image-preview" class="mt-3"></div>
+                        <div id="image-preview" class="mt-3 d-flex"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image_link" class="form-label">Image Link (Optional)</label>
+                        <input type="url" class="form-control rounded-3" id="image_link" name="image_link" placeholder="Enter a valid URL">
+                        @error('image_link')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
@@ -184,6 +242,10 @@
                         <input type="file" class="form-control rounded-3" id="edit_image" name="image" accept="image/*">
                         <div id="main-image-preview" class="mt-3"></div>
                     </div>
+                    <div class="mb-3">
+                        <label for="edit_image_link" class="form-label">Image Link (Optional)</label>
+                        <input type="url" class="form-control rounded-3" id="edit_image_link" name="image_link" placeholder="Enter a valid URL">
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success rounded-pill" id="editBtn">Save Changes</button>
@@ -195,24 +257,79 @@
 </div>
 
 <script>
-    document.getElementById("image").addEventListener("change", function(event) {
-        const files = event.target.files;
-        const previewContainer = document.getElementById("image-preview");
-        previewContainer.innerHTML = ""; // Clear previous previews
 
-        Array.from(files).forEach(file => {
+    // document.getElementById('image').addEventListener('change', function (event) {
+    //     const previewContainer = document.getElementById('image-preview');
+    //     previewContainer.innerHTML = ''; // Clear previous previews
+
+    //     Array.from(event.target.files).forEach((file) => {
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             const img = document.createElement('img');
+    //             img.src = e.target.result;
+    //             img.style.maxWidth = '100px';
+    //             img.style.marginRight = '10px';
+    //             img.style.borderRadius = '5px';
+    //             previewContainer.appendChild(img);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
+    // });
+
+    document.getElementById('image').addEventListener('change', function (event) {
+        const maxSize = 40 * 1024 * 1024; // 40MB
+        const previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = ''; // Clear previous previews
+
+        Array.from(event.target.files).forEach((file) => {
+            if (file.size > maxSize) {
+                alert(`${file.name} exceeds the 40MB size limit.`);
+                event.target.value = ''; // Clear the input
+                previewContainer.innerHTML = ''; // Clear previews
+                return;
+            }
+
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgElement = document.createElement("img");
-                imgElement.src = e.target.result;
-                imgElement.classList.add("img-thumbnail", "me-2");
-                imgElement.style.maxWidth = "100px";
-                imgElement.style.maxHeight = "100px";
-                previewContainer.appendChild(imgElement);
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100px';
+                img.style.marginRight = '10px';
+                img.style.borderRadius = '5px';
+                img.style.objectFit = 'cover';
+                previewContainer.appendChild(img);
             };
             reader.readAsDataURL(file);
         });
     });
+
+
+    // Disable submit button after form submission
+    document.getElementById('createForm').addEventListener('submit', function () {
+        const submitButton = document.getElementById('createBtn');
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Creating...';
+    });
+
+
+    // document.getElementById("image").addEventListener("change", function(event) {
+    //     const files = event.target.files;
+    //     const previewContainer = document.getElementById("image-preview");
+    //     previewContainer.innerHTML = ""; // Clear previous previews
+
+    //     Array.from(files).forEach(file => {
+    //         const reader = new FileReader();
+    //         reader.onload = function(e) {
+    //             const imgElement = document.createElement("img");
+    //             imgElement.src = e.target.result;
+    //             imgElement.classList.add("img-thumbnail", "me-2");
+    //             imgElement.style.maxWidth = "100px";
+    //             imgElement.style.maxHeight = "100px";
+    //             previewContainer.appendChild(imgElement);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
+    // });
 
     // load gallery data into the modal
     function editData(dataId) {
@@ -223,6 +340,7 @@
                 document.getElementById('edit_description').value = data.description;
                 document.getElementById('edit_country_id').value = data.country_id;
                 document.getElementById('edit_image').value = '';
+                document.getElementById('edit_image_link').value = data.image_link;
 
                 const mainImageContainer = document.getElementById('main-image-preview');
                 mainImageContainer.innerHTML = "";
@@ -240,12 +358,13 @@
             })
             .catch(error => console.error('Error:', error));
     }
+
     // Disable buttons on form submit
-    document.getElementById('createForm').addEventListener('submit', function(event) {
-        const createBtn = document.getElementById('createBtn');
-        createBtn.disabled = true;
-        createBtn.textContent = "Saving...";
-    });
+    // document.getElementById('createForm').addEventListener('submit', function(event) {
+    //     const createBtn = document.getElementById('createBtn');
+    //     createBtn.disabled = true;
+    //     createBtn.textContent = "Saving...";
+    // });
 
     document.getElementById('editForm').addEventListener('submit', function(event) {
         const editBtn = document.getElementById('editBtn');
@@ -272,8 +391,6 @@
             reader.readAsDataURL(file);
         }
     });
-
-
 
 </script>
 

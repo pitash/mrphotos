@@ -12,11 +12,22 @@
     </div>
 </div>
 @if (session('success'))
-    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" >
         {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@if ($errors->any())
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="polite">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
     <li class="breadcrumb-item">
         <a href="#" class="text-decoration-none text-primary">
@@ -54,29 +65,33 @@
                 @foreach ($sliders as $slider)
                 <tr>
                     <td>{{ $slider->tag }}</td>
-                    <td>{{ $slider->heading }}</td>
+                    <td >{{ $slider->heading }}</td>
                     <td>
                         @if ($slider->image_path)
-                            <img src="{{ asset('storage/' . $slider->image_path) }}" alt="Slider Image" height="120" width="220">
+                            {{-- <img src="{{ asset('storage/' . $slider->image_path) }}" alt="Slider Image" height="120" width="220" loading="lazy"> --}}
+                            <img src="{{ asset($slider->image_path) }}" alt="Slider Image" height="120" width="220" loading="lazy">
                         @else
                             No Image
                         @endif
                     </td>
-                    <td>
-                        <form action="{{ route('sliders.toggleStatus', $slider->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('PATCH')
-
-                            @if ($slider->is_active)
-                                <button type="submit" class="btn btn-danger btn-sm">Deactivate</button>
-                            @else
-                                <button type="submit" class="btn btn-success btn-sm">Activate</button>
-                            @endif
-                        </form>
-
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editData({{ $slider->id }})">
-                            Edit
-                        </button>
+                    <td style="width: 15%; white-space: nowrap; text-align: center;">
+                        <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: nowrap;">
+                            <form action="{{ route('sliders.toggleStatus', $slider->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-sm {{ $slider->is_active ? 'btn-warning' : 'btn-primary' }}">
+                                    {{ $slider->is_active ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </form>
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editData({{ $slider->id }})">
+                                Edit
+                            </button>
+                            <form action="{{ route('sliders.destroy', $slider->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this slider?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach

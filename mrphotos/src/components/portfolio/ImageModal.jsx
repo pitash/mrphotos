@@ -63,7 +63,7 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
         <div className="relative w-full h-[70vh] flex items-center justify-center">
           <div className="relative w-full h-full max-w-3xl max-h-[70vh]">
             <Image
-              src={`http://127.0.0.1:8000/storage/${items[currentIndex]?.image_path}`}
+              src={`${process.env.ImagebaseUrl}/${items[currentIndex]?.image_path}`}
               alt={items[currentIndex]?.title || "Image"}
               layout="fill"
               objectFit="contain"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -23,19 +24,23 @@ class ContactController extends Controller
         $request->validate([
             'address' => 'required|string',
             'phone' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|email',
             'map_address' => 'required|string',
         ]);
 
-        $data = Contact::first();
+        try {
+            $data = Contact::first() ?? new Contact();
 
-        $data->update([
-            'address' => $request->address,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'map_address' => $request->map_address,
-        ]);
+            $data->address = $request->address;
+            $data->phone = $request->phone;
+            $data->email = $request->email;
+            $data->map_address = $request->map_address;
+            $data->save();
 
-        return redirect()->route('contact.edit')->with('success', 'Contact updated successfully.');
+            return redirect()->route('contact')->with('success', 'Contact updated successfully.');
+        } catch (\Exception $e) {
+            //Log::error('Contact Update Failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors('Failed to update contact. Please try again.');
+        }
     }
 }
