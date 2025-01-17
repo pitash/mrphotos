@@ -24,7 +24,7 @@ class HomePageController extends Controller
         $request->validate([
             'tag' => 'required|string|max:255',
             'heading' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:40960', // Max 40MB
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:40960', // Max 40MB
         ]);
 
         if ($request->hasFile('image')) {
@@ -96,7 +96,7 @@ class HomePageController extends Controller
         $request->validate([
             'tag' => 'required|string|max:255',
             'heading' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:40960', // Max 40MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:40960', // Max 40MB
         ]);
 
         try {

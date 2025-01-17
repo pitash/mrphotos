@@ -31,7 +31,7 @@ class GalleryController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:700',
             'image' => 'required|array',
-            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:40960',
+            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:40960',
             'country_id' => 'required|exists:countries,id',
         ]);
 
@@ -215,7 +215,7 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:700',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:40960',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:40960',
             'country_id' => 'required|exists:countries,id',
             'image_link' => 'nullable|url',
         ]);
