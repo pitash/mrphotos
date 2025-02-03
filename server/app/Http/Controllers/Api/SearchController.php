@@ -72,10 +72,10 @@ class SearchController extends Controller
                 }
             })
             ->where('is_active', true)
-            ->select('id', 'title', 'description', 'image_path', 'country_id')
+            ->select('id', 'title', 'description', 'thumbnail_path', 'country_id')
             ->get()
             ->map(function ($gallery) {
-                $gallery->image_url = url('storage/' . $gallery->image_path);
+                $gallery->image_url = url($gallery->thumbnail_path);
                 return $gallery;
             });
 

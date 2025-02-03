@@ -20,7 +20,7 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-info-circle"></i></div>
                 About
             </a>
-            <a class="nav-link" href="{{ route('contact.edit') }}">
+            <a class="nav-link" href="{{ route('contact') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                 Contact
             </a>

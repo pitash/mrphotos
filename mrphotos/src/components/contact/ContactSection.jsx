@@ -1,9 +1,8 @@
-////Post method////
 
 "use client";
 
-import Loading from "@/components/loading/loading";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import ContactForm from "./ContactForm";
 
 export default function ContactSection() {
@@ -14,7 +13,7 @@ export default function ContactSection() {
   useEffect(() => {
     const fetchContactInfo = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/contact", {
+        const response = await fetch(`${process.env.baseUrl}/contact`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -37,8 +36,36 @@ export default function ContactSection() {
     fetchContactInfo();
   }, []);
 
-  if (loading) return <Loading />;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="relative">
+          {/* Placeholder Logo */}
+          <Image
+            src="/images/logo_1.png"
+            alt="Loading..."
+            width={100}
+            height={100}
+            priority
+          />
+          {/* Loading Bar */}
+          <div className="absolute bottom-0 left-0 w-full">
+            <div className="bg-gray-200 rounded-full overflow-hidden w-[100px]">
+              <div className="bg-gray-800 h-2 rounded-full animate-barLoader"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 py-32">
@@ -51,22 +78,22 @@ export default function ContactSection() {
                 Contact Info
               </h3>
 
-              <p className="text-gray-600 mb-8">{contactInfo.description}</p>
+              <p className="text-gray-600 mb-8">{contactInfo?.description}</p>
 
               <div className="space-y-6">
                 <div>
                   <h4 className="font-bold text-lg mb-2">Address:</h4>
-                  <p className="text-gray-600">{contactInfo.address}</p>
+                  <p className="text-gray-600">{contactInfo?.address}</p>
                 </div>
 
                 <div>
                   <h4 className="font-bold text-lg mb-2">Phone:</h4>
-                  <p className="text-gray-600">{contactInfo.phone}</p>
+                  <p className="text-gray-600">{contactInfo?.phone}</p>
                 </div>
 
                 <div>
                   <h4 className="font-bold text-lg mb-2">Email:</h4>
-                  <p className="text-gray-600">{contactInfo.email}</p>
+                  <p className="text-gray-600">{contactInfo?.email}</p>
                 </div>
               </div>
             </div>
