@@ -65,8 +65,8 @@ export default function ImageModal({ items, currentIndex, onClose, onNavigate })
             <Image
               src={`http://127.0.0.1:8000/storage/${items[currentIndex]?.image_path}`}
               alt={items[currentIndex]?.title || "Image"}
-              layout="fill"
-              objectFit="contain"
+              fill
+              objectFit="cover"
               className="rounded-md"
             />
           </div>
