@@ -1,23 +1,17 @@
-// module.exports = {
-//     images: {
-//       domains: ['127.0.0.1', 'localhost'],  // Add your local API's domain here
-//     },
-//   };
 
-
-/** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   images: {
-    domains: ['127.0.0.1', 'localhost'],
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '8000',
-        pathname: '/storage/**',
-      },
-    ],
+    domains: ['admin.mr-photos.com'],
+    unoptimized: true,
   },
-}
+  env: {
+    ImagebaseUrl: 'https://admin.mr-photos.com',
+    baseUrl: 'https://admin.mr-photos.com/api',
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
+
+
+

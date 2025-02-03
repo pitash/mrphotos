@@ -15,13 +15,13 @@ class GalleryController extends Controller
         // Get 'per_page' from request body, default to 3
         $perPage = $request->input('per_page', 3);
 
-        $galleries = Gallery::select('id', 'title', 'description', 'image_path', 'country_id')
+        $galleries = Gallery::select('id', 'title', 'description', 'thumbnail_path', 'image_path', 'country_id')
                     ->where('is_active', true)
                     ->orderBy('id', 'desc')
                     ->paginate($perPage);
 
         $galleries->transform(function ($gallery) {
-            $gallery->image_url = url('storage/' . $gallery->image_path);
+            $gallery->image_url = url($gallery->thumbnail_path);
             return $gallery;
         });
 
@@ -84,7 +84,7 @@ class GalleryController extends Controller
         $perPage = $request->input('per_page', 3);
 
         // return galleries for the given country
-        $galleries = Gallery::select('id', 'title', 'description', 'image_path')
+        $galleries = Gallery::select('id', 'title', 'description', 'image_path', 'thumbnail_path')
             ->where('country_id', $countryId)
             ->where('is_active', true)
             ->orderBy('id', 'desc')
@@ -142,7 +142,7 @@ class GalleryController extends Controller
             return response()->json(['message' => 'Gallery item not found'], 404);
         }
 
-        $galleryItem->image_url = url('storage/' . $galleryItem->image_path);
+        $galleryItem->image_url = url($galleryItem->image_path);
 
         return response()->json($galleryItem);
     }

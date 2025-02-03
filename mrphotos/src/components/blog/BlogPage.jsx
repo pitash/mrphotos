@@ -1,7 +1,7 @@
 
 "use client";
 
-import Loading from "@/components/loading/loading";
+// import Loading from "@/components/loading/loading";
 import { Clock, MessageCircle } from "lucide-react"; // Import icons
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -46,7 +46,7 @@ export default function BlogPage({ countryId }) {
       } catch (error) {
         console.error("Error fetching blog data:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
@@ -77,7 +77,7 @@ export default function BlogPage({ countryId }) {
   };
 
   if (loading) {
-    return <Loading />;
+    return <p>Coming Soon.....</p>;
   }
 
   return (

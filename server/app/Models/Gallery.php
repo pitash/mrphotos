@@ -11,6 +11,8 @@ class Gallery extends Model
         'description',
         'country_id',
         'image_path',
+        'thumbnail_path',
+        'image_link',
         'is_active',
     ];
 

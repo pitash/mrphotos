@@ -5,8 +5,18 @@
     <h1>Contact</h1>
     <hr>
     @if (session('success'))
-        <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" aria-live="polite">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="polite">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
@@ -17,20 +27,20 @@
 
         <div class="mb-3">
             <label for="address" class="form-label fw-bold">Address</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ $data->address }}" required>
+            <input type="text" class="form-control" id="address" name="address" value="{{ $data->address ?? '' }}" required>
         </div>
 
         <div class="mb-3">
             <label for="phone" class="form-label fw-bold">Phone</label>
-            <input type="text" class="form-control" id="phone" name="phone" value="{{ $data->phone }}" required>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ $data->phone ?? '' }}" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label fw-bold">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ $data->email }}" required>
+            <input type="email" class="form-control" id="email" name="email" value="{{ $data->email ?? '' }}" required>
         </div>
         <div class="mb-3">
             <label for="map_address" class="form-label fw-bold">Map Address (Embed a map)</label>
-            <textarea class="form-control" id="map_address" name="map_address" rows="4" placeholder="Enter map address or iframe embed code" required>{{ $data->map_address }}</textarea>
+            <textarea class="form-control" id="map_address" name="map_address" rows="4" placeholder="Enter map address or iframe embed code" required>{{ $data->map_address ?? '' }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-success" id="editBtn">Update Contact</button>
@@ -45,4 +55,3 @@
     });
 </script>
 @endsection
-

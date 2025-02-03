@@ -1,6 +1,6 @@
 import BlogPage from "@/components/blog/BlogPage";
 
-// app/about/page.jsx
+//app/about/page.jsx
 export default function Blog() {
     return (
       <div className="relative min-h-screen px-5 md:px-20 pb-24 bg-gray-100">

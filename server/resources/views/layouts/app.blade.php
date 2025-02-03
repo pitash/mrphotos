@@ -139,16 +139,20 @@
 
 
     <script>
-        // Wait for the DOM to load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Find the success alert element
-            let successAlert = document.getElementById('successAlert');
-
+        document.addEventListener("DOMContentLoaded", () => {
+            const successAlert = document.getElementById("successAlert");
             if (successAlert) {
-                // Set timeout to automatically close the alert after 5 seconds (5000 ms)
-                setTimeout(function () {
-                    let alertInstance = bootstrap.Alert.getOrCreateInstance(successAlert);
-                    alertInstance.close();
+                setTimeout(() => {
+                    successAlert.classList.remove("show");
+                    successAlert.addEventListener("transitionend", () => successAlert.remove());
+                }, 5000);
+            }
+
+            const errorAlert = document.getElementById("errorAlert");
+            if (errorAlert) {
+                setTimeout(() => {
+                    errorAlert.classList.remove("show");
+                    errorAlert.addEventListener("transitionend", () => errorAlert.remove());
                 }, 5000);
             }
         });

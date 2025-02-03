@@ -27,20 +27,31 @@ Route::post('logout', function () {
     return redirect()->route('login');
 })->name('logout');
 
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    return 'Cache cleared!';
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::get('/test-image', [HomePageController::class, 'test']);
     Route::get('/sliders', [HomePageController::class, 'index'])->name('sliders.index');
     Route::post('/sliders', [HomePageController::class, 'store'])->name('sliders.store');
     Route::get('/sliders/{id}/edit', [HomePageController::class, 'edit'])->name('sliders.edit');
     Route::patch('/sliders/{id}', [HomePageController::class, 'update'])->name('sliders.update');
     Route::patch('/sliders/{id}/toggle-status', [HomePageController::class, 'toggleStatus'])->name('sliders.toggleStatus');
+    Route::delete('/sliders/{id}', [HomePageController::class, 'destroy'])->name('sliders.destroy');
+
 
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
     Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
     Route::get('/gallery/{id}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
     Route::match(['put', 'patch'], '/gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::patch('/gallery/{id}/toggle-status', [GalleryController::class, 'toggleStatus'])->name('gallery.toggleStatus');
+    Route::delete('/gallery/{id}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
     Route::get('/country', [CountryController::class, 'index'])->name('country.index');
     Route::get('/country/create', [CountryController::class, 'create'])->name('country.create');
@@ -52,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/about/edit', [AboutController::class, 'edit'])->name('about.edit');
     Route::patch('/about/update', [AboutController::class, 'update'])->name('about.update');
 
-    Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::get('/contact', [ContactController::class, 'edit'])->name('contact');
     Route::patch('/contact/update', [ContactController::class, 'update'])->name('contact.update');
 
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
